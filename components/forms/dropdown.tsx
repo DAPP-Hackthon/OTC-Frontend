@@ -2,8 +2,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 interface Option {
-  value: string;
-  label: string;
+  value: string | number;
+  label: string | number;
 }
 
 interface DropdownInputProps {
@@ -59,7 +59,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
             <li
               key={option.value}
               className="text-sm cursor-pointer px-4 py-2 text-gray-700 hover:bg-gray-100"
-              onClick={() => handleSelectOption(option.label)}
+              onClick={() => handleSelectOption(`${option.label}`)}
             >
               {option.label}
             </li>

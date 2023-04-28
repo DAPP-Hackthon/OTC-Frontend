@@ -50,12 +50,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { value: "4", label: "4" },
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-  const handleChange = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
+  // const handleChange = (e) => {
+  //   setFormValues({ ...formValues, [e.target.name]: e.target.value });
+  // };
   const formik = useFormik({
     initialValues: {
       test: "",

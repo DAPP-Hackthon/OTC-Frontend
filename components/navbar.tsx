@@ -25,7 +25,7 @@ export default function Navbar() {
   };
   const { disconnectAsync } = useDisconnect();
   const { open } = useWeb3Modal();
-  function handleNetwork(href, label) {
+  function handleNetwork(href: string, label: string) {
     console.log(href, label);
     setSelectedNetwork({
       label: `${label}`,

@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center h-screen">
       <div>
         <div className="grid grid-cols-2 mb-8">
           <h2 className="my-auto font-bold">My Trades</h2>
