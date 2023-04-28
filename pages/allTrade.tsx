@@ -7,7 +7,7 @@ export default function AllTrade() {
   const [view, setView] = useState(true);
   console.log(view);
   return (
-    <div className="flex flex-col px-[150px] py-[30px]">
+    <div className="flex flex-col">
       <header className="w-full">
         <div className="flex flex-wrap justify-between">
           <div className="grid gap-x-2 grid-cols-3">
@@ -28,7 +28,7 @@ export default function AllTrade() {
       :"" }
       `}>
         {TradeData.map((trade, index) => (
-          <CardContainer2 key={index} viewStyle={view} sampleData={trade.name} index={index} />
+          <CardContainer2 key={index} viewStyle={view} sampleData={trade.name}  />
         ))}
       </div>
      
