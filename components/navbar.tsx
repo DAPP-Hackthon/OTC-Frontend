@@ -63,14 +63,14 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] px-[3rem] sticky left-0 top-0 flex w-full  border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:w-full   lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+    <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-3 pt-3 backdrop-blur-2xl lg:w-full lg:p-4 ">
       <div className="self-center mr-[3rem]">
         <Link href={"/home1"}>
           <Image
             src="/zetaswaplogo.png" // change this later on
             alt="zetaswap!"
-            width="125"
-            height="100"
+            width="100"
+            height="120"
             sizes="100vw"
           />
         </Link>
@@ -98,14 +98,14 @@ export default function Navbar() {
         <div className="flex items-center">
           <button
             onClick={openModal}
-            className="group w-fit rounded-lg backdrop-blur-2xl bg-white/50 mr-4 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
+            className="group w-fit text-sm rounded-xl font-bold backdrop-blur-2xl bg-white/10 mr-4 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
           >
             <div className="flex">
               {selectedNetwork.src && (
                 <div className="mr-2 self-center">
                   <Image
                     src={selectedNetwork.src} // change this later on
-                    alt="ethereum"
+                    alt=""
                     width="20"
                     height="20"
                     sizes="100vw"
@@ -117,11 +117,11 @@ export default function Navbar() {
             </div>
           </button>
           <button
-            className="group w-fit rounded-lg bg-[#00FFB2] px-4 py-2 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            className="group w-fit text-sm rounded-xl font-bold bg-[#00FFB2] px-4 py-2 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
             {isConnected ? (
-              <p className="text-center  max-w-[3rem] truncate">{address}</p>
+              <p className="text-center  w-[8rem] text-ellipsis overflow-hidden ...">{address}</p>
             ) : (
               <p className="text-center ">Connect Wallet</p>
             )}
@@ -139,10 +139,10 @@ export default function Navbar() {
         </div>
       </div>
       {/* Hamberger Menu  */}
-      <div className="flex ml-auto lg:hidden xl:hidden justify-evenly">
+      <div className="flex h-10 ml-auto lg:hidden xl:hidden justify-evenly">
         <button
           onClick={openModal}
-          className="group w-fit rounded-lg backdrop-blur-2xl bg-white/50 mr-4 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
+          className="group w-fit rounded-lg backdrop-blur-2xl bg-white/10 mr-4 px-2  text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
         >
           <div className="flex">
             {selectedNetwork.src && (
@@ -157,20 +157,20 @@ export default function Navbar() {
               </div>
             )}
 
-            <p className="text-sm whitespace-nowrap">{selectedNetwork.label}</p>
+            <p className="text-xs whitespace-nowrap">{selectedNetwork.label}</p>
           </div>
         </button>
-        <div className="relative">
-          <div className=" lg:hidden transition-all mr-3 my-3 cursor-pointer hover:text-gray-700">
+        <div className="relative self-center h-fit">
+          <div className=" lg:hidden self-center transition-all mr-3 my-3 cursor-pointer hover:text-gray-700">
             {isMobileNavOpen ? (
               <AiOutlineMenuFold
                 onClick={() => setisMobileNavOpen(false)}
-                className="rounded text-2xl"
+                className="rounded text-2xl self-center h-fit"
               />
             ) : (
               <AiOutlineMenuUnfold
                 onClick={() => setisMobileNavOpen(true)}
-                className="rounded text-2xl"
+                className="rounded text-2xl self-center h-fit"
               />
             )}
           </div>
@@ -185,7 +185,7 @@ export default function Navbar() {
                       onClick={() => setActiveLink(index)}
                     >
                       <li
-                        className={`border-b py-3 border-gray-600 text-sm text-white`}
+                        className={`border-b py-3 text-xs border-gray-600 text-sm text-white`}
                       >
                         {item.label}
                       </li>

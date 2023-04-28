@@ -12,7 +12,7 @@ const LandingCard2 = () => {
             sizes="100vw"
           />
         </div>
-        <p className="text-xs sm:text-md md:text-base lg:text-lg xl:text-xl">
+        <p className="text-xs sm:text-md md:text-base lg:text-lg xl:text-xl mb-5">
           You will receive
         </p>
         {/* <div className="flex my-5">

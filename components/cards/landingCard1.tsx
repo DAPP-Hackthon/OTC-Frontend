@@ -13,15 +13,12 @@ const LandingCard1 = () => {
           />
         </div>
         <div>
-          <p className="text-xs sm:text-md md:text-base lg:text-lg xl:text-xl">
+          <p className="mb-2 text-xs sm:text-md md:text-base lg:text-lg xl:text-xl">
             You will pay
           </p>
-          <p className="text-xl md:text-2xl lg:text-2xl xl:text-3xl font-bold">
-            00000.01{" "}
-            <span className="text-lg xl:text-xl text-[#FCED2F] ml-3">
-              {" "}
-              BTC{" "}
-            </span>
+          <p className="mb-2 text-xl whitespace-nowrap md:text-2xl lg:text-2xl xl:text-3xl font-bold">
+            00000.01
+            <span className="text-lg xl:text-xl text-[#FCED2F] ml-3">BTC </span>
           </p>
           <div className="flex">
             <div className="self-center">
@@ -32,9 +29,8 @@ const LandingCard1 = () => {
                 height="8"
                 sizes="100vw"
               />
-            </div>
-
-            <small> 0.65% in this month</small>
+            </div>{" "}
+            <small className="font-light text-xs md:text-sm lg:text-base xl:text-base"> 0.65% in this month</small>
           </div>
         </div>
       </div>

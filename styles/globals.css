@@ -16,6 +16,11 @@
   }
 }
 
+.font-benzin-bold {
+  font-family: 'Benzin-Bold', 'Helvetica Neue','Oswald', sans-serif, ;
+  font-weight: bold;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

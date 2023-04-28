@@ -8,10 +8,10 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen  ">
       <div
         className={
-          "grid 2xl:grid-cols-2 xl:grid-cols-2 md:grid-cols-1 sm:grid-cols-1  gap-y-4 gap-x-8"
+          "grid 2xl:grid-cols-8 xl:grid-cols-8 md:grid-cols-1 sm:grid-cols-1  gap-y-4 gap-x-8"
         }
       >
-        <div>
+        <div className="2xl:col-span-5 xl:col-span-5 md:col-span-1 sm:col-span-1">
           <h1 className="text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-7xl  font-bold custom-font">
             Seamless and Secure Cross Chain OTC Swaps
           </h1>
@@ -82,7 +82,7 @@ export default function Home() {
                   <strong>Join The Growing Community</strong>
                 </div>
               </div>
-              <p className="">
+              <p className="font-extralight ">
                 Zeta Swap enables secure exchanges of cryptocurrencies, NFTs,
                 and tokens among independent parties, with transactions
                 conducted directly between them and without requiring the
@@ -91,7 +91,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="parent-div relative">
+        <div  className="2xl:col-span-3 xl:col-span-3 md:col-span-1 sm:col-span-1 parent-div relative">
           <div className="min-h-fit custom-div justify-evenly">
             <div>
               <LandingCard1 />
