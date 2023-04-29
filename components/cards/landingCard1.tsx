@@ -7,7 +7,7 @@ const LandingCard1 = () => {
     w-[8rem]  md:w-[15rem] lg:w-[20rem] xl:w-[20rem] 
     h-auto md:h-[15rem] lg:h-[20rem] xl:h-[20rem] backdrop-blur-sm bg-[#003A30]/5 shadow-md flex flex-col">
       <div className="relative">
-        <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 lg:-right-14">
+        <div className="hidden sm:block md:block lg:block xl:block w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 lg:-right-14">
           <Image
             src="/graph.png" // change this later on
             alt="up-arrow!"
