@@ -1,4 +1,6 @@
 import Image from "next/image";
+import {BsArrowUp} from "react-icons/bs"
+
 const LandingCard1 = () => {
   return (
     <div className="border border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-8  card custom-background mx-auto rounded-xl my-4 
@@ -24,13 +26,14 @@ const LandingCard1 = () => {
           </p>
           <div className="flex">
             <div className="self-center">
-              <Image
+              {/* <Image
                 src="/arrowUp.png" // change this later on
                 alt="up-arrow!"
                 width="8"
                 height="8"
                 sizes="100vw"
-              />
+              /> */}
+              <BsArrowUp />
             </div>{" "}
             <small className="font-light text-xs md:text-sm lg:text-base xl:text-base">
               {" "}

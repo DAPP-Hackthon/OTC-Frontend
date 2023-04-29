@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import LandingCard1 from "@/components/cards/landingCard1";
 import LandingCard2 from "@/components/cards/landingCard2";
 import Image from "next/image";
+import Tilt from "react-parallax-tilt";
 
 export default function Home() {
+  const [scale, setScale] = useState(1.15);
   return (
     <div className="flex flex-col items-center h-screen  ">
       <div
@@ -18,52 +20,62 @@ export default function Home() {
 
           <div className="grid text-xs sm:text-base md:text-base lg:text-base xl:text-base my-10 min-h-fit grid-cols-2 2xl:grid-cols-2 xl:grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-8">
             <div className="block min-h-fit 2xl:block xl:block lg:block md:block">
-              <Image
-                src="/landing.png" // change this later on
-                alt="cube"
-                width="300"
-                height="300"
-                sizes="100vw"
-              />
+              <Tilt scale={scale} transitionSpeed={2500}>
+                <Image
+                  src="/landing.png" // change this later on
+                  alt="cube"
+                  width="300"
+                  height="300"
+                  sizes="100vw"
+                />
+              </Tilt>
             </div>
             <div className="self-center ">
               <div className="grid 2xl:grid-cols-2 xl:grid-cols-2 gap-5 mb-5">
                 <div className="flex items-center min-w-fit ">
                   <div className="hover:scale-125">
-                    <Image
-                      src="/av1.png" // change this later on
-                      alt="avtar1"
-                      width="40"
-                      height="40"
-                      sizes="100vw"
-                    />
+                    <Tilt scale={scale} transitionSpeed={2500}>
+                      <Image
+                        src="/ava1.png" // change this later on
+                        alt="avtar11"
+                        width="50"
+                        height="40"
+                        sizes="100vw"
+                      />
+                    </Tilt>
                   </div>
                   <div className="-m-2 transform hover:scale-125">
-                    <Image
-                      src="/av2.png" // change this later on
-                      alt="avtar1"
-                      width="40"
-                      height="40"
-                      sizes="100vw"
-                    />
+                    <Tilt scale={scale} transitionSpeed={2500}>
+                      <Image
+                        src="/ava2.png" // change this later on
+                        alt="avtar1"
+                        width="50"
+                        height="40"
+                        sizes="100vw"
+                      />
+                    </Tilt>
                   </div>
                   <div className="-m-2 transform hover:scale-125">
-                    <Image
-                      src="/av3.png" // change this later on
-                      alt="avtar1"
-                      width="40"
-                      height="40"
-                      sizes="100vw"
-                    />
+                    <Tilt scale={scale} transitionSpeed={2500}>
+                      <Image
+                        src="/ava3.png" // change this later on
+                        alt="avtar1"
+                        width="50"
+                        height="40"
+                        sizes="100vw"
+                      />
+                    </Tilt>
                   </div>
                   <div className="-m-2 transform hover:scale-125">
-                    <Image
-                      src="/av4.png" // change this later on
-                      alt="avtar1"
-                      width="40"
-                      height="40"
-                      sizes="100vw"
-                    />
+                    <Tilt scale={scale} transitionSpeed={2500}>
+                      <Image
+                        src="/ava4.png" // change this later on
+                        alt="avtar1"
+                        width="50"
+                        height="40"
+                        sizes="100vw"
+                      />
+                    </Tilt>
                   </div>
                 </div>
                 <div>
@@ -79,7 +91,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div  className="2xl:col-span-3 xl:col-span-3 md:col-span-1 sm:col-span-1 parent-div relative">
+        <div className="2xl:col-span-3 xl:col-span-3 md:col-span-1 sm:col-span-1 parent-div relative">
           <div className="min-h-fit custom-div justify-evenly">
             <div>
               <LandingCard1 />
