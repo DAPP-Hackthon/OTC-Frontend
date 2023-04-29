@@ -17,21 +17,33 @@ export default function AllTrade() {
             <div>
               <DropdownInput options={TradeType} />
             </div> */}
-            <button type="button" onClick={()=>setView(!view)}>Check</button>
+            <button type="button" onClick={() => setView(!view)}>
+              Check
+            </button>
           </div>
           <button className="flex items-center bg-transparent hover:bg-gray-100 hover:text-gray-900 text-gray-100 font-medium py-2 px-4 border border-gray-300 rounded-md">
             Filter
           </button>
         </div>
       </header>
-      <div className={`${view?"grid grid-cols-2 gap-y-4 gap-x-8"
-      :"" }
-      `}>
+      <div
+        className={`${
+          view
+            ? "grid justify-center self-center grid-cols-2 gap-y-4 gap-x-8"
+            : ""
+        }
+      `}
+      >
         {TradeData.map((trade, index) => (
-          <CardContainer2 key={index} viewStyle={view} sampleData={trade.name}  />
+          <div className="self-cente" key={index}>
+            <CardContainer2
+              key={index}
+              viewStyle={view}
+              sampleData={trade.name}
+            />
+          </div>
         ))}
       </div>
-     
     </div>
   );
 }

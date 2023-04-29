@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen  ">
       <div
         className={
-          "grid 2xl:grid-cols-8 xl:grid-cols-8 md:grid-cols-1 sm:grid-cols-1  gap-y-4 gap-x-8"
+          "grid  xl:grid-cols-8 md:grid-cols-1 sm:grid-cols-1 grid-cols-1  gap-y-4 gap-x-8"
         }
       >
         <div className="2xl:col-span-5 xl:col-span-5 md:col-span-1 sm:col-span-1">
@@ -65,21 +65,9 @@ export default function Home() {
                       sizes="100vw"
                     />
                   </div>
-                  {/* <img
-                    className="w-10 h-10 rounded-full transform hover:scale-125"
-                    href="/av1"
-                  />
-                  <img
-                    className="w-10 h-10 rounded-full -m-2 transform hover:scale-125"
-                    src="/av2"
-                  />
-                  <img
-                    className="w-10 h-10 rounded-full -m-2 transform hover:scale-125"
-                    src="/av3"
-                  /> */}
                 </div>
                 <div>
-                  <strong>Join The Growing Community</strong>
+                  <p className="font-medium">Join The Growing Community</p>
                 </div>
               </div>
               <p className="font-extralight ">
@@ -96,7 +84,7 @@ export default function Home() {
             <div>
               <LandingCard1 />
             </div>
-            <div className="image-container min-w-[1rem] mx-5">
+            <div className="image-container min-w-[1rem] mx-1">
               <Image
                 src="/swap.png" // change this later on
                 alt="right-arrow!"

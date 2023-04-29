@@ -63,7 +63,7 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-3 pt-3 backdrop-blur-2xl lg:w-full lg:p-4 ">
+    <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 pt-2 backdrop-blur-2xl lg:w-full lg:py-2 ">
       <div className="self-center mr-[3rem]">
         <Link href={"/home1"}>
           <Image
@@ -98,7 +98,7 @@ export default function Navbar() {
         <div className="flex items-center">
           <button
             onClick={openModal}
-            className="group w-fit text-sm rounded-xl font-bold backdrop-blur-2xl bg-white/10 mr-4 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
+            className={`group w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 py-3 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${selectedNetwork.src?"bg-white/10":"bg-white/10"}`}
           >
             <div className="flex">
               {selectedNetwork.src && (
@@ -113,11 +113,11 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p>{selectedNetwork.label}</p>
+              <p className="font-medium">{selectedNetwork.label}</p>
             </div>
           </button>
           <button
-            className="group w-fit text-sm rounded-xl font-bold bg-[#00FFB2] px-4 py-2 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2] px-4 py-3 text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
             {isConnected ? (
@@ -138,6 +138,7 @@ export default function Navbar() {
           </p>
         </div>
       </div>
+      {/* hidden Tab start */}
       {/* Hamberger Menu  */}
       <div className="flex h-10 ml-auto lg:hidden xl:hidden justify-evenly">
         <button
@@ -197,7 +198,7 @@ export default function Navbar() {
                       onClick={() => open()}
                     >
                       {isConnected ? (
-                        <p className="text-center  max-w-[3rem] truncate">
+                        <p className="text-center font-medium text-ellipsis overflow-hidden ...">
                           {address}
                         </p>
                       ) : (
@@ -242,6 +243,7 @@ export default function Navbar() {
           </ul>
         </div>
       </CustomModal>
+      {/* hidden Tab end */}
     </nav>
   );
 }

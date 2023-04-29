@@ -17,7 +17,7 @@
 }
 
 .font-benzin-bold {
-  font-family: 'Benzin-Bold', 'Helvetica Neue','Oswald', sans-serif, ;
+  font-family: 'Benzin-Bold', 'Helvetica Neue','Oswald', sans-serif ;
   font-weight: bold;
 }
 
@@ -31,7 +31,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 .custom-font {
-  font-family: "Benzi-Bold", sans-serif;
+  font-family: "Benzin-Bold", sans-serif;
 }
 .custom-background {
   background-image: url("/line.png");
