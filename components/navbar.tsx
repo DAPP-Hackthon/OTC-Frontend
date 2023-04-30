@@ -33,7 +33,6 @@ export default function Navbar() {
     });
   }
   const items = [
-    { label: "Home", href: "/home" },
     { label: "Trade", href: "/trade" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
@@ -65,7 +64,7 @@ export default function Navbar() {
   return (
     <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 pt-2 backdrop-blur-2xl lg:w-full lg:py-2 ">
       <div className="self-center mr-[3rem] min-w-fit ">
-        <Link href={"/home1"}>
+        <Link href={"/home"}>
           <Image
             src="/zetaswaplogo.png" // change this later on
             alt="zetaswap!"
