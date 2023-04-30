@@ -10,12 +10,12 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen  ">
       <div
         className={
-          "grid  xl:grid-cols-8 md:grid-cols-1 sm:grid-cols-1 grid-cols-1  gap-y-4 gap-x-8"
+          "grid xl:grid-cols-8 md:grid-cols-1 sm:grid-cols-1 grid-cols-1  gap-y-4 gap-x-8"
         }
       >
-        <div className="2xl:col-span-5 xl:col-span-5 md:col-span-1 sm:col-span-1">
+        <div className="2xl:col-span-5 xl:col-span-5  md:col-span-1 sm:col-span-1">
           <h1 className="text-4xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-7xl  font-bold custom-font">
-            Seamless and Secure Cross Chain OTC Swaps
+            Seamless and Secure Cross Chain & Peer to Peer OTC Swaps
           </h1>
 
           <div className="grid text-xs sm:text-base md:text-base lg:text-base xl:text-base my-10 min-h-fit grid-cols-2 2xl:grid-cols-2 xl:grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-8">
@@ -24,7 +24,7 @@ export default function Home() {
                 <Image
                   src="/landing.png" // change this later on
                   alt="cube"
-                  width="300"
+                  width="350"
                   height="300"
                   sizes="100vw"
                 />
@@ -36,19 +36,8 @@ export default function Home() {
                   <div className="hover:scale-125">
                     <Tilt scale={scale} transitionSpeed={2500}>
                       <Image
-                        src="/ava1.png" // change this later on
+                        src="/ava4.png" // change this later on
                         alt="avtar11"
-                        width="50"
-                        height="40"
-                        sizes="100vw"
-                      />
-                    </Tilt>
-                  </div>
-                  <div className="-m-2 transform hover:scale-125">
-                    <Tilt scale={scale} transitionSpeed={2500}>
-                      <Image
-                        src="/ava2.png" // change this later on
-                        alt="avtar1"
                         width="50"
                         height="40"
                         sizes="100vw"
@@ -69,7 +58,18 @@ export default function Home() {
                   <div className="-m-2 transform hover:scale-125">
                     <Tilt scale={scale} transitionSpeed={2500}>
                       <Image
-                        src="/ava4.png" // change this later on
+                        src="/ava2.png" // change this later on
+                        alt="avtar1"
+                        width="50"
+                        height="40"
+                        sizes="100vw"
+                      />
+                    </Tilt>
+                  </div>
+                  <div className="-m-2 transform hover:scale-125">
+                    <Tilt scale={scale} transitionSpeed={2500}>
+                      <Image
+                        src="/ava1.png" // change this later on
                         alt="avtar1"
                         width="50"
                         height="40"
@@ -100,7 +100,7 @@ export default function Home() {
               <Image
                 src="/swap.png" // change this later on
                 alt="right-arrow!"
-                width="30"
+                width="25"
                 height="20"
                 sizes="100vw"
               />

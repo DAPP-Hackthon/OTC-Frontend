@@ -64,7 +64,7 @@ export default function Navbar() {
 
   return (
     <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 pt-2 backdrop-blur-2xl lg:w-full lg:py-2 ">
-      <div className="self-center mr-[3rem]">
+      <div className="self-center mr-[3rem] min-w-fit ">
         <Link href={"/home1"}>
           <Image
             src="/zetaswaplogo.png" // change this later on
@@ -85,7 +85,7 @@ export default function Navbar() {
               className={`relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700
+                className={`relative px-3 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-gray-700
             ${activeLink === index ? "border-b-2 border-white" : ""}
             `}
               >
@@ -98,11 +98,11 @@ export default function Navbar() {
         <div className="flex items-center">
           <button
             onClick={openModal}
-            className={`group w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 py-3 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${selectedNetwork.src?"bg-white/10":"bg-white/10"}`}
+            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 py-3 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${selectedNetwork.src?"bg-white/10":"bg-white/10"}`}
           >
             <div className="flex">
               {selectedNetwork.src && (
-                <div className="mr-2 self-center">
+                <div className="mr-2 self-center min-w-fit">
                   <Image
                     src={selectedNetwork.src} // change this later on
                     alt=""
@@ -127,7 +127,7 @@ export default function Navbar() {
             )}
           </button>
 
-          <p className="text-white hover:text-gray-300 mx-4">
+          <p className="text-white min-w-fit hover:text-gray-300 mx-4">
             <Image
               src="/profile.png" // change this later on
               alt="profile"
@@ -143,11 +143,12 @@ export default function Navbar() {
       <div className="flex h-10 ml-auto lg:hidden xl:hidden justify-evenly">
         <button
           onClick={openModal}
-          className="group w-fit rounded-lg backdrop-blur-2xl bg-white/10 mr-4 px-2  text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
+          className="group min-w-fit rounded-lg backdrop-blur-2xl bg-white/10 mr-4 px-2  text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
+              style={{minWidth: 'fit-content' }}
         >
           <div className="flex">
             {selectedNetwork.src && (
-              <div className="mr-2 self-center">
+              <div className="mr-2 self-center min-w-fit">
                 <Image
                   src={selectedNetwork.src} // change this later on
                   alt="ethereum"

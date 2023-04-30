@@ -3,7 +3,7 @@ const LandingCard2 = () => {
   return (
     <div className="border border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-8 mx-auto  rounded-xl my-4 
     w-[8rem]  md:w-[15rem] lg:w-[20rem] xl:w-[20rem] 
-    h-auto md:h-[15rem] lg:h-[20rem] xl:h-[20rem] bg-[#003A30]/5 backdrop-blur-sm shadow-md flex flex-col">
+    h-full md:h-[15rem] lg:h-[18rem] xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col">
       <div className="relative">
         <div className="w-8 h-8 hidden sm:block md:block lg:block xl:block md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute top-1/3 -left-8 md:-left-12 lg:-left-14 xl:-left-16">
           <Image
