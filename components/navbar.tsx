@@ -48,7 +48,7 @@ export default function Navbar() {
     { label: "Ethereum Mainet", src: "/eth.png" },
     { label: "Zetachain Mainet", src: "/zetalogo.png" },
     { label: "Polygon Mainet", src: "/polygon.png" },
-    { label: "Fantom Mainet", src: "/frame.png" },
+    { label: "Fantom Mainet", src: "/fantom.png" },
     { label: "Cronos Mainet", src: "/cronos.png" },
   ];
   const { isConnected, address } = useAccount({
