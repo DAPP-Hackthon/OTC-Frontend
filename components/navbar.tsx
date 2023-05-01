@@ -111,7 +111,7 @@ export default function Navbar() {
               {selectedNetwork.src && (
                 <div className="mr-2 self-center min-w-fit">
                   <Image
-                    src={selectedNetwork.src} // change this later on
+                    src={selectedNetwork.src} 
                     alt="Crypto"
                     width="20"
                     height="20"
