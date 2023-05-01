@@ -67,7 +67,7 @@ export default function Navbar() {
       {/* <div className=""> */}
       <Link className="h-full  items-center flex" href={"/home"}>
         <Image
-          src="/zetaswaplogo2.png" // change this later on
+          src="/zetaswaplogo.png" // change this later on
           alt="zetaswap!"
           width="0"
           height="0"
@@ -90,7 +90,7 @@ export default function Navbar() {
               className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm   2xl:text-2xl 3xl:text-3xl font-medium whitespace-nowrap text-white hover:bg-gray-700
+                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-xl font-medium whitespace-nowrap text-white hover:bg-gray-700
             ${activeLink === index ? "border-b-2 border-white" : ""}
             `}
               >
@@ -120,7 +120,7 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p className="font-medium 2xl:text-2xl 3xl:text-3xl whitespace-nowrap">
+              <p className="font-medium 2xl:text-lg 3xl:text-xl whitespace-nowrap">
                 {selectedNetwork.label}
               </p>
             </div>
@@ -135,7 +135,7 @@ export default function Navbar() {
                 {address}
               </p>
             ) : (
-              <p className="text-center 2xl:text-2xl 3xl:text-3xl ">
+              <p className="text-center 2xl:text-lg 3xl:text-xl ">
                 Connect Wallet
               </p>
             )}
