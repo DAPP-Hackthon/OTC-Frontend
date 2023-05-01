@@ -1,6 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100;200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Benzin-Bold";
+    font-weight: 400;
+    src: url("../public/Benzin-Bold.ttf");
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -17,7 +27,7 @@
 }
 
 .font-benzin-bold {
-  font-family: 'Benzin-Bold', 'Helvetica Neue','Oswald', sans-serif ;
+  font-family: "Benzin-Bold", "Helvetica Neue", "Oswald", sans-serif;
   font-weight: bold;
 }
 
@@ -32,6 +42,7 @@ body {
 }
 .custom-font {
   font-family: "Benzin-Bold", sans-serif;
+  line-height: 90%;
 }
 .custom-background {
   background-image: url("/line.png");
@@ -46,19 +57,19 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-@media screen and (min-width: 1280px) {
+@media screen {
   .custom-div {
-  background-image: url("/Vector1.png");
-  /* background-size: contain; */
-  /* height: 100%; */
-  padding: 3rem 0;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+    background-image: url("/Vector1.png");
+    /* background-size: contain; */
+    /* height: 100%; */
+    padding: 3rem 0;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
-}
-@media screen and (max-width: 1279px) {
+
+/* @media screen and (max-width: 1279px) {
   .custom-div {
     display: flex;
     width: 100%;
@@ -78,18 +89,17 @@ body {
     transform: rotate(90deg);
     z-index: 0;
   }
-}
-.common-background{
+} */
+.common-background {
   content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* z-index: 1; */
-    background-image: url("/backgroundImage.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: repeat-y;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* z-index: 1; */
+  background-image: url("/backgroundImage.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat-y;
 }
-

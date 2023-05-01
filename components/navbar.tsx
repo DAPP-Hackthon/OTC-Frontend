@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Button } from "./buttons/button";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import CustomModal from "./modal/modal";
+import
 
 export default function Navbar() {
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
@@ -62,29 +63,30 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 2xl:px-[6rem] xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 pt-2 backdrop-blur-2xl lg:w-full lg:py-2 ">
-      <div className="self-center mr-[3rem] min-w-fit ">
-        <Link href={"/home"}>
-          <Image
-            src="/zetaswaplogo.png" // change this later on
-            alt="zetaswap!"
-            width="100"
-            height="120"
-            sizes="100vw"
-          />
-        </Link>
-      </div>
-      <div className=" w-full justify-between hidden lg:flex gap-10">
-        <ul className="flex items-baseline space-x-4">
+    <nav className="z-50 space-x-[5%] pt-4 font-poppins items-center min-h-[8vh] lg:h-[10vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
+      {/* <div className=""> */}
+      <Link className="h-full  items-center flex" href={"/home"}>
+        <Image
+          src="/zetalogo-new.svg" // change this later on
+          alt="zetaswap!"
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="h-[50%] xs:h-[70%] sm:h-[75%] md:h-[75%] 2xl:h-[50%]  w-auto "
+        />
+      </Link>
+      {/* </div> */}
+      <div className=" h-full flex-grow justify-between hidden lg:flex gap-10">
+        <ul className="flex items-center justify-center space-x-4">
           {items.map((item, index) => (
             <Link
               key={index}
               href={item.href}
               onClick={() => setActiveLink(index)}
-              className={`relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
+              className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm font-medium whitespace-nowrap text-white hover:bg-gray-700
+                className={`relative px-3 py-2 text-sm   2xl:text-2xl 3xl:text-3xl font-medium whitespace-nowrap text-white hover:bg-gray-700
             ${activeLink === index ? "border-b-2 border-white" : ""}
             `}
               >
@@ -94,10 +96,12 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="flex items-center">
+        <div className="flex  items-center ">
           <button
             onClick={openModal}
-            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 py-3 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${selectedNetwork.src?"bg-white/10":"bg-white/10"}`}
+            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-4 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
+              selectedNetwork.src ? "bg-white/10" : "bg-white/10"
+            }`}
           >
             <div className="flex">
               {selectedNetwork.src && (
@@ -112,21 +116,28 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p className="font-medium">{selectedNetwork.label}</p>
+              <p className="font-medium 2xl:text-2xl 3xl:text-3xl whitespace-nowrap">
+                {selectedNetwork.label}
+              </p>
             </div>
           </button>
           <button
-            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2] px-4 py-3 text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            disabled
+            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-4 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
             {isConnected ? (
-              <p className="text-center  w-[8rem] text-ellipsis overflow-hidden ...">{address}</p>
+              <p className="text-center  w-[8rem] text-ellipsis overflow-hidden ...">
+                {address}
+              </p>
             ) : (
-              <p className="text-center ">Connect Wallet</p>
+              <p className="text-center 2xl:text-2xl 3xl:text-3xl ">
+                Connect Wallet
+              </p>
             )}
           </button>
 
-          <p className="text-white min-w-fit hover:text-gray-300 mx-4">
+          {/* <p className="text-white min-w-fit hover:text-gray-300 mx-4">
             <Image
               src="/profile.png" // change this later on
               alt="profile"
@@ -134,20 +145,20 @@ export default function Navbar() {
               height="20"
               sizes="100vw"
             />
-          </p>
+          </p> */}
         </div>
       </div>
       {/* hidden Tab start */}
       {/* Hamberger Menu  */}
-      <div className="flex h-10 ml-auto lg:hidden xl:hidden justify-evenly">
+      <div className="flex justify-end h-10 flex-grow  lg:hidden xl:hidden ">
         <button
           onClick={openModal}
           className="group min-w-fit rounded-lg backdrop-blur-2xl bg-white/10 mr-4 px-2  text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none "
-              style={{minWidth: 'fit-content' }}
+          style={{ minWidth: "fit-content" }}
         >
           <div className="flex">
             {selectedNetwork.src && (
-              <div className="mr-2 self-center min-w-fit">
+              <div className=" self-center w-fit ">
                 <Image
                   src={selectedNetwork.src} // change this later on
                   alt="ethereum"
@@ -158,20 +169,22 @@ export default function Navbar() {
               </div>
             )}
 
-            <p className="text-xs whitespace-nowrap">{selectedNetwork.label}</p>
+            <p className="text-xs md:text-base whitespace-nowrap ">
+              {selectedNetwork.label}
+            </p>
           </div>
         </button>
         <div className="relative self-center h-fit">
-          <div className=" lg:hidden self-center transition-all mr-3 my-3 cursor-pointer hover:text-gray-700">
+          <div className=" lg:hidden  self-center transition-all  cursor-pointer hover:text-gray-700">
             {isMobileNavOpen ? (
               <AiOutlineMenuFold
                 onClick={() => setisMobileNavOpen(false)}
-                className="rounded text-2xl self-center h-fit"
+                className="rounded text-xl md:text-3xl self-center h-fit"
               />
             ) : (
               <AiOutlineMenuUnfold
                 onClick={() => setisMobileNavOpen(true)}
-                className="rounded text-2xl self-center h-fit"
+                className="rounded text-xl md:text-3xl self-center h-fit"
               />
             )}
           </div>
@@ -194,6 +207,7 @@ export default function Navbar() {
                   ))}
                   <div className="text-center">
                     <button
+                      disabled
                       className="group mx-auto mt-4 w-[12rem] rounded-lg bg-[#00FFB2] px-4 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
                       onClick={() => open()}
                     >
@@ -219,24 +233,25 @@ export default function Navbar() {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
       >
-        <div className="px-4 pb-8">
-          <ul>
+        <div className="px-4 pb-8  ">
+          <ul className="">
             {network?.map((item, index) => (
               <li
                 onClick={() => handleNetwork(item.src, item.label)}
                 key={index}
               >
-                <div className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center rounded-xl  bg-white/5 hover:bg-white/10 px-4 py-2 text-white cursor-pointer">
+                <div className="text-sm mt-4 z-50 w-full h-[3rem] flex items-center rounded-xl  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
                   <div className="mr-2">
                     <Image
                       src={item.src} // change this later on
                       alt="ethereum"
-                      width="20"
-                      height="20"
+                      width="0"
+                      height="0"
                       sizes="100vw"
+                      className="3xl:w-[2rem] w-[2rem] h-full"
                     />
                   </div>
-                  <p>{item.label}</p>
+                  <p className="3xl:text-3xl">{item.label}</p>
                 </div>
               </li>
             ))}

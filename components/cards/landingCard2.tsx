@@ -1,20 +1,24 @@
 import Image from "next/image";
 const LandingCard2 = () => {
   return (
-    <div className="border border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-8 mx-auto  rounded-xl my-4 
-    w-[8rem]  md:w-[15rem] lg:w-[20rem] xl:w-[20rem] 
-    h-full md:h-[15rem] lg:h-[18rem] xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col">
+    <div
+      className="border border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 mx-auto  rounded-xl my-4 
+      w-[70%] md:w-[50%] xl:w-[75%]
+    h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col"
+    >
       <div className="relative">
-        <div className="w-8 h-8 hidden sm:block md:block lg:block xl:block md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute top-1/3 -left-8 md:-left-12 lg:-left-14 xl:-left-16">
-          <Image
-            src="/pie.png" // change this later on
-            alt="up-arrow!"
-            width="60"
-            height="60"
-            sizes="100vw"
-          />
-        </div>
-        <p className="text-xs sm:text-md md:text-base lg:text-lg xl:text-xl mb-5">
+        <Image
+          src="/pie.png" // change this later on
+          alt="up-arrow!"
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="w-[2rem] h-auto sm:w-[3rem] lg:w-[5rem]  xl:w-[3rem] 2xl:w-[5rem] 3xl:w-[6rem]
+           aspect-square sm:block md:block lg:block xl:block 
+            md:w-10    absolute top-1/3 -left-8 md:-left-16 lg:-left-20 xl:-left-14 2xl:-left-20"
+        />
+
+        <p className="text-sm xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-5xl mb-5">
           You will receive
         </p>
         {/* <div className="flex my-5">
@@ -59,15 +63,16 @@ const LandingCard2 = () => {
           </div>
         </div>
       </div> */}
-        <div className="block min-h-fit 2xl:block xl:block lg:block md:block">
-          <Image
-            src="/landingCard2grp.png" // change this later on
-            alt="cube"
-            width="300"
-            height="300"
-            sizes="100vw"
-          />
-        </div>
+        {/* <div className=""> */}
+        <Image
+          src="/landingCard2grp.png" // change this later on
+          alt="cube"
+          width="0"
+          height="0"
+          sizes="100vw"
+          className=" min-h-fit h-auto w-full"
+        />
+        {/* </div> */}
       </div>
     </div>
   );
