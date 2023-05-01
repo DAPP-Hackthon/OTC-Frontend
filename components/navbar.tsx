@@ -90,7 +90,7 @@ export default function Navbar() {
               className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-xl font-medium whitespace-nowrap text-white hover:bg-gray-700
+                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-3xl font-medium whitespace-nowrap text-white hover:bg-gray-700
             ${activeLink === index ? "border-b-2 border-white" : ""}
             `}
               >
@@ -103,7 +103,7 @@ export default function Navbar() {
         <div className="flex  items-center ">
           <button
             onClick={openModal}
-            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-4 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
+            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
               selectedNetwork.src ? "bg-white/10" : "bg-white/10"
             }`}
           >
@@ -112,7 +112,7 @@ export default function Navbar() {
                 <div className="mr-2 self-center min-w-fit">
                   <Image
                     src={selectedNetwork.src} // change this later on
-                    alt=""
+                    alt="Crypto"
                     width="20"
                     height="20"
                     sizes="100vw"
@@ -120,14 +120,14 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p className="font-medium 2xl:text-lg 3xl:text-xl whitespace-nowrap">
+              <p className="font-medium 2xl:text-lg 3xl:text-3xl whitespace-nowrap">
                 {selectedNetwork.label}
               </p>
             </div>
           </button>
           <button
             disabled
-            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-4 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
             {isConnected ? (
@@ -135,7 +135,7 @@ export default function Navbar() {
                 {address}
               </p>
             ) : (
-              <p className="text-center 2xl:text-lg 3xl:text-xl ">
+              <p className="text-center 2xl:text-lg 3xl:text-3xl ">
                 Connect Wallet
               </p>
             )}

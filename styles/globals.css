@@ -45,7 +45,7 @@ body {
   line-height: 90%;
 }
 .custom-background {
-  background-image: url("/line.png");
+  background-image: url("/Line.png");
   background-size: contain;
   background-position: bottom;
   background-repeat: no-repeat;
