@@ -90,7 +90,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <p className=" font-poppins text-xs xs:text-sm sm:text-xl md:text-xl 2xl:text-2xl 3xl:text-5xl font-medium leading-4 sm:leading-5 ">Join The Growing Community</p>
+                <p className=" font-poppins text-xs xs:text-sm sm:text-xl md:text-xl 2xl:text-2xl 3xl:text-5xl font-medium leading-4 sm:leading-5 3xl:leading-10 ">Join The Growing Community</p>
                 <p className=" font-poppins italic text-xs xs:text-sm sm:text-xl md:text-xl  2xl:text-2xl 3xl:text-5xl leading-4">Swap directly with any one</p>
                 <p className="font-extralight  text-[9px] xs:text-sm sm:text-base md:text-lg  2xl:text-xl 3xl:text-4xl leading-3 sm:leading-4 3xl:leading-10">
                   Zeta Swap enables secure exchanges of cryptocurrencies, NFTs,
