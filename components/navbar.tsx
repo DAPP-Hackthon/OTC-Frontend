@@ -45,11 +45,12 @@ export default function Navbar() {
     { label: "Profile", href: "/profile" },
   ];
   const network = [
-    { label: "Ethereum Mainet", src: "/eth.png" },
-    { label: "Zetachain Mainet", src: "/zetalogo.png" },
-    { label: "Polygon Mainet", src: "/polygon.png" },
-    { label: "Fantom Mainet", src: "/fantom.png" },
-    { label: "Cronos Mainet", src: "/cronos.png" },
+    { label: "Zetachain", src: "/zetalogonew.png" },
+    { label: "Ethereum", src: "/eth.png" },
+    { label: "BSC", src: "/binancedex.png" },
+    { label: "Arbitrum", src: "/arbitrum.png" },
+    { label: "Optimism", src: "/optimism.png" },
+
   ];
   const { isConnected, address } = useAccount({
     onConnect({ address }) {
@@ -63,7 +64,7 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 space-x-[5%] pt-4 font-poppins items-center min-h-[8vh] lg:h-[10vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
+    <nav className="z-50 space-x-[5%] pt-4 xl:pt-[1rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
       {/* <div className=""> */}
       <Link className="h-full  items-center flex" href={"/home"}>
         <Image
@@ -74,6 +75,7 @@ export default function Navbar() {
           sizes="100vw"
           className="h-[50%] xs:h-[70%] sm:h-[75%] md:h-[75%] 2xl:h-[50%]  w-auto "
         />
+       
 
         {/* <div className="h-[3rem] w-[8rem] ">
           <Zeta  />
@@ -90,7 +92,7 @@ export default function Navbar() {
               className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-3xl font-medium whitespace-nowrap text-white hover:bg-gray-700
+                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-3xl 4xl:text-4xl font-medium whitespace-nowrap text-white hover:bg-gray-700
             ${activeLink === index ? "border-b-2 border-white" : ""}
             `}
               >
@@ -113,14 +115,15 @@ export default function Navbar() {
                   <Image
                     src={selectedNetwork.src} 
                     alt="Crypto"
-                    width="20"
-                    height="20"
+                    width="0"
+                    height="0"
                     sizes="100vw"
+                    className="mr-2 w-2 lg:w-3 2xl:w-4 3xl:w-8"
                   />
                 </div>
               )}
 
-              <p className="font-medium 2xl:text-lg 3xl:text-3xl whitespace-nowrap">
+              <p className="font-medium 2xl:text-lg 3xl:text-3xl  4xl:text-4xl whitespace-nowrap">
                 {selectedNetwork.label}
               </p>
             </div>
@@ -135,7 +138,7 @@ export default function Navbar() {
                 {address}
               </p>
             ) : (
-              <p className="text-center 2xl:text-lg 3xl:text-3xl ">
+              <p className="text-center whitespace-nowrap 2xl:text-lg 3xl:text-3xl 4xl:text-4xl ">
                 Connect Wallet
               </p>
             )}
@@ -166,9 +169,10 @@ export default function Navbar() {
                 <Image
                   src={selectedNetwork.src} // change this later on
                   alt="ethereum"
-                  width="20"
-                  height="20"
+                  width="0"
+                  height="0"
                   sizes="100vw"
+                  className="w-4 mr-3"
                 />
               </div>
             )}
@@ -244,7 +248,7 @@ export default function Navbar() {
                 onClick={() => handleNetwork(item.src, item.label)}
                 key={index}
               >
-                <div className="text-sm mt-4 z-50 w-full h-[3rem] flex items-center rounded-xl  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
+                <div className="text-sm mt-4 z-50 w-full h-[3rem] 3xl:h-[5rem] 4xl:h-[6rem] flex items-center rounded-xl  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
                   <div className="mr-2">
                     <Image
                       src={item.src} // change this later on
@@ -252,10 +256,10 @@ export default function Navbar() {
                       width="0"
                       height="0"
                       sizes="100vw"
-                      className="3xl:w-[2rem] w-[2rem] h-full"
+                      className="3xl:w-[2rem] 4xl:w-[3rem] w-[2rem] h-full"
                     />
                   </div>
-                  <p className="3xl:text-3xl">{item.label}</p>
+                  <p className="3xl:text-3xl 4xl:text-4xl">{item.label}</p>
                 </div>
               </li>
             ))}

@@ -62,8 +62,8 @@ body {
     background-image: url("/Vector1.png");
     /* background-size: contain; */
     /* height: 100%; */
-    padding: 3rem 0;
-    background-size: 100% 100%;
+    padding: 1rem 0 0 0;
+    background-size: 100% 100% ;
     background-position: center;
     background-repeat: no-repeat;
   }
@@ -103,3 +103,42 @@ body {
   background-position: center;
   background-repeat: repeat-y;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-moz-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #13231D;
+}
+::-moz-scrollbar-track {
+  background: #13231D;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6B8E6E;
+  border-radius: 10px;
+
+}
+::-moz-scrollbar-thumb {
+  background: #6B8E6E;
+  border-radius: 10px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #4E664D;
+}
+
+::-moz-scrollbar-thumb:hover {
+  background: #4E664D;
+}
+
+
