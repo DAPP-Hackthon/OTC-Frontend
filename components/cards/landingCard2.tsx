@@ -2,9 +2,9 @@ import Image from "next/image";
 const LandingCard2 = () => {
   return (
     <div
-      className="border border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12 mx-auto  rounded-xl my-4 
-      w-[70%] md:w-[50%] xl:w-[60%] 3xl:w-[55%]
-    h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col"
+      className="border aspect-square xl:aspect-auto h-auto border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12 mx-auto  rounded-3xl 3xl:rounded-[3rem]  my-4 
+      w-full xl:w-[60%] 3xl:w-[55%]
+    xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col"
     >
       <div className="relative">
         <Image
@@ -13,9 +13,9 @@ const LandingCard2 = () => {
           width="0"
           height="0"
           sizes="100vw"
-          className="w-[2rem] h-auto sm:w-[3rem] lg:w-[5rem]  xl:w-[3rem] 2xl:w-[5rem] 3xl:w-[6rem] 4xl:w-[8rem]
+          className="w-[2rem] h-auto sm:w-[3rem] lg:w-[5rem]  xl:w-[3rem] 2xl:w-[3rem] 3xl:w-[6rem] 4xl:w-[8rem]
            aspect-square sm:block md:block lg:block xl:block 
-            md:w-10    absolute top-1/3 -left-8 md:-left-16 lg:-left-20 xl:-left-14 2xl:-left-20 4xl:-left-[8rem] "
+            md:w-10    absolute top-1/3 -left-8 md:-left-16 lg:-left-20 xl:-left-14 2xl:-left-18 3xl:-left-24 4xl:-left-[8rem] "
         />
 
         <p className="text-sm xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-4xl 4xl:text-5xl mb-5">

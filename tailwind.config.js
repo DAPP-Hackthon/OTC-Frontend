@@ -33,7 +33,7 @@ module.exports = {
         '4xl':'3500px'
       },
       fontFamily: {
-        benzin: ['Benzin-Bold', 'sans-serif'],
+        gilroy: ['Gilroy-Bold', 'sans-serif'],
         poppins: ["Poppins", "sans-serif"],
       },
     },

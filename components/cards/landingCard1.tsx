@@ -3,9 +3,9 @@ import {BsArrowUp} from "react-icons/bs"
 
 const LandingCard1 = () => {
   return (
-    <div className="border aspect-[16/11] border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12  card custom-background mx-auto rounded-xl my-4 
-    w-[70%] md:w-[50%] xl:w-[60%] 3xl:w-[55%] 4xl:w-[55%] 
-    h-auto  backdrop-blur-md bg-[#00FFA3]/10 shadow-md flex flex-col">
+    <div className="border aspect-square h-auto xl:aspect-[16/11] border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12  card custom-background mx-auto rounded-3xl 3xl:rounded-[3rem] my-4 
+    w-[100%] md:w-[100%] xl:w-[60%] 3xl:w-[55%] 4xl:w-[55%] 
+    xl:h-auto  backdrop-blur-md bg-[#00FFA3]/10 shadow-md flex flex-col">
       <div className="relative">
         {/* <div className="hidden sm:block md:block lg:block xl:block w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 lg:-right-14"> */}
           <Image
@@ -15,16 +15,16 @@ const LandingCard1 = () => {
             height="0"
             sizes="100vw"
             className="sm:block md:block lg:block xl:block 
-            w-[2rem] h-auto sm:w-[3rem] lg:w-[5rem]  xl:w-[3rem] 2xl:w-[5rem] 3xl:w-[6rem] 4xl:w-[8rem]  aspect-square md:w-10 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 3xl:-top-20 lg:-right-14 xl:-top-10 xl:-right-10 3xl:-right-14"
+            w-[2rem] h-auto sm:w-[3rem] lg:w-[5rem]  xl:w-[3rem] 2xl:w-[3rem] 3xl:w-[6rem] 4xl:w-[8rem]  aspect-square md:w-10 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 3xl:-top-20 lg:-right-14 xl:-top-10 xl:-right-10 3xl:-right-14"
           />
         {/* </div> */}
         <div>
-          <p className="mb-2 text-sm xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl 3xl:text-4xl 4xl:text-5xl ">
+          <p className="mb-2 text-sm xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-xl 3xl:text-4xl 4xl:text-5xl ">
             You will pay
           </p>
-          <p className="mb-2 whitespace-nowrap text-xl xs:text-2xl md:text-4xl lg:text-5xl xl:text-3xl 2xl:text-4xl 3xl:text-6xl 4xl:text-7xl font-bold">
+          <p className="mb-2 whitespace-nowrap text-xl xs:text-2xl md:text-xl lg:text-4xl xl:text-3xl 2xl:text-3xl 3xl:text-6xl 4xl:text-7xl font-bold">
             0000.081
-            <span className="text-sm md:text-2xl lg:text-3xl xl:text-xl 2xl:text-2xl 3xl:text-5xl 4xl:text-6xl text-[#FCED2F]">{" "}BTC </span>
+            <span className="text-sm md:text-lg lg:text-2xl xl:text-xl 2xl:text-xl 3xl:text-5xl 4xl:text-6xl text-[#FCED2F]">{" "}BTC </span>
           </p>
           <div className="flex">
             <div className="self-center">
@@ -37,7 +37,7 @@ const LandingCard1 = () => {
               /> */}
               
             </div>{" "}
-            <small className="font-light flex text-[9.5px] md:text-base lg:text-lg xl:text-base 2xl:text-lg 3xl:text-3xl 4xl:text-4xl 3xl:whitespace-nowrap">
+            <small className="font-light leading-tight flex text-[9.5px] md:text-base lg:text-lg xl:text-base 2xl:text-md 3xl:text-3xl 4xl:text-4xl 3xl:whitespace-nowrap">
              
              <BsArrowUp />
               {" "}

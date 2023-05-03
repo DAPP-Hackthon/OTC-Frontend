@@ -10,7 +10,7 @@ import Navbar from "@/components/navbar";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className=" text-white dark:text-white bg-[#13231D] overflow-y-auto bg-[url('/backgroundImage.png')] bg-cover">
+    <div className=" text-white dark:text-white bg-[#0d1814] overflow-y-auto bg-[url('/backgroundImage.png')] bg-cover">
       <Init>
         <div className="relative h-screen ">
           <Navbar />

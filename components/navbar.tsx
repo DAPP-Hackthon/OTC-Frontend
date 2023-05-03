@@ -50,7 +50,6 @@ export default function Navbar() {
     { label: "BSC", src: "/binancedex.png" },
     { label: "Arbitrum", src: "/arbitrum.png" },
     { label: "Optimism", src: "/optimism.png" },
-
   ];
   const { isConnected, address } = useAccount({
     onConnect({ address }) {
@@ -64,26 +63,22 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 space-x-[5%] pt-4 xl:pt-[1rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
+    <nav className="z-50 space-x-[5%] pt-4 lg:pt-[1rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
       {/* <div className=""> */}
-      <Link className="h-full  items-center flex" href={"/home"}>
+
+      <Link className="flex items-center" href={"/home"}>
         <Image
-          src="/zetaswaplogo.png" // change this later on
+          src="/zetaswaplogo.png"
           alt="zetaswap!"
           width="0"
           height="0"
           sizes="100vw"
-          className="h-[50%] xs:h-[70%] sm:h-[75%] md:h-[75%] 2xl:h-[50%]  w-auto "
+          className="w-full h-8 mr-3 2xl:h-8 4xl:h-20 "
         />
-       
-
-        {/* <div className="h-[3rem] w-[8rem] ">
-          <Zeta  />
-        </div> */}
       </Link>
       {/* </div> */}
       <div className=" h-full flex-grow justify-between hidden lg:flex gap-10">
-        <ul className="flex items-center justify-center space-x-4">
+        <ul className="flex items-center justify-center space-x-4 4xl:space-x-12">
           {items.map((item, index) => (
             <Link
               key={index}
@@ -92,8 +87,8 @@ export default function Navbar() {
               className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 text-sm   2xl:text-lg 3xl:text-3xl 4xl:text-4xl font-medium whitespace-nowrap text-white hover:bg-gray-700
-            ${activeLink === index ? "border-b-2 border-white" : ""}
+                className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white hover:bg-gray-700
+            ${activeLink === index ? "border-b-2 4xl:border-b-8 border-white" : ""}
             `}
               >
                 {item.label}
@@ -102,10 +97,10 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="flex  items-center ">
+        <div className="flex  items-center 4xl:gap-x-8">
           <button
             onClick={openModal}
-            className={`group min-w-fit text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
+            className={`group min-w-fit 4xl:h-36 text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
               selectedNetwork.src ? "bg-white/10" : "bg-white/10"
             }`}
           >
@@ -113,7 +108,7 @@ export default function Navbar() {
               {selectedNetwork.src && (
                 <div className="mr-2 self-center min-w-fit">
                   <Image
-                    src={selectedNetwork.src} 
+                    src={selectedNetwork.src}
                     alt="Crypto"
                     width="0"
                     height="0"
@@ -123,14 +118,14 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p className="font-medium 2xl:text-lg 3xl:text-3xl  4xl:text-4xl whitespace-nowrap">
+              <p className="font-medium 2xl:text-[1rem] 3xl:text-3xl  4xl:text-5xl whitespace-nowrap">
                 {selectedNetwork.label}
               </p>
             </div>
           </button>
           <button
             disabled
-            className="group w-fit text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            className="group w-fit 4xl:h-36 text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
             {isConnected ? (
@@ -138,7 +133,7 @@ export default function Navbar() {
                 {address}
               </p>
             ) : (
-              <p className="text-center whitespace-nowrap 2xl:text-lg 3xl:text-3xl 4xl:text-4xl ">
+              <p className="text-center whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl ">
                 Connect Wallet
               </p>
             )}
@@ -155,8 +150,19 @@ export default function Navbar() {
           </p> */}
         </div>
       </div>
+
+
+
+
+
+
+
       {/* hidden Tab start */}
       {/* Hamberger Menu  */}
+
+
+
+      
       <div className="flex justify-end h-10 flex-grow  lg:hidden xl:hidden ">
         <button
           onClick={openModal}
