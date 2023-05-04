@@ -4,7 +4,7 @@ const LandingCard2 = () => {
     <div
       className="border aspect-square xl:aspect-auto h-fit border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12 mx-auto  rounded-3xl 3xl:rounded-[3rem]  my-4 
       w-full xl:w-[60%] 3xl:w-[55%]
-    xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col"
+    xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col font-gilroy"
     >
       <div className="relative">
         <Image

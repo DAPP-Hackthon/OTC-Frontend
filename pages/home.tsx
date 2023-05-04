@@ -14,7 +14,7 @@ export default function Home() {
         }
       >
         <div className="2xl:col-span-5 xl:col-span-5  md:col-span-1 sm:col-span-1">
-          <h1 className="text-xl xs:text-2xl font-gilroy sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl 4xl:text-9xl leading-tight  font-bold ">
+          <h1 className="text-xl xs:text-2xl font-gilroyB sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl 4xl:text-9xl leading-tight  font-bold ">
             Seamless and Secure Cross Chain & Peer to Peer{" "}
             <span className="text-[#01F5AB]">OTC Swaps</span>
           </h1>
@@ -36,7 +36,7 @@ export default function Home() {
               </Tilt>
         
             <div className="z-20 self-center ">
-              <div className="grid gap-1 sm:gap-2 md:gap-3 3xl:gap-5 ">
+              <div className="grid gap-2 sm:gap-2 md:gap-3 3xl:gap-5 ">
                 <div className=" flex gap-x-4 md:gap-x-4 xl:gap-x-6 2xl:gap-x-8 3xl:gap-x-12">
                   <div className="flex my-auto items-center min-w-fit ">
                     <div className="hover:scale-125">

@@ -34,7 +34,8 @@ module.exports = {
       },
       fontFamily: {
         gilroyMd:['Gilroy-Medium'],
-        gilroy: ['Gilroy-Bold', 'sans-serif'],
+        gilroy:['Gilroy-Regular'],
+        gilroyB: ['Gilroy-Bold', 'sans-serif'],
         poppins: ["Poppins", "sans-serif"],
       },
     },

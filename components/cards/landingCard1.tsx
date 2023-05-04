@@ -5,7 +5,7 @@ const LandingCard1 = () => {
   return (
     <div className="border aspect-square h-fit xl:aspect-[16/11] border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12  card custom-background mx-auto rounded-3xl 3xl:rounded-[3rem] my-4 
     w-[100%] md:w-[100%] xl:w-[60%] 3xl:w-[55%] 4xl:w-[55%] 
-    xl:h-auto  backdrop-blur-md bg-[#00FFA3]/10 shadow-md flex flex-col">
+    xl:h-auto  backdrop-blur-md bg-[#00FFA3]/10 shadow-md flex flex-col font-gilroy">
       <div className="relative">
         {/* <div className="hidden sm:block md:block lg:block xl:block w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 absolute -top-8 -right-8 md:-top-12 md:-right-12 lg:-top-14 lg:-right-14"> */}
           <Image
