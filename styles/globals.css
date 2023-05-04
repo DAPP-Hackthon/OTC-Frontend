@@ -11,6 +11,13 @@
     src: url("../public/Gilroy-Bold.ttf");
   }
 }
+@layer base {
+  @font-face {
+    font-family: "Gilroy-Medium";
+    font-weight: 400;
+    src: url("../public/Gilroy-Medium.ttf");
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;

@@ -19,12 +19,12 @@ const LandingCard1 = () => {
           />
         {/* </div> */}
         <div>
-          <p className="mb-2 text-[7px]  md:text-lg lg:text-xl xl:text-xl 2xl:text-xl 3xl:text-4xl 4xl:text-5xl ">
+          <p className="mb-2 text-[7px]  md:text-lg lg:text-xl xl:text-xl 2xl:text-xl 3xl:text-3xl 4xl:text-5xl ">
             You will pay
           </p>
-          <p className="mb-2 text-[10px] md:text-xl lg:text-4xl xl:text-3xl 2xl:text-3xl 3xl:text-6xl 4xl:text-7xl font-bold">
+          <p className="mb-2 text-[10px] md:text-xl lg:text-4xl xl:text-3xl 2xl:text-3xl 3xl:text-5xl 4xl:text-7xl font-bold">
             0000.081
-            <span className="text-[8px] md:text-lg lg:text-2xl xl:text-xl 2xl:text-xl 3xl:text-5xl 4xl:text-6xl text-[#FCED2F]">{" "}BTC </span>
+            <span className="text-[8px] md:text-lg lg:text-2xl xl:text-xl 2xl:text-xl 3xl:text-4xl 4xl:text-6xl text-[#FCED2F]">{" "}BTC </span>
           </p>
           <div className="flex">
             <div className="self-center">
@@ -39,7 +39,7 @@ const LandingCard1 = () => {
             </div>{" "}
             <small className="font-light leading-tight flex text-[7px] md:text-base lg:text-lg xl:text-base 2xl:text-md 3xl:text-3xl 4xl:text-4xl 3xl:whitespace-nowrap">
              
-             <BsArrowUp />
+             <BsArrowUp className="text-[#00FF19]"/>
               {" "}
               0.65% in this month
             </small>

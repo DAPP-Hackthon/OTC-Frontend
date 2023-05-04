@@ -18,7 +18,7 @@ const LandingCard2 = () => {
             md:w-10    absolute top-1/3 -left-8 md:-left-16 lg:-left-20 xl:-left-14 2xl:-left-18 3xl:-left-24 4xl:-left-[8rem] "
         />
 
-        <p className="text-[7px]  md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-4xl 4xl:text-5xl mb-5">
+        <p className="text-[7px]  md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-3xl 4xl:text-5xl mb-5">
           You will receive
         </p>
         {/* <div className="flex my-5">

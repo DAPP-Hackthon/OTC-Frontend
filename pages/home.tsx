@@ -14,7 +14,7 @@ export default function Home() {
         }
       >
         <div className="2xl:col-span-5 xl:col-span-5  md:col-span-1 sm:col-span-1">
-          <h1 className="text-xl xs:text-2xl font-gilroy sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl 3xl:text-8xl 4xl:text-9xl leading-tight  font-bold ">
+          <h1 className="text-xl xs:text-2xl font-gilroy sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl 2xl:text-5xl 3xl:text-7xl 4xl:text-9xl leading-tight  font-bold ">
             Seamless and Secure Cross Chain & Peer to Peer{" "}
             <span className="text-[#01F5AB]">OTC Swaps</span>
           </h1>
@@ -36,7 +36,7 @@ export default function Home() {
               </Tilt>
         
             <div className="z-20 self-center ">
-              <div className="grid gap-1 sm:gap-2 md:gap-3 3xl:gap-14 ">
+              <div className="grid gap-1 sm:gap-2 md:gap-3 3xl:gap-5 ">
                 <div className=" flex gap-x-4 xl:grid xl:grid-cols-2 md:gap-x-4">
                   <div className="flex my-auto items-center min-w-fit ">
                     <div className="hover:scale-125">
@@ -89,15 +89,15 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <p className="font-poppins text-xs xs:text-sm sm:text-xl md:text-lg xl:text-lg 2xl:text-[1rem] 3xl:text-4xl 4xl:text-5xl font-medium leading-4 sm:leading-6 lg-leading-tight 3xl:leading-normal 4xl:leading-normal ">
+                    <p className="font-poppins text-xs xs:text-sm sm:text-xl md:text-lg xl:text-lg 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium leading-4 sm:leading-6 lg-leading-tight 3xl:leading-normal 4xl:leading-normal ">
                       Join The Growing Community
                     </p>
                   </div>
                 </div>
-                <p className=" font-poppins text-sm xs:text-lg sm:text-2xl md:text-3xl  2xl:text-[1.5rem] 3xl:text-5xl 4xl:text-6xl leading-4 sm:leading-6 lg-leading-tight">
+                <p className=" font-poppins text-sm xs:text-lg sm:text-2xl md:text-2xl  2xl:text-[1.5rem] 3xl:text-4xl 4xl:text-6xl leading-4 sm:leading-6 lg-leading-tight 2xl:leading-snug">
                   Swap directly with any one
                 </p>
-                <p className="font-extralight font-poppins text-[9px] xs:text-sm sm:text-base md:text-lg  2xl:text-[1rem] 3xl:text-4xl 4xl:text-5xl leading-3 sm:leading-4 3xl:leading-tight">
+                <p className="font-gilroyMd text-[#7C9A98] text-[9px] xs:text-sm sm:text-base md:text-lg  2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl leading-3 sm:leading-4 3xl:leading-tight">
                   Zeta Swap enables secure exchanges of cryptocurrencies, NFTs,
                   and tokens among independent parties, with transactions
                   conducted directly between them and without requiring the
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relatve vector-background 2xl:col-span-3 xl:col-span-3 md:col-span-1 sm:col-span-1 relative">
+        <div className="relative justify-center my-auto vector-background 2xl:col-span-3 xl:col-span-3 md:col-span-1 sm:col-span-1">
           <div className="min-h-fit custom-div justify-evenly">
             <div className="w-[35%] xl:w-auto">
               <LandingCard1 />

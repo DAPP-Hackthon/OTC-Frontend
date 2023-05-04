@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Button } from "./buttons/button";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import CustomModal from "./modal/modal";
-import Zeta from "../public/zetalogo.svg";
+import Zeta from "../public/Zetaswaplogo.svg";
 
 export default function Navbar() {
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
@@ -75,7 +75,9 @@ export default function Navbar() {
           sizes="100vw"
           className="h-full min-w-[8rem] xl:min-w-[10rem] 2xl:min-w-[10rem] 3xl:min-w-[18rem] 4xl:min-w-[22rem] mr-3  "
         />
-      
+        <div className="hidden">
+          <Zeta />
+        </div>
       </Link>
       {/* <Zeta /> */}
       {/* </div> */}
