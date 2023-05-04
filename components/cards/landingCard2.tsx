@@ -2,7 +2,7 @@ import Image from "next/image";
 const LandingCard2 = () => {
   return (
     <div
-      className="border aspect-square xl:aspect-auto h-auto border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12 mx-auto  rounded-3xl 3xl:rounded-[3rem]  my-4 
+      className="border aspect-square xl:aspect-auto h-fit border-gray-600 p-4 sm:p-4 md:p-8 lg:p-8 xl:p-4 3xl:p-8 4xl:p-12 mx-auto  rounded-3xl 3xl:rounded-[3rem]  my-4 
       w-full xl:w-[60%] 3xl:w-[55%]
     xl:h-auto bg-[#00FFA3]/10 backdrop-blur-md shadow-md flex flex-col"
     >
@@ -18,7 +18,7 @@ const LandingCard2 = () => {
             md:w-10    absolute top-1/3 -left-8 md:-left-16 lg:-left-20 xl:-left-14 2xl:-left-18 3xl:-left-24 4xl:-left-[8rem] "
         />
 
-        <p className="text-sm xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-4xl 4xl:text-5xl mb-5">
+        <p className="text-[7px]  md:text-lg lg:text-xl xl:text-xl  2xl:text-2xl 3xl:text-4xl 4xl:text-5xl mb-5">
           You will receive
         </p>
         {/* <div className="flex my-5">

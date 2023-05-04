@@ -38,7 +38,7 @@ export default function Home() {
             <div className="z-20 self-center ">
               <div className="grid gap-1 sm:gap-2 md:gap-3 3xl:gap-14 ">
                 <div className=" flex gap-x-4 xl:grid xl:grid-cols-2 md:gap-x-4">
-                  <div className="flex items-center min-w-fit mb-2 ">
+                  <div className="flex my-auto items-center min-w-fit ">
                     <div className="hover:scale-125">
                       <Tilt scale={scale} transitionSpeed={2500}>
                         <Image

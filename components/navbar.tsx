@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Button } from "./buttons/button";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import CustomModal from "./modal/modal";
-import Zeta from "../public/zetalogo-new.svg";
+import Zeta from "../public/zetalogo.svg";
 
 export default function Navbar() {
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
@@ -34,12 +34,12 @@ export default function Navbar() {
     });
   }
   const items = [
-    { label: "Trade", href: "/trade" },
+    { label: "Swap", href: "/Swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
   ];
   const Navitems = [
-    { label: "Trade", href: "/trade" },
+    { label: "Swap", href: "/Swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
     { label: "Profile", href: "/profile" },
@@ -63,19 +63,21 @@ export default function Navbar() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="z-50 space-x-[5%] pt-4 lg:pt-[1rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
+    <nav className="z-50  space-x-[5%] pt-4 lg:pt-[2rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] 3xl:px-[12rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
       {/* <div className=""> */}
 
       <Link className="flex items-center" href={"/home"}>
         <Image
-          src="/zetaswaplogo.png"
+          src="/Zetaswaplogo.svg"
           alt="zetaswap!"
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-8 mr-3 2xl:h-8 4xl:h-20 "
+          className="h-full min-w-[8rem] xl:min-w-[10rem] 2xl:min-w-[10rem] 3xl:min-w-[18rem] 4xl:min-w-[22rem] mr-3  "
         />
+      
       </Link>
+      {/* <Zeta /> */}
       {/* </div> */}
       <div className=" h-full flex-grow justify-between hidden lg:flex gap-10">
         <ul className="flex items-center justify-center space-x-4 4xl:space-x-12">
@@ -88,7 +90,11 @@ export default function Navbar() {
             >
               <p
                 className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white hover:bg-gray-700
-            ${activeLink === index ? "border-b-2 4xl:border-b-8 border-white" : ""}
+            ${
+              activeLink === index
+                ? "border-b-2 4xl:border-b-8 border-white"
+                : ""
+            }
             `}
               >
                 {item.label}
@@ -100,7 +106,7 @@ export default function Navbar() {
         <div className="flex  items-center 4xl:gap-x-8">
           <button
             onClick={openModal}
-            className={`group min-w-fit 4xl:h-36 text-sm rounded-xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 3xl:rounded-3xl text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
+            className={`group min-w-fit 4xl:h-36 text-sm rounded-xl 3xl:rounded-3xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
               selectedNetwork.src ? "bg-white/10" : "bg-white/10"
             }`}
           >
@@ -151,18 +157,9 @@ export default function Navbar() {
         </div>
       </div>
 
-
-
-
-
-
-
       {/* hidden Tab start */}
       {/* Hamberger Menu  */}
 
-
-
-      
       <div className="flex justify-end h-10 flex-grow  lg:hidden xl:hidden ">
         <button
           onClick={openModal}
@@ -207,17 +204,18 @@ export default function Navbar() {
               <div className="bg-[#004A3D] w-[297px] justify-center rounded-lg text-sm p-8">
                 <ul className="leading-10">
                   {Navitems.map((item, index) => (
-                    <Link
+                    // <Link
+                    //   key={index}
+                    //   href={item.href}
+                    //   onClick={() => setActiveLink(index)}
+                    // >
+                    <li
                       key={index}
-                      href={item.href}
-                      onClick={() => setActiveLink(index)}
+                      className={`border-b py-3 text-xs border-gray-600 text-sm text-white`}
                     >
-                      <li
-                        className={`border-b py-3 text-xs border-gray-600 text-sm text-white`}
-                      >
-                        {item.label}
-                      </li>
-                    </Link>
+                      {item.label}
+                    </li>
+                    // </Link>
                   ))}
                   <div className="text-center">
                     <button
@@ -254,7 +252,7 @@ export default function Navbar() {
                 onClick={() => handleNetwork(item.src, item.label)}
                 key={index}
               >
-                <div className="text-sm mt-4 z-50 w-full h-[3rem] 3xl:h-[5rem] 4xl:h-[6rem] flex items-center rounded-xl  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
+                <div className="text-sm mt-4 z-50 w-full h-[3rem] 3xl:h-[5rem] 4xl:h-[8rem] flex items-center rounded-xl 4xl:rounded-[2rem]  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
                   <div className="mr-2">
                     <Image
                       src={item.src} // change this later on

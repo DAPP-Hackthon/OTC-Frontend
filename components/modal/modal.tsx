@@ -21,14 +21,14 @@ const CustomModal: React.FC<ModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      overlayClassName="fixed inset-0 bg-black/50 bg-opacity-20 transition-opacity"
-      className="3xl:p-8 3xl:rounded-3xl absolute font-poppins w-[25rem] 2xl:w-[30rem] 3xl:w-[55rem] 4xl:w-[70rem] bg-[#003A30] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded-lg overflow-hidden shadow-xl"
+      overlayClassName="absolute inset-0 bg-black/50 bg-opacity-20 transition-opacity"
+      className="z-50 3xl:px-10 4xl:px-14 3xl:py-20 4xl:py-28  3xl:rounded-3xl absolute font-poppins w-[20rem] 2xl:w-[30rem] 3xl:w-[50rem] 4xl:w-[70rem] bg-[#003A30] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded-lg overflow-hidden shadow-xl"
     >
       <div className="flex justify-between p-4 ">
-        <div className="font-semibold text-lg 3xl:text-4xl 4xl:text-5xl text-white">{title}</div>
+        <div className="flex items-center font-semibold text-lg 3xl:text-4xl 4xl:text-5xl text-white">{title}</div>
         <div>
           <IoClose
-            className="cursor-pointer text-[30px] 3xl:text-4xl 4xl:text-5xl text-white"
+            className="cursor-pointer text-[30px] 3xl:text-4xl 4xl:text-6xl text-white"
             onClick={handleExit}
           />
         </div>

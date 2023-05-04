@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Init>
         <div className="relative h-screen ">
           <Navbar />
-          <div className="pt-[3rem] pb-auto  xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
+          <div className="pt-[3rem] pb-auto 3xl:px-[12rem]  xl:px-[6rem] lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
             <Component {...pageProps} />
           </div>
         </div>
