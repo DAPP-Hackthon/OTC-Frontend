@@ -88,7 +88,7 @@ export default function Navbar() {
               key={index}
               href={item.href}
               onClick={() => setActiveLink(index)}
-              className={` relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
+              className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
             >
               <p
                 className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white hover:bg-gray-700
