@@ -18,7 +18,6 @@ interface CardProps {
 }
 
 interface CustomElements extends HTMLFormControlsCollection {
-  test: HTMLInputElement;
   send: HTMLTextAreaElement;
   receive: HTMLSelectElement;
 }
@@ -26,13 +25,17 @@ interface CustomElements extends HTMLFormControlsCollection {
 interface NewCourseFormElements extends HTMLFormElement {
   readonly elements: CustomElements;
 }
+export const directSchema= Yup.object().shape({
+  send: Yup.number().min(3).required().typeError("price must be a number"),
+  receive: Yup.number().min(3).required().typeError("price must be a number"),
+})
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const router = useRouter();
   const [formValues, setFormValues] = useState({
     send: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ [k: string]: string | null }>({});
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,43 +52,67 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { value: "3", label: "3" },
     { value: "4", label: "4" },
   ];
+  const handleChange = async (
+		e: React.ChangeEvent<HTMLElement & { name: string }>,
+	) => {
+		const err = { ...errors };
+		err[e.target.name] = null;
+		setErrors(err);
+	};
+  const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
+		e.preventDefault();
+		const { send, receive } =
+			e.currentTarget.elements;
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  // };
-  // const handleChange = (e) => {
-  //   setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  // };
-  const formik = useFormik({
-    initialValues: {
-      test: "",
-      send: "",
-      receive: "",
-      selectedValue: "",
-    },
-    validationSchema: Yup.object({
-      test: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(15, "Maximum 15 characters")
-        .required("Required!"),
-      send: Yup.number()
-        .typeError("Invalid number")
-        .integer("It must be an integer")
-        .required("Required"),
-      receive: Yup.number()
-        .typeError("Invalid number")
-        .integer("It must be an integer")
-        .required("Required"),
-      selectedValue: Yup.string().required("Required!"),
-    }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+		try {
+			const result = await directSchema.validate(
+				{
+					
+					send: send.value,
+          receive: receive.value,
+				},
+				{ abortEarly: false },
+			);
+			setErrors({});
+			const resultObj = { ...result};
+			console.log(resultObj);
+		} catch (error) {
+			console.log(error);
+	};
+  }
+  // const formik = useFormik({
+  //   initialValues: {
+  //     send: "",
+  //     receive: "",
+  //   },
+  //   validationSchema: Yup.object({
+  //     test: Yup.string()
+  //       .min(2, "Mininum 2 characters")
+  //       .max(15, "Maximum 15 characters")
+  //       .required("Required!"),
+  //     send: Yup.number()
+  //       .typeError("Invalid number")
+  //       .integer("It must be an integer")
+  //       .required("Required"),
+  //     receive: Yup.number()
+  //       .typeError("Invalid number")
+  //       .integer("It must be an integer")
+  //       .required("Required"),
+  //     selectedValue: Yup.string().required("Required!"),
+  //   }),
+  //   onSubmit: (values) => {
+  //     alert(JSON.stringify(values, null, 2));
+  //     // alert(JSON.stringify(values));
+  //   },
+    
+  // });
+
 
   return (
     <div className="h-screen">
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={(e: React.FormEvent<NewCourseFormElements>) =>
+					handleSubmit(e)
+				}>
         <div className="flex justify-center w-full text-center gap-6 mb-6">
           <h1 className="mt-4">Trade / Swap</h1>
           <div className="relative">
@@ -130,12 +157,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         </div>
         <CardContainer className="mb-4 ">
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
-            <div className="col-span-1 md:col-span-5 rounded-md">
+            {/* <div className="col-span-1 md:col-span-5 rounded-md">
               <DropdownInput label="Visibility" options={option2} />
             </div>
             <div className="col-span-1 md:col-span-5 rounded-md">
               <DropdownInput label="Visibility" options={option2} />
-            </div>
+            </div> */}
           </div>
         </CardContainer>
         <CardContainer className="mb-4">
@@ -144,31 +171,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             name="test"
             placeholder="Enter details..."
             // error=""
-            value={formik.values.test}
-            error={formik.errors.test}
-            touched={formik.touched.test}
-            handleChange={formik.handleChange}
+            // value={formik.values.test}
+            // error={formik.errors.test}
+            // touched={formik.touched.test}
+            // handleChange={formik.handleChange}
           />
-          {/* <Select
-            label="Game"
-            name="game"
-            options={[
-              {
-                text: "select...",
-                value: "",
-                disabled: true,
-              },
-              ...option2.map((item) => ({
-                text: item.label,
-                value: item.value,
-              })),
-            ]}
-            // value={formik.values.selectedValue}
-            error={formik.errors.selectedValue}
-            touched={formik.touched.selectedValue}
-            handleChange={formik.handleChange}
-          /> */}
-          
+         
         </CardContainer>
         <div className="flex">
           <CardContainer balance={24} className="mr-4 flex-1">
@@ -177,11 +185,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 <InputField
                   label="You Give"
                   name="send"
-                  placeholder="Enter details..."
-                  value={formik.values.send}
-                  error={formik.errors.send}
-                  touched={formik.touched.send}
-                  handleChange={formik.handleChange}
+                  placeholder="Enter amount you want to trade"
+                  // value={formik.values.send}
+                  // error={formik.errors.send}
+                  // touched={formik.touched.send}
+                  // handleChange={formik.handleChange}
+                  handleChange={handleChange}
                 />
               </div>
               <div className="col-span-1 md:col-span-5 rounded-md">
@@ -209,13 +218,13 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
               <div className="col-span-1 md:col-span-5 rounded-md">
                 <InputField
-                  label="Title"
+                  label="You Receive"
                   name="receive"
-                  placeholder="Enter details..."
-                  value={formik.values.receive}
-                  error={formik.errors.receive}
-                  touched={formik.touched.receive}
-                  handleChange={formik.handleChange}
+                  placeholder="Amount you will receive"
+                  // value={formik.values.receive}
+                  // error={formik.errors.receive}
+                  // touched={formik.touched.receive}
+                  handleChange={handleChange}
                 />
               </div>
               <div className="col-span-1 md:col-span-5 rounded-md">
@@ -234,6 +243,13 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       </form>
     </div>
   );
-};
+}
+  
 
-export default DirectTrade;
+
+	
+ 
+  
+ 
+
+export default DirectTrade

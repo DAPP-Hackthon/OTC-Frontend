@@ -67,6 +67,7 @@ export default function MyTrade() {
           <p className="mb-4">You have not created any trade yet</p>
           <Button
             type="button"
+            disabled={!selectedOption}
             text="Create New Trade"
             onClick={() => router.push(`/tradeType/${selectedRoute}`)}
           />

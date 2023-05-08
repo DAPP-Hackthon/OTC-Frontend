@@ -97,7 +97,7 @@ export default function Home() {
                 <p className=" font-poppins text-sm xs:text-lg sm:text-2xl md:text-2xl  2xl:text-[1.5rem] 3xl:text-4xl 4xl:text-6xl leading-4 sm:leading-6 lg-leading-tight 2xl:leading-snug">
                   Swap directly with any one
                 </p>
-                <p className="font-gilroyMd text-[#7C9A98] text-[9px] xs:text-sm sm:text-base md:text-lg  2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl leading-3 sm:leading-4 3xl:leading-tight">
+                <p className="font-gilroy text-[#7C9A98] text-[9px] xs:text-sm sm:text-base md:text-lg  2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl leading-3 sm:leading-4 3xl:leading-tight">
                   Zeta Swap enables secure exchanges of cryptocurrencies, NFTs,
                   and tokens among independent parties, with transactions
                   conducted directly between them and without requiring the
