@@ -88,10 +88,10 @@ export default function Navbar() {
               key={index}
               href={item.href}
               onClick={() => setActiveLink(index)}
-              className={`pointer-events-none relative px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 rounded-lg`}
+              className={`relative px-3 py-2 text-sm font-medium text-white  rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white hover:bg-gray-700
+                className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white 
             ${
               activeLink === index
                 ? "border-b-2 4xl:border-b-8 border-white"
@@ -132,7 +132,6 @@ export default function Navbar() {
             </div>
           </button>
           <button
-            disabled
             className="group w-fit 4xl:h-36 text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             onClick={() => open()}
           >
@@ -141,7 +140,7 @@ export default function Navbar() {
                 {address}
               </p>
             ) : (
-              <p className="text-center whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl ">
+              <p className="text-center  whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl ">
                 Connect Wallet
               </p>
             )}
@@ -188,7 +187,7 @@ export default function Navbar() {
           </div>
         </button>
         <div className="relative self-center h-fit">
-          <div className=" lg:hidden  self-center transition-all  cursor-pointer hover:text-gray-700">
+          {/* <div className=" lg:hidden  self-center transition-all  cursor-pointer hover:text-gray-700">
             {isMobileNavOpen ? (
               <AiOutlineMenuFold
                 onClick={() => setisMobileNavOpen(false)}
@@ -200,6 +199,25 @@ export default function Navbar() {
                 className="rounded text-xl md:text-3xl self-center h-fit"
               />
             )}
+          </div> */}
+          <div className="flex items-center ">
+            <button
+              className="mobile-menu-button"
+              onClick={() => setisMobileNavOpen(!isMobileNavOpen)}
+            >
+              {isMobileNavOpen ? (
+                <div className="opacity-80 transition-all hover:opacity-1">
+                  <div className="w-4 h-0.5 rounded bg-[#C7E6F8] transition-all rotate-45"></div>
+                  <div className="w-4 h-0.5 rounded bg-[#C7E6F8] transition-all cross_other"></div>
+                </div>
+              ) : (
+                <div className="opacity-80 transition-all hover:opacity-1">
+                  <div className="w-4 h-0.5 mb-1 rounded bg-[#C7E6F8]"></div>
+                  <div className="w-4 h-0.5 mb-1 rounded bg-[#C7E6F8]"></div>
+                  <div className="w-4 h-0.5 rounded bg-[#C7E6F8]"></div>
+                </div>
+              )}
+            </button>
           </div>
           <div className="absolute lg:hidden xl:hidden right-0 m-2 ">
             {isMobileNavOpen && (

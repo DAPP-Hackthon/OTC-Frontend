@@ -1,49 +1,56 @@
-import React, { useState } from "react";
+/* eslint-disable react/require-default-props */
+import React from "react";
+import { IOption, Option } from "./option";
 
-interface SelectFieldProps {
-  name: string;
-  label: string;
-  value: string;
-  onChange: (name: string, value: string) => void;
-  options: { value: string; label: string }[];
-  required?: boolean;
+export interface SelectFieldProps {
+	label?: string;
+	name: string;
+	error?: string | null;
+	multiple?: boolean;
+	disabled?: boolean;
+	required?: boolean;
+	size?: number;
+	className?: string;
+	options: Array<IOption>;
+	onChange?: (_event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({
-  name,
-  label,
-  value,
+export const Select = ({
+	label,
+	name,
   onChange,
-  options,
-  required = false,
-}) => {
-  const [error, setError] = useState("");
+	error = null,
+	options = [],
+	className = "",
+	...selectProps
+}: SelectFieldProps) => {
+	return (
+		<div className="flex-grow">
+			{/* <label htmlFor={name} className="text-md">
+				{label}
+				{error && (
+					<span className="text-sm italic text-red-500">{` :${error}`}</span>
+				)}
+			</label> */}
+      <label className="text-md mb-3">{label}</label>
+			<br />
+			<div>
+				<select
+					key={name}
+					defaultValue=""
+					name={name}
+          onChange={onChange}
+					placeholder="Select an option"
+					className={` text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none${className}
+					${error ? "border-red-500" : "focus:border-indigo-500"}`}
+					{...selectProps}
+				>
+					{options.map((op) => (
+						<Option key={op.value} {...op} />
+					))}
+				</select>
+			</div>
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    onChange(name, selectedValue);
-
-    if (required && !selectedValue) {
-      setError(`${label} is required`);
-    } else {
-      setError("");
-    }
-  };
-
-  return (
-    <div>
-      <label htmlFor={name}>{label}</label>
-      <select id={name} name={name} value={value} onChange={handleOnChange}>
-        <option value="">-- Select --</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {error && <p>{error}</p>}
-    </div>
-  );
+		</div>
+	);
 };
-
-export default SelectField;

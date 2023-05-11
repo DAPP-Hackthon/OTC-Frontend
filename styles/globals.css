@@ -160,3 +160,19 @@ body {
 ::-moz-scrollbar-thumb:hover {
   background: #4e664d;
 }
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  align-items: end;
+}
+.cross_other{
+  transform: rotate(-45deg);
+  position: relative;
+  top: -2px;
+}
+.custom-option:hover {
+  background-color: black !important; /* Set the background color of the option on hover */
+  cursor: pointer; /* Change the cursor to pointer on hover */
+}
+

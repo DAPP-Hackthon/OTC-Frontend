@@ -1,5 +1,7 @@
 import { InputField } from "../forms/inputField";
 import Image from "next/image";
+import {TbSquareRoundedArrowRightFilled } from "react-icons/tb";
+
 interface CardProps {
   // children: React.ReactNode;
   className?: string;
@@ -24,15 +26,15 @@ const CardContainer2 = ({
       {viewStyle ? (
         <div
           onClick={onClick}
-          className={`rounded-xl my-4 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
+          className={`rounded-xl border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
         >
           {/* header */}
-          <div className="flex w-full bg-[#004A3D] mb-auto items-center px-4 py-2 rounded-t-xl ">
+          <div className="flex w-full border-b border-[#c8c8c86a] bg-[#004A3D] mb-auto items-center px-4 py-2 rounded-t-xl ">
             <div className="text-md text-gray-500"></div>
             <p>{sampleData}</p>
           </div>
           {/* body */}
-          <div className="rounded-b-xl pb-4 bg-[#003A30]">
+          <div className="rounded-b-xl pb-4 backdrop-blur-lg">
             <div className="px-4 py-2 grid gap-y-2">
               <div className="flex text-sm flex-wrap justify-between">
                 <div>
@@ -45,10 +47,10 @@ const CardContainer2 = ({
                 </div>
               </div>
               <div className="flex flex-wrap justify-between">
-                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white">
+                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
                   <p>Eth</p>
                 </div>
-                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white">
+                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
                   <p>USDT</p>
                 </div>
               </div>
@@ -72,10 +74,10 @@ const CardContainer2 = ({
       ) : (
         <div
           onClick={onClick}
-          className={`rounded-xl my-4 sm:w-full md:w-full lg:w-full xl:w-full justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
+          className={`rounded-xl border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-full xl:w-full justify-center backdrop-blur-lg shadow-md flex flex-col ${className}`}
         >
           {/* header */}
-          <div className="flex justify-evenly h-fit w-full bg-[#004A3D] mb-auto items-center px-4 py-2 rounded-xl ">
+          <div className="flex justify-between h-fit w-full  mb-auto items-center px-4 py-2 rounded-xl ">
             <div>
               <p>Gives: </p>
               <p>(Money value)</p>
@@ -98,10 +100,12 @@ const CardContainer2 = ({
               <Image
                 src="/right.png" // change this later on
                 alt="right-arrow!"
-                width="30"
-                height="20"
+                width="0"
+                height="0"
                 sizes="100vw"
+                className="h-fit w-auto"
               />
+              {/* <TbSquareRoundedArrowRightFilled className="text-2xl"/> */}
             </div>
           </div>
           {/* body */}
