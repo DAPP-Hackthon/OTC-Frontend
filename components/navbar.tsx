@@ -34,7 +34,7 @@ export default function Navbar() {
     });
   }
   const items = [
-    { label: "Swap", href: "/Swap" },
+    { label: "Swap", href: "/swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
   ];

@@ -66,7 +66,7 @@ export default function AllTrade() {
                 {/* Trade Dropdown */}
                 <button
                   type="button"
-                  className={`text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none`}
+                  className={`text-sm mt-2 z-30 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none`}
                   onClick={() => setIsOpen1(!isOpen1)}
                 >
                   {selectedTrade ? (
@@ -89,7 +89,7 @@ export default function AllTrade() {
                   />
                 </button>
                 {isOpen1 && (
-                  <ul className="absolute z-50 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
+                  <ul className="absolute z-40 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
                     {tradeOption.map((option) => (
                       <li
                         key={option.value}
@@ -137,7 +137,7 @@ export default function AllTrade() {
                 <div className="relative flex items-center">
                   <button
                     type="button"
-                    className={`text-sm z-50 ml-2 flex items-center justify-between rounded-2xl px-4 text-white focus:border-indigo-500 focus:outline-none`}
+                    className={`text-sm z-30 ml-2 flex items-center justify-between rounded-2xl px-4 text-white focus:border-indigo-500 focus:outline-none`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     {selectedDate ? (
@@ -160,7 +160,7 @@ export default function AllTrade() {
                     />
                   </button>
                   {isOpen && (
-                    <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-50  rounded-md border border-gray-300 bg-white shadow-lg">
+                    <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-30  rounded-md border border-gray-300 bg-white shadow-lg">
                       {dateOption.map((option) => (
                         <li
                           key={option.value}
@@ -203,7 +203,7 @@ export default function AllTrade() {
               <div className="relative flex items-center">
                 <button
                   type="button"
-                  className={`text-sm z-50 ml-2 flex items-center justify-between rounded-2xl px-4 text-white focus:border-indigo-500 focus:outline-none`}
+                  className={`text-sm z-30 ml-2 flex items-center justify-between rounded-2xl px-4 text-white focus:border-indigo-500 focus:outline-none`}
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   {selectedDate ? (
@@ -226,7 +226,7 @@ export default function AllTrade() {
                   />
                 </button>
                 {isOpen && (
-                  <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-50  rounded-md border border-gray-300 bg-white shadow-lg">
+                  <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-30  rounded-md border border-gray-300 bg-white shadow-lg">
                     {dateOption.map((option) => (
                       <li
                         key={option.value}

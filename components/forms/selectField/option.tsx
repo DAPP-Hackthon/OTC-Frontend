@@ -10,7 +10,7 @@ export interface IOption {
 
 export const Option = ({ value, text, ...optionProps }: IOption) => (
 	<option
-		className="absolute z-40 mt-1 max-h-48 w-full w-full overflow-y-auto rounded-md border border-gray-700 bg-gray-900 shadow-lg"
+		className="absolute z-40 mt-1 max-h-48 w-full overflow-y-auto rounded-md border border-gray-700 bg-gray-900 shadow-lg"
 		value={value}
 		{...optionProps}
 	>

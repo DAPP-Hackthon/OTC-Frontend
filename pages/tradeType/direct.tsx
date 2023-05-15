@@ -10,12 +10,17 @@ import { TradeType } from "@/sampleData/data";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Select } from "@/components/forms/selectField/select";
+import DropdownInput1 from "@/components/forms/dropdown1";
 
 interface CardProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
 }
+type Option = {
+  value: string;
+  label: string;
+};
 const initialValues = {
   yourAsset: "",
   partnerAsset: "",
@@ -23,8 +28,9 @@ const initialValues = {
 interface CustomElements extends HTMLFormControlsCollection {
   send: HTMLTextAreaElement;
   yourAsset: HTMLSelectElement;
-  partnerAsset:HTMLSelectElement;
+  partnerAsset: HTMLSelectElement;
   receive: HTMLSelectElement;
+  myCustomDropdownButton: HTMLButtonElement;
 }
 
 interface NewCourseFormElements extends HTMLFormElement {
@@ -34,6 +40,7 @@ export const directSchema = Yup.object().shape({
   send: Yup.number().min(3).required().typeError("price must be a number"),
   receive: Yup.number().min(3).required().typeError("price must be a number"),
   yourAsset: Yup.string().required("Field is required!"),
+  myCustomDropdownButton: Yup.string().required("Please select an option"),
 });
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
@@ -41,6 +48,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [yourAsset, setYourAsset] = useState("");
   const [partnerAsset, setPartnerAsset] = useState("");
+  const [myCustomDropdownButton, setMyCustomDropdownButton] = useState("");
+  const [selectedOption1, setSelectedOption1] = useState<Option>();
+
 
   // const [formValues, setFormValues] = useState({
   //   send: "",
@@ -71,8 +81,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     e: React.ChangeEvent<HTMLElement & { name: string }>
   ) => {
     const elements = formRef.current?.elements as CustomElements;
+    setMyCustomDropdownButton(elements.myCustomDropdownButton.value);
     setYourAsset(elements.yourAsset.value);
-    setPartnerAsset(elements.partnerAsset.value)
+    setPartnerAsset(elements.partnerAsset.value);
     const err = { ...errors };
     err[e.target.name] = null;
     setErrors(err);
@@ -88,7 +99,8 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           send: send.value,
           receive: receive.value,
           yourAsset: elements.yourAsset.value,
-          partnerAsset:elements.partnerAsset.value,
+          partnerAsset: elements.partnerAsset.value,
+          myCustomDropdownButton: elements.myCustomDropdownButton.value,
         },
         { abortEarly: false }
       );
@@ -99,7 +111,10 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       console.log(error);
     }
   };
-
+  const handleOptionSelect = (option: Option) => {
+    setSelectedOption(option);
+  };
+  console.log("selectedOption1",selectedOption1)
   return (
     <div className="h-screen">
       <form
@@ -153,10 +168,16 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <CardContainer className="mb-4 ">
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
-              <DropdownInput label="Visibility" options={option2} />
+              <DropdownInput name="xyz" label="Visibility1" options={option2} />
+              {/* <DropdownInput1
+                options={option2}
+                onSelect= {()=>handleOptionSelect}
+                className="mt-2"
+              />
+             <p>Selected Option: {selectedOption1?.label}</p> */}
             </div>
             <div className="col-span-1 md:col-span-5 rounded-md">
-              <DropdownInput label="Visibility" options={option2} />
+              <DropdownInput name="xyz" label="Visibility" options={option2} />
             </div>
           </div>
         </CardContainer>
@@ -172,8 +193,8 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             // handleChange={formik.handleChange}
           />
         </CardContainer>
-        <div className="flex">
-          <CardContainer balance={24} className="mr-4 flex-1">
+        <div className="md:flex">
+          <CardContainer balance={24} className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
               <div className="col-span-1 md:col-span-5 rounded-md">
                 <InputField
@@ -214,12 +235,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               </div>
             </div>
           </CardContainer>
-          <button type="button" className="flex items-center">
+          <button type="button" className="flex m-3 mx-auto self-center md:items-center">
             <svg
-              width="50px"
-              height="50px"
+              width="0"
+              height="0"
               viewBox="0 0 24 24"
-              className="white"
+              className="white w-6 h-6 md:w-10 md:h-10"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -229,7 +250,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               />
             </svg>
           </button>
-          <CardContainer className="ml-4 flex-1">
+          <CardContainer className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
               <div className="col-span-1 md:col-span-5 rounded-md">
                 <InputField
