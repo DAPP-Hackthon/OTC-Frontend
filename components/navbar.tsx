@@ -91,11 +91,11 @@ export default function Navbar() {
               className={`relative px-3 py-2 text-sm font-medium text-white  rounded-lg`}
             >
               <p
-                className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap text-white 
+                className={`relative px-3 py-2 4xl:py-4 text-sm   2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl font-medium whitespace-nowrap c
             ${
               activeLink === index
-                ? "border-b-2 4xl:border-b-8 border-white"
-                : ""
+                ? "border-b-2 4xl:border-b-8 border-[#00FFB2] text-[#00FFB2]"
+                : "text-white"
             }
             `}
               >
