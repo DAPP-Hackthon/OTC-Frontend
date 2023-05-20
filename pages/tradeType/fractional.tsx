@@ -81,7 +81,7 @@ const FractionalTrade = ({ children, className = "", onClick }: CardProps) => {
       <CardContainer className="mb-4 ">
         <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
           <div className="col-span-1 md:col-span-5 rounded-md">
-            <DropdownInput label="Visibility" options={option2} />
+            <DropdownInput label="Type of Trade" options={option2} />
           </div>
           <div className="col-span-1 md:col-span-5 rounded-md">
             <DropdownInput label="Visibility" options={option2} />
@@ -123,7 +123,7 @@ const FractionalTrade = ({ children, className = "", onClick }: CardProps) => {
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
               <InputField
-                label="Title"
+                label="You Receive"
                 name="title"
                 placeholder="Enter details..."
               />

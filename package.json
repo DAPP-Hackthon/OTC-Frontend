@@ -23,11 +23,15 @@
     "@types/node": "18.15.11",
     "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",
-    "@web3modal/ethereum": "^2.3.0",
-    "@web3modal/react": "^2.3.0",
+    "@web3modal/ethereum": "^2.4.1",
+    "@web3modal/react": "^2.4.1",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "connectkit": "^1.2.4",
+    "dotenv": "^16.0.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "ethers": "^5.7.2",
     "formik": "^2.2.9",
     "next": "13.3.0",
     "postcss": "^8.4.22",
@@ -41,12 +45,17 @@
     "redux-persist": "^6.0.0",
     "tailwindcss": "^3.3.1",
     "typescript": "5.0.4",
-    "wagmi": "^0.12.10",
+    "viem": "^0.3.30",
+    "wagmi": "^0.12.13",
+    "web3": "^1.10.0",
+    "web3-eth": "^1.10.0",
+    "web3modal": "^1.9.12",
     "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react-modal": "^3.16.0",
-    "husky": "^8.0.0",
+    "hardhat": "^2.14.0",
+    "husky": "^8.0.3",
     "jest": "^29.5.0"
   }
 }

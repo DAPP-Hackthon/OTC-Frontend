@@ -27,9 +27,9 @@ const SwapCard: React.FC<CardProps> = ({
         />
       </div>
       <div className="flex mb-1 justify-between bg-[#003F33] px-3 py-2 rounded-xl">
-        <div className="leading-[6px]">
+        <div className="leading-[8px]">
           <p className="text-[10px] font-extralight">{title}</p>
-          <small className="text-[6px] font-extralight">NFT Code No</small>
+          <small className="text-[8px] font-extralight">NFT Code No</small>
         </div>
         <p className="text-[10px] font-extralight self-center">
           Price: 2.145 ETH

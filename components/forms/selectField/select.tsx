@@ -42,7 +42,7 @@ export const Select = ({
           name={name}
           onChange={onChange}
           placeholder="Select an option"
-          className={` text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none${className}
+          className={` text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none${className}
 					${error ? "border-red-500" : "focus:border-indigo-500"}`}
           {...selectProps}
         >

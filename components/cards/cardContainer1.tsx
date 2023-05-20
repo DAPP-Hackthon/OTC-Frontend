@@ -14,7 +14,7 @@ const CardContainer = ({
   return (
     <div
       onClick={onClick}
-      className={`rounded-xl  mx-auto sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 p-8 shadow-md flex flex-col ${className}`}
+      className={`rounded-xl z-20  border border-[#c8c8c86a] mx-auto sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center backdrop-blur-lg p-8 shadow-md flex flex-col ${className}`}
     >
       <div>{children}</div>
       {/* footer */}

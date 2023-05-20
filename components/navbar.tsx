@@ -1,38 +1,97 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useWeb3Modal } from "@web3modal/react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import { navLinks } from "./data";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSignMessage,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
+// import { navLinks } from "./data";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Button } from "./buttons/button";
-import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
+// import { Button } from "./buttons/button";
+// import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import CustomModal from "./modal/modal";
 import Zeta from "../public/Zetaswaplogo.svg";
+import { RxDotFilled } from "react-icons/rx";
+import axios from "axios";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { sign } from "crypto";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function Navbar() {
+  const { chain } = useNetwork();
+  const [loginCred, setLoginCred] = useState();
+  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+    useSwitchNetwork();
+
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
+  console.log(chains);
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+  const [nextChain, setNextChain] = useState();
   const router = useRouter();
   const [selectedNetwork, setSelectedNetwork] = useState({
     label: "Select a Network",
     src: "",
   });
-  const [activeLink, setActiveLink] = useState(0);
+  const { isConnected, address } = useAccount({
+    onConnect({ address }) {
+      if (!address) return;
+      // handleTokens(address);
+    },
+  });
+  const [nextNetwork, setNextNetwork] = useState({
+    label: "Select a Network",
+    src: "",
+    id: 0,
+  });
+  const [activeLink, setActiveLink] = useState(null);
   //   If button is there
   const handleClick = () => {
     if (isMobileNavOpen) {
       setisMobileNavOpen(false);
     }
   };
-  const { disconnectAsync } = useDisconnect();
+
+  const { disconnect } = useDisconnect();
   const { open } = useWeb3Modal();
-  function handleNetwork(href: string, label: string) {
-    console.log(href, label);
-    setSelectedNetwork({
-      label: `${label}`,
-      src: `${href}`,
-    });
-  }
+
+  const handleNetwork = () => {
+    if (chain?.id === nextNetwork.id) {
+      setSelectedNetwork({
+        label: nextNetwork.label,
+        src: nextNetwork.src,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!isConnected) {
+      setSelectedNetwork({
+        label: "Select a Network",
+        src: "",
+      });
+    } else {
+      const selectedNetwork = network.find((item) => item.id === chain?.id);
+      // const { label, src } = selectedNetwork;
+      console.log("selectedNetwork:", selectedNetwork?.label);
+      // console.log("Src:", src);
+      setSelectedNetwork({
+        label: selectedNetwork?.label || "",
+        src: selectedNetwork?.src || "",
+      });
+    }
+    if (!isLoading) {
+      handleNetwork();
+    }
+  }, [isLoading, isConnected]);
+
+  console.log(chains, isLoading);
   const items = [
     { label: "Swap", href: "/swap" },
     { label: "My Trade", href: "/myTrade" },
@@ -45,28 +104,63 @@ export default function Navbar() {
     { label: "Profile", href: "/profile" },
   ];
   const network = [
-    { label: "Zetachain", src: "/zetalogonew.png" },
-    { label: "Ethereum", src: "/eth.png" },
-    { label: "BSC", src: "/binancedex.png" },
-    { label: "Arbitrum", src: "/arbitrum.png" },
-    { label: "Optimism", src: "/optimism.png" },
+    { label: "Zetachain", src: "/zetalogonew.png", id: 0 },
+    { label: "Ethereum", src: "/eth.png", id: 1 },
+    { label: "BSC", src: "/binancedex.png", id: 56 },
+    { label: "Arbitrum", src: "/arbitrum.png", id: 42161 },
+    { label: "Optimism", src: "/optimism.png", id: 10 },
   ];
-  const { isConnected, address } = useAccount({
-    onConnect({ address }) {
-      if (!address) return;
-      // handleTokens(address);
-    },
-  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const { data, isError, isSuccess, signMessage } = useSignMessage({
+    message: `Signing with acc: ${address}`,
+  });
+  console.log(data);
+  const handleLogin = async () => {
+    try {
+      const { response1 } = await axios.post("http://localhost:8000/auth/v1/login", {
+        walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
+        signature:`0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`
+      }, {
+        withCredentials: true,
+      });
+      setLoginCred(response1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleApi = async () => {
+    try {
+      const  response1  = await axios.get("http://localhost:8000/otc/order/v1");
+      // setLoginCred(response1);
+      console.log(response1)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+    if(isSuccess){
+      handleLogin();
+    }
+  },[isSuccess])
+  console.log("loginCred",loginCred);
 
   return (
     <nav className="z-50  space-x-[5%] pt-4 lg:pt-[2rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] 3xl:px-[12rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
       {/* <div className=""> */}
 
-      <Link className="flex items-center" href={"/home"}>
+      <div
+        className="flex items-center cursor-pointer"
+        onClick={() => {
+          setActiveLink(null);
+          router.push("/home");
+        }}
+      >
+        {/* <button onClick={()=>signMessage()}>Sign</button>
+        <button onClick={()=>handleApi()}>Test</button> */}
         <Image
           src="/Zetaswaplogo.svg"
           alt="zetaswap!"
@@ -78,7 +172,7 @@ export default function Navbar() {
         <div className="hidden">
           <Zeta />
         </div>
-      </Link>
+      </div>
       {/* <Zeta /> */}
       {/* </div> */}
       <div className=" h-full flex-grow justify-between hidden lg:flex gap-10">
@@ -131,9 +225,13 @@ export default function Navbar() {
               </p>
             </div>
           </button>
+
           <button
             className="group w-fit 4xl:h-36 text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
-            onClick={() => open()}
+            onClick={() => {
+              isConnected ? disconnect() : connect();
+              //  isConnected?disconnect(): connect()
+            }}
           >
             {isConnected ? (
               <p className="text-center  w-[8rem] text-ellipsis overflow-hidden ...">
@@ -187,19 +285,6 @@ export default function Navbar() {
           </div>
         </button>
         <div className="relative self-center h-fit">
-          {/* <div className=" lg:hidden  self-center transition-all  cursor-pointer hover:text-gray-700">
-            {isMobileNavOpen ? (
-              <AiOutlineMenuFold
-                onClick={() => setisMobileNavOpen(false)}
-                className="rounded text-xl md:text-3xl self-center h-fit"
-              />
-            ) : (
-              <AiOutlineMenuUnfold
-                onClick={() => setisMobileNavOpen(true)}
-                className="rounded text-xl md:text-3xl self-center h-fit"
-              />
-            )}
-          </div> */}
           <div className="flex items-center ">
             <button
               className="mobile-menu-button"
@@ -267,9 +352,11 @@ export default function Navbar() {
       >
         <div className="px-4 pb-8  ">
           <ul className="">
-            {network?.map((item, index) => (
+            {/* {network?.map((item, index) => (
               <li
-                onClick={() => handleNetwork(item.src, item.label)}
+                onClick={() => {
+                  handleNetwork(item.src, item.label);
+                }}
                 key={index}
               >
                 <div className="text-sm mt-4 z-50 w-full h-[3rem] 3xl:h-[5rem] 4xl:h-[8rem] flex items-center rounded-xl 4xl:rounded-[2rem]  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
@@ -286,7 +373,64 @@ export default function Navbar() {
                   <p className="3xl:text-3xl 4xl:text-4xl">{item.label}</p>
                 </div>
               </li>
-            ))}
+            ))} */}
+            {!isConnected && (
+              <div>
+                <p>Connect Your wallet</p>
+              </div>
+            )}
+            {network?.map((item, index) => {
+              const chainNetwork = chains.find((c) => c.id === item.id);
+
+              if (!chainNetwork) {
+                return null; // Handle case when corresponding chain is not found
+              }
+              return (
+                <li
+                  onClick={() => {
+                    switchNetwork?.(item.id);
+                    // handleNetwork(item.src, item.label, item.id);
+                    setNextNetwork({
+                      label: `${item.label}`,
+                      src: `${item.src}`,
+                      id: item.id,
+                    });
+                  }}
+                  key={index}
+                >
+                  <div className="text-sm mt-4 z-50 w-full h-[3rem] 3xl:h-[5rem] 4xl:h-[8rem] flex items-center justify-between rounded-xl 4xl:rounded-[2rem]  bg-white/5 hover:bg-white/10 px-4 py-2 3xl:py-8 text-white cursor-pointer">
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Image
+                          src={item.src} // change this later on
+                          alt="chainNetwork"
+                          width="0"
+                          height="0"
+                          sizes="100vw"
+                          className="3xl:w-[2rem] 4xl:w-[3rem] w-[2rem] h-full"
+                        />
+                      </div>
+
+                      <p className="3xl:text-3xl 4xl:text-4xl">{item.label}</p>
+                    </div>
+                    {chain?.id === item.id ? (
+                      <p className="flex items-center 3xl:text-3xl 4xl:text-4xl">
+                        Connected{" "}
+                        <RxDotFilled className="text-xl text-[#30E000]" />
+                      </p>
+                    ) : (
+                      isLoading &&
+                      pendingChainId === item.id && (
+                        <p className="flex items-center 3xl:text-3xl 4xl:text-4xl">
+                          Confirm in wallet{" "}
+                          <RxDotFilled className="text-xl text-[#FFD641]" />
+                        </p>
+                      )
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </CustomModal>

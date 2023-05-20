@@ -128,7 +128,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           <div className="relative">
             <button
               type="button"
-              className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none"
+              className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none"
               onClick={() => setIsOpen(!isOpen)}
             >
               {selectedOption ? (
@@ -168,7 +168,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <CardContainer className="mb-4 ">
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
-              <DropdownInput name="xyz" label="Visibility1" options={option2} />
+              <DropdownInput name="xyz" label="Type of Trade" options={option2} />
               {/* <DropdownInput1
                 options={option2}
                 onSelect= {()=>handleOptionSelect}
@@ -183,7 +183,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         </CardContainer>
         <CardContainer className="mb-4">
           <InputField
-            label="Title"
+            label="Your Partner's Detail's"
             name="test"
             placeholder="Enter details..."
             // error=""
