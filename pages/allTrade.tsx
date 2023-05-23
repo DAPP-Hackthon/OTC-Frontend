@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TradeType } from "@/sampleData/data";
 import CardContainer2 from "@/components/cards/cardContainer2";
 import { TradeData } from "@/sampleData/data";
 import Image from "next/image";
 import { TiFilter } from "react-icons/ti";
 import { HiViewGrid, HiViewList } from "react-icons/hi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import contractABI from "@/sampleData/abi.json";
+import axios from "axios";
+import { usePrepareContractWrite, useContractWrite } from "wagmi";
+
+const contractAddress = "0xa7664cAde798Ed669Ca06A2984854f126d1FFB6a";
+// const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 export default function AllTrade() {
   const [view, setView] = useState(true);
+  const add = useAccount();
+  // console.log("address", add)
 
   const [selectedTrade, setSelectedTrade] = useState<string | null>(
     "All Trades"
@@ -15,10 +24,10 @@ export default function AllTrade() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
+  const [tradeData, setTradeData] = useState(null);
   const [tradeTypeFilter, setTradeTypeFilter] = useState(TradeData);
-
   const handleFilter = (tradeType: string, tradeLabel: string) => {
-    console.log(tradeType);
+    // console.log(tradeType);
     setSelectedTrade(tradeType);
     if (tradeType === "All") {
       setSelectedTrade("All Trades");
@@ -30,7 +39,7 @@ export default function AllTrade() {
       setTradeTypeFilter(filterByTradeType);
       setSelectedTrade(tradeLabel);
     }
-    console.log(tradeTypeFilter);
+    // console.log(tradeTypeFilter);
     // setIsOpen1(false);
   };
   const handleSelectOption = (option: string) => {
@@ -54,12 +63,69 @@ export default function AllTrade() {
     { value: "fractional", label: "Fractional Trades" },
     { value: "otc", label: "OTC Pairs" },
   ];
-  console.log(view);
+  
+
+  const { config, error } = usePrepareContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "swapFullOrder",
+    args: [
+      1,
+      "1",
+      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      100,
+      "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      1009,
+      "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
+    ],
+  });
+
+  const { data, isLoading, isSuccess, write } = useContractWrite(config);
+  console.log("error contract", error);
+  console.log("contractResult", data);
+
+  //Calling getOrder Api
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/otc/order/v1", {
+          params: {
+            pageNo: 1,
+            pageSize: 10,
+          },
+        });
+        setTradeData(response.data);
+        // console.log(response.data)
+        console.log("tradeData",tradeData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+
+  //fullOrderSwapfunction begins
+
+  const handleFullOrderSwap = (makerAdd:string)=>{
+    console.log("OrderId", makerAdd)
+  }
+
   return (
     <div className="flex flex-col xl:px-[8rem] lg:px-[8rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
+            <p className="cursor-pointer" onClick={() => write?.()}>
+              Test
+            </p>
+            {isLoading && <div>Check Wallet</div>}
+            {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
             <div className="self-center">
               <div className="relative">
@@ -127,7 +193,7 @@ export default function AllTrade() {
           </div>
         </div>
       </header>
-      {selectedTrade === "All Trades" ? (
+      {/* {selectedTrade === "All Trades" ? (
         mainTradeOption.map((trade, index) => (
           <div key={index}>
             <div>
@@ -182,15 +248,17 @@ export default function AllTrade() {
               }
       `}
             >
-              {TradeData.filter(index => index.tradeType===trade.value).map((trade, index) => (
-                <div className="self-center " key={index}>
-                  <CardContainer2
-                    key={index}
-                    viewStyle={view}
-                    sampleData={trade.name}
-                  />
-                </div>
-              ))}
+              {TradeData.filter((index) => index.tradeType === trade.value).map(
+                (trade, index) => (
+                  <div className="self-center " key={index}>
+                    <CardContainer2
+                      key={index}
+                      viewStyle={view}
+                      sampleData={trade.name}
+                    />
+                  </div>
+                )
+              )}
             </div>
           </div>
         ))
@@ -259,7 +327,76 @@ export default function AllTrade() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
+
+      <div>
+        <div>
+          <h1 className="font-medium mb-2 text-xl">Direct Trade</h1>
+          <div className="flex bg-[#004A3D] items-center rounded-full py-2 px-4 w-fit">
+            <p className="whitespace-nowrap">Time Interval</p>
+            <div className="relative flex items-center">
+              <button
+                type="button"
+                className={`text-sm z-30 ml-2 flex items-center justify-between rounded-2xl px-4 text-white focus:border-indigo-500 focus:outline-none`}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                {selectedDate ? (
+                  <p className="whitespace-nowrap text-base text-[#00FFB2] font-medium ">
+                    {selectedDate}
+                  </p>
+                ) : (
+                  ""
+                )}
+
+                <Image
+                  src="/down.png" // change this later on
+                  alt="down-arrow!"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className={`w-[1rem] ml-2 transform transition-transform duration-200 ${
+                    isOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              {isOpen && (
+                <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-30  rounded-md border border-gray-300 bg-white shadow-lg">
+                  {dateOption.map((option) => (
+                    <li
+                      key={option.value}
+                      className="text-sm rounded-md cursor-pointer px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      onClick={() => handleSelectOption(`${option.label}`)}
+                    >
+                      {option.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`w-full ${
+            view ? "w-full flex flex-wrap gap-x-4 justify-between" : ""
+          }
+    `}
+        >
+          {tradeData &&
+            tradeData.map((trade, index) => (
+              <div className="self-center " key={index} onClick={()=>handleFullOrderSwap(trade._id)}>
+                <CardContainer2
+                  key={trade._id}
+                  // give={trade.}
+                  sellAmount={trade.sellAmount}
+                  buyAmount={trade.buyAmount}
+                  viewStyle={view}
+                  sampleData={trade._id}
+                />
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }

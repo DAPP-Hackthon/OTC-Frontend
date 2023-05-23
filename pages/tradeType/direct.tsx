@@ -21,16 +21,15 @@ type Option = {
   value: string;
   label: string;
 };
-const initialValues = {
-  yourAsset: "",
-  partnerAsset: "",
-};
+
 interface CustomElements extends HTMLFormControlsCollection {
   send: HTMLTextAreaElement;
   yourAsset: HTMLSelectElement;
   partnerAsset: HTMLSelectElement;
   receive: HTMLSelectElement;
-  myCustomDropdownButton: HTMLButtonElement;
+  visibility: HTMLSelectElement;
+  tradeType: HTMLSelectElement;
+  // myCustomDropdownButton: HTMLButtonElement;
 }
 
 interface NewCourseFormElements extends HTMLFormElement {
@@ -40,7 +39,9 @@ export const directSchema = Yup.object().shape({
   send: Yup.number().min(3).required().typeError("price must be a number"),
   receive: Yup.number().min(3).required().typeError("price must be a number"),
   yourAsset: Yup.string().required("Field is required!"),
-  myCustomDropdownButton: Yup.string().required("Please select an option"),
+  visibility: Yup.string().required("Field is required!"),
+  tradeType: Yup.string().required("Field is required!"),
+  // myCustomDropdownButton: Yup.string().required("Please select an option"),
 });
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
@@ -48,9 +49,8 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [yourAsset, setYourAsset] = useState("");
   const [partnerAsset, setPartnerAsset] = useState("");
-  const [myCustomDropdownButton, setMyCustomDropdownButton] = useState("");
+  // const [myCustomDropdownButton, setMyCustomDropdownButton] = useState("");
   const [selectedOption1, setSelectedOption1] = useState<Option>();
-
 
   // const [formValues, setFormValues] = useState({
   //   send: "",
@@ -69,19 +69,24 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { label: "Option 2", value: "2" },
     { label: "Option 3", value: "3" },
   ];
-
-  const option2 = [
-    { value: "0", label: "0" },
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
+  const visibility = [
+    { value: "private", label: "Private" },
+    { value: "public", label: "Public" },
   ];
+  const tradeType=[
+    { value: "direct", label: "Direct" },
+    { value: "fractional", label: "Fractional" },
+  ]
+  const assetType=[
+    { value: "eth", label: "ETH" },
+    { value: "btc", label: "BTC" },
+  ]
+
   const handleChange = async (
     e: React.ChangeEvent<HTMLElement & { name: string }>
   ) => {
     const elements = formRef.current?.elements as CustomElements;
-    setMyCustomDropdownButton(elements.myCustomDropdownButton.value);
+    // setMyCustomDropdownButton(elements.myCustomDropdownButton.value);
     setYourAsset(elements.yourAsset.value);
     setPartnerAsset(elements.partnerAsset.value);
     const err = { ...errors };
@@ -90,7 +95,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   };
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
-    const { send, receive } = e.currentTarget.elements;
+    const { send, receive} = e.currentTarget.elements;
 
     try {
       const elements = formRef.current?.elements as CustomElements;
@@ -100,7 +105,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           receive: receive.value,
           yourAsset: elements.yourAsset.value,
           partnerAsset: elements.partnerAsset.value,
-          myCustomDropdownButton: elements.myCustomDropdownButton.value,
+          visibility:elements.visibility.value,
+          tradeType:elements.tradeType.value,
+          // myCustomDropdownButton: elements.myCustomDropdownButton.value,
         },
         { abortEarly: false }
       );
@@ -114,7 +121,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const handleOptionSelect = (option: Option) => {
     setSelectedOption(option);
   };
-  console.log("selectedOption1",selectedOption1)
+  console.log("selectedOption1", selectedOption1);
   return (
     <div className="h-screen">
       <form
@@ -168,7 +175,24 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <CardContainer className="mb-4 ">
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
-              <DropdownInput name="xyz" label="Type of Trade" options={option2} />
+             {tradeType && (
+                  <Select
+                    name="tradeType"
+                    label="Type of Trade"
+                    options={[
+                      {
+                        text: "Select an option",
+                        value: "",
+                      },
+                      ...tradeType.map((item) => ({
+                        text: item.label,
+                        value: item.value,
+                      })),
+                    ]}
+                    // error={errors.game ?? null}
+                    onChange={handleChange}
+                  />
+                )}
               {/* <DropdownInput1
                 options={option2}
                 onSelect= {()=>handleOptionSelect}
@@ -177,7 +201,25 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
              <p>Selected Option: {selectedOption1?.label}</p> */}
             </div>
             <div className="col-span-1 md:col-span-5 rounded-md">
-              <DropdownInput name="xyz" label="Visibility" options={option2} />
+              
+              {visibility && (
+                  <Select
+                    name="visibility"
+                    label="Visibility"
+                    options={[
+                      {
+                        text: "Select an option",
+                        value: "",
+                      },
+                      ...visibility.map((item) => ({
+                        text: item.label,
+                        value: item.value,
+                      })),
+                    ]}
+                    // error={errors.game ?? null}
+                    onChange={handleChange}
+                  />
+                )}
             </div>
           </div>
         </CardContainer>
@@ -214,7 +256,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                   label="Your Assets"
                   options={option2}
                 /> */}
-                {option2 && (
+                {assetType && (
                   <Select
                     name="yourAsset"
                     label="Your Asset"
@@ -223,7 +265,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                         text: "Select an option",
                         value: "",
                       },
-                      ...option2.map((item) => ({
+                      ...assetType.map((item) => ({
                         text: item.label,
                         value: item.value,
                       })),
@@ -235,7 +277,10 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               </div>
             </div>
           </CardContainer>
-          <button type="button" className="flex m-3 mx-auto self-center md:items-center">
+          <button
+            type="button"
+            className="flex m-3 mx-auto self-center md:items-center"
+          >
             <svg
               width="0"
               height="0"
@@ -264,7 +309,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 />
               </div>
               <div className="col-span-1 md:col-span-5 rounded-md">
-                {option2 && (
+                {assetType && (
                   <Select
                     name="partnerAsset"
                     label="Your partner Asset"
@@ -273,7 +318,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                         text: "Select an option",
                         value: "",
                       },
-                      ...option2.map((item) => ({
+                      ...assetType.map((item) => ({
                         text: item.label,
                         value: item.value,
                       })),

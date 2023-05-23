@@ -29,7 +29,7 @@ export default function Navbar() {
     useSwitchNetwork();
 
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
-  console.log(chains);
+  console.log("chains",chains);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -105,6 +105,7 @@ export default function Navbar() {
   ];
   const network = [
     { label: "Zetachain", src: "/zetalogonew.png", id: 0 },
+    { label: "Sepolia", src: "/eth.png", id: 11155111 },
     { label: "Ethereum", src: "/eth.png", id: 1 },
     { label: "BSC", src: "/binancedex.png", id: 56 },
     { label: "Arbitrum", src: "/arbitrum.png", id: 42161 },
@@ -127,6 +128,7 @@ export default function Navbar() {
       }, {
         withCredentials: true,
       });
+      console.log(response1)
       setLoginCred(response1);
     } catch (error) {
       console.log(error);
@@ -134,7 +136,12 @@ export default function Navbar() {
   };
   const handleApi = async () => {
     try {
-      const  response1  = await axios.get("http://localhost:8000/otc/order/v1");
+      const  response1  = await axios.get("http://localhost:8000/otc/order/v1",{
+        params: {
+          pageNo: 1,
+          pageSize: 10
+        }
+      });
       // setLoginCred(response1);
       console.log(response1)
     } catch (error) {
@@ -159,8 +166,8 @@ export default function Navbar() {
           router.push("/home");
         }}
       >
-        {/* <button onClick={()=>signMessage()}>Sign</button>
-        <button onClick={()=>handleApi()}>Test</button> */}
+        <button onClick={()=>signMessage()}>Sign</button>
+        <button onClick={()=>handleApi()}>Test</button>
         <Image
           src="/Zetaswaplogo.svg"
           alt="zetaswap!"

@@ -7,6 +7,8 @@ interface CardProps {
   className?: string;
   balance?: number;
   sampleData: string;
+  sellAmount:string,
+  buyAmount:string,
   // index:number;
   viewStyle?: boolean;
   onClick?: () => void;
@@ -16,6 +18,8 @@ const CardContainer2 = ({
   // children,
   // index,
   sampleData,
+  sellAmount,
+  buyAmount,
   viewStyle,
   className = "",
   balance,
@@ -38,11 +42,11 @@ const CardContainer2 = ({
             <div className="px-4 py-2 grid gap-y-2">
               <div className="flex text-sm flex-wrap justify-between">
                 <div>
-                  <p>Gives: </p>
+                  <p>Gives: {sellAmount} </p>
                   <p>(Money value)</p>
                 </div>
                 <div>
-                  <p>Receives: </p>
+                  <p>Receives: {buyAmount} </p>
                   <p>(Money value)</p>
                 </div>
               </div>
