@@ -89,6 +89,22 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
     ],
   });
 
+  const {} = usePrepareContractWrite({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "swapPrivateOrder",
+    args: [
+      1,
+      "1",
+      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      100,
+      "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      1009,
+      "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
+    ],
+  });
+
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
   console.log("error contract", error);
   console.log("contractResult", data);
@@ -120,8 +136,30 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
 
   //fullOrderSwapfunction begins
 
-  const handleFullOrderSwap = (makerAdd:string)=>{
-    console.log("OrderId", makerAdd)
+  const handleFullOrderSwap = (_id: string,
+    maker: string,
+    tokenToSell: string,
+    sellAmount: number,
+    tokenToBuy: string,
+    buyAmount: number,
+    signature: string,
+    ordertype: string,
+    status: string,)=>{
+      console.log( maker, _id, tokenToSell, sellAmount, tokenToBuy, buyAmount, signature, ordertype, status);
+  }
+
+  //swapPrivateOrder begins
+
+  const handleswapPrivateOrderSwap = (_id: string,
+    maker: string,
+    tokenToSell: string,
+    sellAmount: number,
+    tokenToBuy: string,
+    buyAmount: number,
+    signature: string,
+    ordertype: string,
+    status: string,)=>{
+      console.log( maker, _id, tokenToSell, sellAmount, tokenToBuy, buyAmount, signature, ordertype, status);
   }
 
   return (
@@ -392,10 +430,11 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
         >
           {tradeData &&
             tradeData.map((trade, index) => (
-              <div className="self-center " key={index} onClick={()=>handleFullOrderSwap(trade._id)}>
+              <div className="self-center " key={index} onClick={()=>handleFullOrderSwap(trade._id, trade.maker,trade.tokenToSell, trade.sellAmount, trade.tokenToBuy, trade.buyAmount, trade.signature, trade.ordertype, trade.status)}>
                 <CardContainer2
                   key={trade._id}
                   // give={trade.}
+                   onClick={()=>handleswapPrivateOrderSwap(trade._id, trade.maker,trade.tokenToSell, trade.sellAmount, trade.tokenToBuy, trade.buyAmount, trade.signature, trade.ordertype, trade.status)}
                   sellAmount={trade.sellAmount}
                   buyAmount={trade.buyAmount}
                   viewStyle={view}
