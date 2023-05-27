@@ -92,7 +92,7 @@ export default function AllTrade() {
         const response = await axios.get("http://localhost:8000/otc/order/v1", {
           params: {
             pageNo: 1,
-            pageSize: 10,
+            pageSize: 100,
           },
         });
         setTradeData(response.data);
@@ -121,9 +121,9 @@ export default function AllTrade() {
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
-            <p className="cursor-pointer" onClick={() => write?.()}>
+            {/* <p className="cursor-pointer" onClick={() => write?.()}>
               Test
-            </p>
+            </p> */}
             {isLoading && <div>Check Wallet</div>}
             {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>

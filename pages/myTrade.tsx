@@ -70,7 +70,7 @@ export default function MyTrade() {
             type="button"
             disabled={!selectedOption}
             text="Create New Trade"
-            className="w-full 3xl:rounded-3xl 3xl:px-6 3xl:py-6 4xl:px-8 4xl:py-8  2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl "
+            className={`w-full 3xl:rounded-3xl 3xl:px-6 3xl:py-6 4xl:px-8 4xl:py-8  2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl ${!selectedOption?"opacity-50 cursor-not-allowed hover:scale-100 hover:bg-[#00FFB2]":""}`}
             onClick={() => router.push(`/tradeType/${selectedRoute}`)}
           />
         </CardContainer3>

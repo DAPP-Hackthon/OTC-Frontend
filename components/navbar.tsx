@@ -20,7 +20,8 @@ import { RxDotFilled } from "react-icons/rx";
 import axios from "axios";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { sign } from "crypto";
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next";
+import Cookies from 'universal-cookie';
 
 export default function Navbar() {
   const { chain } = useNetwork();
@@ -29,11 +30,10 @@ export default function Navbar() {
     useSwitchNetwork();
 
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
-  console.log("chains",chains);
+  console.log("chains", chains);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
-  const [nextChain, setNextChain] = useState();
   const router = useRouter();
   const [selectedNetwork, setSelectedNetwork] = useState({
     label: "Select a Network",
@@ -119,41 +119,58 @@ export default function Navbar() {
   const { data, isError, isSuccess, signMessage } = useSignMessage({
     message: `Signing with acc: ${address}`,
   });
-  console.log(data);
+  const message = [
+    {
+      nonce: 1,
+      maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      sellAmount: 100000000000000000,
+      tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      buyAmount: 100000000000000000,
+    },
+  ];
+  
   const handleLogin = async () => {
     try {
-      const { response1 } = await axios.post("http://localhost:8000/auth/v1/login", {
-        walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
-        signature:`0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`
-      }, {
-        withCredentials: true,
-      });
-      console.log(response1)
-      setLoginCred(response1);
+      const  response1  = await axios.post(
+        "http://localhost:8000/auth/v1/login",
+        {
+          walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
+          signature: `0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`,
+        }
+      );
+      const cookies = new Cookies();
+      console.log(response1);
+      cookies.set('access_token', response1.data.accessToken, { path: '/' });
+      cookies.set('refresh_token', response1.data.refreshToken, { path: '/' });
+      // localStorage.setItem('access_token', response1.data.accessToken);
+      // localStorage.setItem('refresh_token', response1.data.refreshToken);
+      // localStorage.setItem('login_id', response1.data._id);
+      setLoginCred(response1.data);
     } catch (error) {
       console.log(error);
     }
   };
   const handleApi = async () => {
     try {
-      const  response1  = await axios.get("http://localhost:8000/otc/order/v1",{
+      const response1 = await axios.get("http://localhost:8000/otc/order/v1", {
         params: {
           pageNo: 1,
-          pageSize: 10
-        }
+          pageSize: 10,
+        },
       });
       // setLoginCred(response1);
-      console.log(response1)
+      console.log(response1);
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(()=>{
-    if(isSuccess){
+  useEffect(() => {
+    if (isSuccess) {
       handleLogin();
     }
-  },[isSuccess])
-  console.log("loginCred",loginCred);
+  }, [isSuccess]);
+  console.log("loginCred", loginCred);
 
   return (
     <nav className="z-50  space-x-[5%] pt-4 lg:pt-[2rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] 3xl:px-[12rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
@@ -166,8 +183,8 @@ export default function Navbar() {
           router.push("/home");
         }}
       >
-        <button onClick={()=>signMessage()}>Sign</button>
-        <button onClick={()=>handleApi()}>Test</button>
+        <button onClick={() => signMessage()}>Sign</button>
+        <button onClick={() => handleApi()}>Test</button>
         <Image
           src="/Zetaswaplogo.svg"
           alt="zetaswap!"

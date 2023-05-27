@@ -1,16 +1,24 @@
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import CardContainer from "../../components/cards/cardContainer1";
-import DropdownInput from "../../components/forms/dropdown";
 import { InputField } from "../../components/forms/inputField";
 import { Button } from "../../components/buttons/button";
 import Image from "next/image";
 import { TradeType } from "@/sampleData/data";
-// import { Select } from "@/components/forms/selectField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Select } from "@/components/forms/selectField/select";
-import DropdownInput1 from "@/components/forms/dropdown1";
+import axios from "axios";
+import { signMessage, signTypedData } from "@wagmi/core";
+import Cookies from "universal-cookie";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSignMessage,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
 
 interface CardProps {
   children: React.ReactNode;
@@ -41,61 +49,66 @@ export const directSchema = Yup.object().shape({
   yourAsset: Yup.string().required("Field is required!"),
   visibility: Yup.string().required("Field is required!"),
   tradeType: Yup.string().required("Field is required!"),
-  // myCustomDropdownButton: Yup.string().required("Please select an option"),
 });
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
+  const cookies = new Cookies();
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const [yourAsset, setYourAsset] = useState("");
-  const [partnerAsset, setPartnerAsset] = useState("");
-  // const [myCustomDropdownButton, setMyCustomDropdownButton] = useState("");
   const [selectedOption1, setSelectedOption1] = useState<Option>();
-
-  // const [formValues, setFormValues] = useState({
-  //   send: "",
-  // });
   const [errors, setErrors] = useState<{ [k: string]: string | null }>({});
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isDisable, setIsDisable] = useState(true);
+  const accessToken = cookies.get("access_token");
+  const { isConnected, address } = useAccount({
+    onConnect({ address }) {
+      if (!address) return;
+      // handleTokens(address);
+    },
+  });
+  // const { data, isError, isSuccess, signMessage } = useSignMessage();
   const handleSelectOption = (option: string, value: string) => {
     setSelectedOption(option);
     setIsOpen(false);
     router.push(`/tradeType/${value}`);
   };
-  const yourAssetOptions = [
-    { label: "Option 1", value: "1" },
-    { label: "Option 2", value: "2" },
-    { label: "Option 3", value: "3" },
-  ];
+
   const visibility = [
-    { value: "private", label: "Private" },
-    { value: "public", label: "Public" },
+    { value: 0, label: "Private" },
+    { value: 1, label: "Public" },
   ];
-  const tradeType=[
+  const tradeType = [
     { value: "direct", label: "Direct" },
     { value: "fractional", label: "Fractional" },
-  ]
-  const assetType=[
-    { value: "eth", label: "ETH" },
-    { value: "btc", label: "BTC" },
-  ]
+  ];
+  const assetType = [
+    { value: "0x8b9c35c79af5319c70dd9a3e3850f368822ed64e", label: "ETH" },
+  ];
 
   const handleChange = async (
     e: React.ChangeEvent<HTMLElement & { name: string }>
   ) => {
     const elements = formRef.current?.elements as CustomElements;
-    // setMyCustomDropdownButton(elements.myCustomDropdownButton.value);
-    setYourAsset(elements.yourAsset.value);
-    setPartnerAsset(elements.partnerAsset.value);
+    console.log(elements.visibility.value);
+    setIsDisable(elements.visibility.value === "1" ? true : false);
     const err = { ...errors };
     err[e.target.name] = null;
     setErrors(err);
   };
+  const generateNonce = () => {
+    // Generate a random number or string that is unique for each request
+    // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 15);
+    const nonce = `${timestamp}-${randomString}`;
+  
+    return nonce;
+  };
+
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
-    const { send, receive} = e.currentTarget.elements;
+    const { send, receive } = e.currentTarget.elements;
 
     try {
       const elements = formRef.current?.elements as CustomElements;
@@ -105,22 +118,56 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           receive: receive.value,
           yourAsset: elements.yourAsset.value,
           partnerAsset: elements.partnerAsset.value,
-          visibility:elements.visibility.value,
-          tradeType:elements.tradeType.value,
-          // myCustomDropdownButton: elements.myCustomDropdownButton.value,
+          visibility: elements.visibility.value,
+          tradeType: elements.tradeType.value,
         },
         { abortEarly: false }
       );
+      const headers = {
+        accept: "*/*",
+        Authorization: `Bearer ${accessToken}`,
+        // 'Content-Type': 'application/json',
+      };
+
+      const message = {
+        nonce: generateNonce(),
+        maker: address,
+        nftToSell:  elements.yourAsset.value,
+        sellAmount:  Number(send.value),
+        nftToBuyOrTokenAddress: elements.partnerAsset.value,
+        buyAmount: Number(receive.value),
+      } as const;
+      console.log("nonce",message.nonce)
+      const messageString = JSON.stringify(message);
+      const signature = await signMessage({ message: `${messageString}` });
+      console.log(signature);
+
+      const data = {
+        tokenToSell: elements.yourAsset.value,
+        sellAmount: Number(send.value),
+        tokenToBuy: elements.partnerAsset.value,
+        buyAmount: Number(receive.value),
+        signature: signature,
+        orderType: Number(elements.visibility.value),
+      };
+      const apiResponse = await axios.post(
+        "http://localhost:8000/otc/order/v1/create",
+        data,
+        { headers }
+      );
+      console.log("Response:", apiResponse.data);
       setErrors({});
       const resultObj = { ...result };
       console.log(resultObj);
+      window.alert("Successfully Created Your Order");
+      // setTimeout(() => {
+      //   router.push("/allTrade");
+      // }, 2000); // 2000 milliseconds = 2 seconds
     } catch (error) {
       console.log(error);
     }
   };
-  const handleOptionSelect = (option: Option) => {
-    setSelectedOption(option);
-  };
+
   console.log("selectedOption1", selectedOption1);
   return (
     <div className="h-screen">
@@ -132,6 +179,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       >
         <div className="flex justify-center w-full text-center gap-6 mb-6">
           <h1 className="mt-4">Trade / Swap</h1>
+
           <div className="relative">
             <button
               type="button"
@@ -175,59 +223,53 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <CardContainer className="mb-4 ">
           <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
-             {tradeType && (
-                  <Select
-                    name="tradeType"
-                    label="Type of Trade"
-                    options={[
-                      {
-                        text: "Select an option",
-                        value: "",
-                      },
-                      ...tradeType.map((item) => ({
-                        text: item.label,
-                        value: item.value,
-                      })),
-                    ]}
-                    // error={errors.game ?? null}
-                    onChange={handleChange}
-                  />
-                )}
-              {/* <DropdownInput1
-                options={option2}
-                onSelect= {()=>handleOptionSelect}
-                className="mt-2"
-              />
-             <p>Selected Option: {selectedOption1?.label}</p> */}
+              {tradeType && (
+                <Select
+                  name="tradeType"
+                  label="Type of Trade"
+                  options={[
+                    {
+                      text: "Select an option",
+                      value: "",
+                    },
+                    ...tradeType.map((item) => ({
+                      text: item.label,
+                      value: item.value,
+                    })),
+                  ]}
+                  // error={errors.game ?? null}
+                  onChange={handleChange}
+                />
+              )}
             </div>
             <div className="col-span-1 md:col-span-5 rounded-md">
-              
               {visibility && (
-                  <Select
-                    name="visibility"
-                    label="Visibility"
-                    options={[
-                      {
-                        text: "Select an option",
-                        value: "",
-                      },
-                      ...visibility.map((item) => ({
-                        text: item.label,
-                        value: item.value,
-                      })),
-                    ]}
-                    // error={errors.game ?? null}
-                    onChange={handleChange}
-                  />
-                )}
+                <Select
+                  name="visibility"
+                  label="Visibility"
+                  options={[
+                    {
+                      text: "Select an option",
+                      value: "",
+                    },
+                    ...visibility.map((item) => ({
+                      text: item.label,
+                      value: item.value,
+                    })),
+                  ]}
+                  // error={errors.game ?? null}
+                  onChange={handleChange}
+                />
+              )}
             </div>
           </div>
         </CardContainer>
         <CardContainer className="mb-4">
           <InputField
-            label="Your Partner's Detail's"
+            label="Your Partner's Address"
             name="test"
             placeholder="Enter details..."
+            disabled={isDisable}
             // error=""
             // value={formik.values.test}
             // error={formik.errors.test}
@@ -242,6 +284,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 <InputField
                   label="You Give"
                   name="send"
+                  type="number"
                   placeholder="Enter amount you want to trade"
                   // value={formik.values.send}
                   // error={formik.errors.send}
@@ -301,6 +344,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 <InputField
                   label="You Receive"
                   name="receive"
+                  type="number"
                   placeholder="Amount you will receive"
                   // value={formik.values.receive}
                   // error={formik.errors.receive}
