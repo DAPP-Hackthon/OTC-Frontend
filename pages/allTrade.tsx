@@ -14,6 +14,14 @@ const contractAddress = "0xa7664cAde798Ed669Ca06A2984854f126d1FFB6a";
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 export default function AllTrade() {
+  interface Trade {
+  _id: string;
+  name: string;
+  tradeType: string;
+  sellAmount:string;
+  buyAmount:string;
+
+}
   const [view, setView] = useState(true);
   const add = useAccount();
   // console.log("address", add)
@@ -24,7 +32,7 @@ export default function AllTrade() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
-  const [tradeData, setTradeData] = useState(null);
+const [tradeData, setTradeData] = useState<Trade[] | null>(null);
   const [tradeTypeFilter, setTradeTypeFilter] = useState(TradeData);
   const handleFilter = (tradeType: string, tradeLabel: string) => {
     // console.log(tradeType);

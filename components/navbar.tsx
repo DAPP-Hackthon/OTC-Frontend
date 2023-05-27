@@ -50,7 +50,7 @@ export default function Navbar() {
     src: "",
     id: 0,
   });
-  const [activeLink, setActiveLink] = useState(null);
+  const [activeLink, setActiveLink] = useState<number | null>(null);
   //   If button is there
   const handleClick = () => {
     if (isMobileNavOpen) {

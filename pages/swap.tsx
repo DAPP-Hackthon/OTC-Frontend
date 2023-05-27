@@ -9,7 +9,7 @@ import {
   Radio,
 } from "@material-tailwind/react";
 
-function Icon({ id, open }) {
+function Icon({ id, open }: { id: number, open: number }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ export default function Swap() {
   const [open, setOpen] = useState(0);
   const [filterModal, setFilterModal] = useState(false);
 
-  const handleOpen = (value) => {
+  const handleOpen = (value: number) => {
     setOpen(open === value ? 0 : value);
   };
   return (
