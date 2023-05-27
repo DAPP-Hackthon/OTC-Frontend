@@ -18,8 +18,14 @@ export default function AllTrade() {
   _id: string;
   name: string;
   tradeType: string;
-  sellAmount:string;
-  buyAmount:string;
+  sellAmount:number;
+  buyAmount:number;
+  maker:string;
+  tokenToSell: string;
+  tokenToBuy: string;
+  signature: string;
+  ordertype: string;
+  status: string;
 
 }
   const [view, setView] = useState(true);
@@ -167,9 +173,9 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
-            {/* <p className="cursor-pointer" onClick={() => write?.()}>
+            <p className="cursor-pointer" onClick={() => write?.()}>
               Test
-            </p> */}
+            </p>
             {isLoading && <div>Check Wallet</div>}
             {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
@@ -440,6 +446,7 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
                   viewStyle={view}
                   sampleData={trade._id}
                 />
+
               </div>
             ))}
         </div>

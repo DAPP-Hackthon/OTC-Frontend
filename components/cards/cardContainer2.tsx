@@ -7,8 +7,8 @@ interface CardProps {
   className?: string;
   balance?: number;
   sampleData: string;
-  sellAmount:string,
-  buyAmount:string,
+  sellAmount:number,
+  buyAmount:number,
   // index:number;
   viewStyle?: boolean;
   onClick?: () => void;

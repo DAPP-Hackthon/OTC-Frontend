@@ -140,7 +140,7 @@ export default function Navbar() {
         }
       );
       const cookies = new Cookies();
-      console.log(response1);
+      console.log("response1",response1);
       cookies.set('access_token', response1.data.accessToken, { path: '/' });
       cookies.set('refresh_token', response1.data.refreshToken, { path: '/' });
       // localStorage.setItem('access_token', response1.data.accessToken);
