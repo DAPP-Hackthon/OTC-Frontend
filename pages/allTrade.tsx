@@ -9,25 +9,29 @@ import { useAccount, useConnect, useDisconnect } from "wagmi";
 import contractABI from "@/sampleData/abi.json";
 import axios from "axios";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
 
 const contractAddress = "0xa7664cAde798Ed669Ca06A2984854f126d1FFB6a";
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 export default function AllTrade() {
   interface Trade {
-  _id: string;
-  name: string;
-  tradeType: string;
-  sellAmount:number;
-  buyAmount:number;
-  maker:string;
-  tokenToSell: string;
-  tokenToBuy: string;
-  signature: string;
-  ordertype: string;
-  status: string;
-
-}
+    _id: string;
+    name: string;
+    tradeType: string;
+    sellAmount: number;
+    buyAmount: number;
+    maker: string;
+    tokenToSell: string;
+    tokenToBuy: string;
+    signature: string;
+    ordertype: string;
+    status: string;
+  }
   const [view, setView] = useState(true);
   const add = useAccount();
   // console.log("address", add)
@@ -38,7 +42,7 @@ export default function AllTrade() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
-const [tradeData, setTradeData] = useState<Trade[] | null>(null);
+  const [tradeData, setTradeData] = useState<Trade[] | null>(null);
   const [tradeTypeFilter, setTradeTypeFilter] = useState(TradeData);
   const handleFilter = (tradeType: string, tradeLabel: string) => {
     // console.log(tradeType);
@@ -77,7 +81,6 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
     { value: "fractional", label: "Fractional Trades" },
     { value: "otc", label: "OTC Pairs" },
   ];
-  
 
   const { config, error } = usePrepareContractWrite({
     address: contractAddress,
@@ -112,8 +115,8 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
   });
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
-  console.log("error contract", error);
-  console.log("contractResult", data);
+  // console.log("error contract", error);
+  // console.log("contractResult", data);
 
   //Calling getOrder Api
   useEffect(() => {
@@ -127,7 +130,7 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
         });
         setTradeData(response.data);
         // console.log(response.data)
-        console.log("tradeData",tradeData);
+        console.log("tradeData", tradeData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -139,24 +142,19 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
     return () => clearInterval(intervalId);
   }, []);
 
-
   //fullOrderSwapfunction begins
 
-  const handleFullOrderSwap = (_id: string,
-    maker: string,
-    tokenToSell: string,
-    sellAmount: number,
-    tokenToBuy: string,
-    buyAmount: number,
-    signature: string,
-    ordertype: string,
-    status: string,)=>{
-      console.log( maker, _id, tokenToSell, sellAmount, tokenToBuy, buyAmount, signature, ordertype, status);
-  }
+  
+  const handleFullOrderSwap = async (config: any): Promise<any> => {
+    console.log("config", config)
+    const hash = writeContract(config);
+    console.log("hash", hash)
+  };
 
   //swapPrivateOrder begins
 
-  const handleswapPrivateOrderSwap = (_id: string,
+  const handleswapPrivateOrderSwap = (
+    _id: string,
     maker: string,
     tokenToSell: string,
     sellAmount: number,
@@ -164,9 +162,20 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
     buyAmount: number,
     signature: string,
     ordertype: string,
-    status: string,)=>{
-      console.log( maker, _id, tokenToSell, sellAmount, tokenToBuy, buyAmount, signature, ordertype, status);
-  }
+    status: string
+  ) => {
+    console.log(
+      maker,
+      _id,
+      tokenToSell,
+      sellAmount,
+      tokenToBuy,
+      buyAmount,
+      signature,
+      ordertype,
+      status
+    );
+  };
 
   return (
     <div className="flex flex-col xl:px-[8rem] lg:px-[8rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
@@ -436,17 +445,58 @@ const [tradeData, setTradeData] = useState<Trade[] | null>(null);
         >
           {tradeData &&
             tradeData.map((trade, index) => (
-              <div className="self-center " key={index} onClick={()=>handleFullOrderSwap(trade._id, trade.maker,trade.tokenToSell, trade.sellAmount, trade.tokenToBuy, trade.buyAmount, trade.signature, trade.ordertype, trade.status)}>
+              <div
+                className="self-center "
+                key={index}
+              >
                 <CardContainer2
                   key={trade._id}
                   // give={trade.}
-                   onClick={()=>handleswapPrivateOrderSwap(trade._id, trade.maker,trade.tokenToSell, trade.sellAmount, trade.tokenToBuy, trade.buyAmount, trade.signature, trade.ordertype, trade.status)}
+                  onClick={() =>
+                    handleswapPrivateOrderSwap(
+                      trade._id,
+                      trade.maker,
+                      trade.tokenToSell,
+                      trade.sellAmount,
+                      trade.tokenToBuy,
+                      trade.buyAmount,
+                      trade.signature,
+                      trade.ordertype,
+                      trade.status
+                    )
+                  }
                   sellAmount={trade.sellAmount}
                   buyAmount={trade.buyAmount}
                   viewStyle={view}
                   sampleData={trade._id}
                 />
-
+                <div className="flex gap-x-4">
+                <p
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleFullOrderSwap({
+                      address: contractAddress,
+                      abi: contractABI,
+                      functionName: "swapFullOrder",
+                      args: [
+                        1,
+                        "1",
+                        "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+                        "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+                        100,
+                        "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                        1009,
+                        "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
+                      ],
+                    })
+                  }
+                >
+                  Click Public {index}
+                </p>
+                <p>
+                  Click Private {index}
+                </p>
+                </div>
               </div>
             ))}
         </div>
