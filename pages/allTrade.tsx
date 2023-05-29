@@ -44,6 +44,7 @@ export default function AllTrade() {
   const [isOpen1, setIsOpen1] = useState(false);
   const [tradeData, setTradeData] = useState<Trade[] | null>(null);
   const [tradeTypeFilter, setTradeTypeFilter] = useState(TradeData);
+  const [browseAll, setBrowseAll] = useState(false);
   const handleFilter = (tradeType: string, tradeLabel: string) => {
     // console.log(tradeType);
     setSelectedTrade(tradeType);
@@ -113,35 +114,51 @@ export default function AllTrade() {
       "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
     ],
   });
+  
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
+  
   // console.log("error contract", error);
   // console.log("contractResult", data);
 
   //Calling getOrder Api
+  // const countPageSize = () => {
+  //   let count = 0;
+  //   for (pageSize =0) {
+  //     count++;
+  //   }
+  //   return count;
+  // }
+  
+  const BrowseAll = (e: MouseEvent) =>{
+    e.preventDefault()
+    setBrowseAll(true)
+    console.log(browseAll)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8000/otc/order/v1", {
           params: {
             pageNo: 1,
-            pageSize: 100,
+            pageSize: browseAll?8:4,
           },
         });
+        
         setTradeData(response.data);
         // console.log(response.data)
         console.log("tradeData", tradeData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      
     };
     fetchData();
-
+    // const HandleBrowse = 
     const intervalId = setInterval(fetchData, 5000);
 
     return () => clearInterval(intervalId);
-  }, []);
-
+  }, [browseAll]);
   //fullOrderSwapfunction begins
 
   
@@ -151,31 +168,37 @@ export default function AllTrade() {
     console.log("hash", hash)
   };
 
+  const handlePrivateOrderSwap = async (config: any): Promise<any> => {
+    console.log("config", config)
+    const hash = writeContract(config);
+    console.log("hash", hash)
+  };
+
   //swapPrivateOrder begins
 
-  const handleswapPrivateOrderSwap = (
-    _id: string,
-    maker: string,
-    tokenToSell: string,
-    sellAmount: number,
-    tokenToBuy: string,
-    buyAmount: number,
-    signature: string,
-    ordertype: string,
-    status: string
-  ) => {
-    console.log(
-      maker,
-      _id,
-      tokenToSell,
-      sellAmount,
-      tokenToBuy,
-      buyAmount,
-      signature,
-      ordertype,
-      status
-    );
-  };
+  // const handleswapPrivateOrderSwap = (
+  //   _id: string,
+  //   maker: string,
+  //   tokenToSell: string,
+  //   sellAmount: number,
+  //   tokenToBuy: string,
+  //   buyAmount: number,
+  //   signature: string,
+  //   ordertype: string,
+  //   status: string
+  // ) => {
+  //   console.log(
+  //     maker,
+  //     _id,
+  //     tokenToSell,
+  //     sellAmount,
+  //     tokenToBuy,
+  //     buyAmount,
+  //     signature,
+  //     ordertype,
+  //     status
+  //   );
+  // };
 
   return (
     <div className="flex flex-col xl:px-[8rem] lg:px-[8rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
@@ -452,19 +475,19 @@ export default function AllTrade() {
                 <CardContainer2
                   key={trade._id}
                   // give={trade.}
-                  onClick={() =>
-                    handleswapPrivateOrderSwap(
-                      trade._id,
-                      trade.maker,
-                      trade.tokenToSell,
-                      trade.sellAmount,
-                      trade.tokenToBuy,
-                      trade.buyAmount,
-                      trade.signature,
-                      trade.ordertype,
-                      trade.status
-                    )
-                  }
+                  // onClick={() =>
+                  //   handleswapPrivateOrderSwap(
+                  //     trade._id,
+                  //     trade.maker,
+                  //     trade.tokenToSell,
+                  //     trade.sellAmount,
+                  //     trade.tokenToBuy,
+                  //     trade.buyAmount,
+                  //     trade.signature,
+                  //     trade.ordertype,
+                  //     trade.status
+                  //   )
+                  // }
                   sellAmount={trade.sellAmount}
                   buyAmount={trade.buyAmount}
                   viewStyle={view}
@@ -499,6 +522,9 @@ export default function AllTrade() {
                 </div>
               </div>
             ))}
+            <div className="browse">
+                  <button onClick={BrowseAll} >Browse</button>
+                </div>
         </div>
       </div>
     </div>

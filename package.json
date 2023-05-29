@@ -21,7 +21,6 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@svgr/webpack": "^7.0.0",
     "@types/node": "18.15.11",
-    "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",
     "@types/web3": "^1.2.2",
     "@web3modal/ethereum": "^2.4.1",
@@ -54,6 +53,7 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/react": "^18.2.7",
     "@types/react-modal": "^3.16.0",
     "hardhat": "^2.14.0",
     "husky": "^8.0.3",
