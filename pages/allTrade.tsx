@@ -14,7 +14,7 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
-import { useNetwork } from 'wagmi'
+import { useNetwork } from "wagmi";
 
 const contractAddress = "0xE2CF8D8cC168DC8cD2DB182DcC465d1cfbAAC9a0";
 
@@ -36,9 +36,9 @@ export default function AllTrade() {
   }
   const [view, setView] = useState(true);
   const add = useAccount();
-  const { chain, chains } = useNetwork()
-  console.log("available chains",chains)
-  console.log("connected chain",chain)
+  const { chain, chains } = useNetwork();
+  console.log("available chains", chains);
+  console.log("connected chain", chain);
   // console.log("address", add)
 
   const [selectedTrade, setSelectedTrade] = useState<string | null>(
@@ -49,7 +49,6 @@ export default function AllTrade() {
   const [isOpen1, setIsOpen1] = useState(false);
   const [tradeData, setTradeData] = useState<Trade[] | null>(null);
   const [tradeTypeFilter, setTradeTypeFilter] = useState(TradeData);
-  const [browseAll, setBrowseAll] = useState(false);
   const handleFilter = (tradeType: string, tradeLabel: string) => {
     // console.log(tradeType);
     setSelectedTrade(tradeType);
@@ -119,13 +118,13 @@ export default function AllTrade() {
       "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
     ],
   });
-  
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
-  
+
   // console.log("error contract", error);
   // console.log("contractResult", data);
-
+  const [isExpand, setIsExpand] = useState(false);
+  console.log(isExpand);
   //Calling getOrder Api
   // const countPageSize = () => {
   //   let count = 0;
@@ -134,38 +133,33 @@ export default function AllTrade() {
   //   }
   //   return count;
   // }
-  
-  const BrowseAll = (e: MouseEvent) =>{
-    e.preventDefault()
-    setBrowseAll(true)
-    console.log(browseAll)
-  }
+
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8000/otc/order/v1", {
           params: {
             pageNo: 1,
-            pageSize: browseAll?8:4,
+            pageSize:40,
           },
         });
-        
+
         setTradeData(response.data);
         // console.log(response.data)
         console.log("tradeData", tradeData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-      
     };
     fetchData();
-    // const HandleBrowse = 
+    // const HandleBrowse =
     const intervalId = setInterval(fetchData, 5000);
 
     return () => clearInterval(intervalId);
-  }, [browseAll]);
+  });
   //fullOrderSwapfunction begins
-
+  console.log("length of array", tradeData?.length);
   const handleFullOrderSwap = async (config: any): Promise<any> => {
     console.log("config", config);
     const hash = writeContract(config);
@@ -175,12 +169,6 @@ export default function AllTrade() {
     console.log("config", config);
     const hash = writeContract(config);
     console.log("hash", hash);
-  };
-
-  const handlePrivateOrderSwap = async (config: any): Promise<any> => {
-    console.log("config", config)
-    const hash = writeContract(config);
-    console.log("hash", hash)
   };
 
   //swapPrivateOrder begins
@@ -505,12 +493,12 @@ export default function AllTrade() {
                         args: [
                           index,
                           "1",
-                         `${ trade.maker}`,
-                         `${ trade.tokenToSell}`,
-                         `${ trade.sellAmount}`,
-                         `${ trade.tokenToBuy}`,
-                         `${ trade.buyAmount}`,
-                         `${ trade.signature}`,
+                          `${trade.maker}`,
+                          `${trade.tokenToSell}`,
+                          `${trade.sellAmount}`,
+                          `${trade.tokenToBuy}`,
+                          `${trade.buyAmount}`,
+                          `${trade.signature}`,
                         ],
                       })
                     }
@@ -518,7 +506,7 @@ export default function AllTrade() {
                     Click Public {index}
                   </p>
                   <p
-                  className="cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() =>
                       handlePrivateOrderSwap({
                         address: contractAddress,
@@ -543,10 +531,9 @@ export default function AllTrade() {
                 </div>
               </div>
             ))}
-            <div className="browse">
-                  <button onClick={BrowseAll} >Browse</button>
-                </div>
+          
         </div>
+        <p onClick={() => setIsExpand(!isExpand)}>Read More</p>
       </div>
     </div>
   );
