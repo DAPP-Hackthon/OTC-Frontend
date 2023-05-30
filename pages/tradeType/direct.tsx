@@ -11,6 +11,7 @@ import { Select } from "@/components/forms/selectField/select";
 import axios from "axios";
 import { signMessage, signTypedData } from "@wagmi/core";
 import Cookies from "universal-cookie";
+import ethers from "ethers"
 import {
   useAccount,
   useConnect,
@@ -19,6 +20,7 @@ import {
   useNetwork,
   useSwitchNetwork,
 } from "wagmi";
+import { getAddress } from "viem";
 
 interface CardProps {
   children: React.ReactNode;
@@ -102,9 +104,18 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15);
     const nonce = `${timestamp}-${randomString}`;
-  
+
     return nonce;
   };
+
+
+
+
+
+
+
+
+
 
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
@@ -129,17 +140,64 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         // 'Content-Type': 'application/json',
       };
 
-      const message = {
-        nonce: generateNonce(),
-        maker: address,
-        nftToSell:  elements.yourAsset.value,
-        sellAmount:  Number(send.value),
-        nftToBuyOrTokenAddress: elements.partnerAsset.value,
-        buyAmount: Number(receive.value),
-      } as const;
-      console.log("nonce",message.nonce)
-      const messageString = JSON.stringify(message);
-      const signature = await signMessage({ message: `${messageString}` });
+      // const message = {
+      //   nonce: generateNonce(),
+      //   maker: address,
+      //   nftToSell: elements.yourAsset.value,
+      //   sellAmount: Number(send.value),
+      //   nftToBuyOrTokenAddress: elements.partnerAsset.value,
+      //   buyAmount: Number(receive.value),
+      // } as const;
+      // console.log("nonce", message.nonce);
+      // const messageString = JSON.stringify(message);
+
+ //signTyped Data start
+  // All properties on a domain are optional
+  const domain = {
+    name: "OTCDesk",
+    version: "1",
+    chainId: 11155111,
+    verifyingContract: getAddress("0x5FbDB2315678afecb367f032d93F642f64180aa3"),
+  };
+
+  // The named list of all type definitions
+  const types = {
+    EIP712Domain: [
+      { name: "name", type: "string" },
+      { name: "version", type: "string" },
+      // { name: "chainId", type: "string" },
+      { name: "verifyingContract", type: "address" },
+    ], // Refer to primaryType
+    Order: [
+      { name: "nonce", type: "uint256" },
+      { name: "maker", type: "address" },
+      { name: "tokenToSell", type: "address" },
+      { name: "sellAmount", type: "uint256" },
+      { name: "tokenToBuy", type: "address" },
+      { name: "buyAmount", type: "uint256" },
+    ],
+  } as const;
+
+  const message = {
+    nonce: BigInt(1),
+    maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    sellAmount: BigInt(1000),
+    tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    buyAmount: BigInt(100),
+  } as const;
+
+//signTyped Data end
+
+
+      const signature = await signTypedData({
+        // domain,
+        domain,
+        message,
+        primaryType: 'Order',
+        types,
+      })
+      // const signature = await signMessage({ message: `${messageString}` });
       console.log(signature);
 
       const data = {
@@ -168,6 +226,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     }
   };
 
+ 
   console.log("selectedOption1", selectedOption1);
   return (
     <div className="h-screen">

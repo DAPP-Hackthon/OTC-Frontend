@@ -21,7 +21,7 @@ import axios from "axios";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { sign } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
 export default function Navbar() {
   const { chain } = useNetwork();
@@ -119,20 +119,12 @@ export default function Navbar() {
   const { data, isError, isSuccess, signMessage } = useSignMessage({
     message: `Signing with acc: ${address}`,
   });
-  const message = [
-    {
-      nonce: 1,
-      maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-      tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      sellAmount: 100000000000000000,
-      tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      buyAmount: 100000000000000000,
-    },
-  ];
+  
   
   const handleLogin = async () => {
+    signMessage();
     try {
-      const  response1  = await axios.post(
+      const response1 = await axios.post(
         "http://localhost:8000/auth/v1/login",
         {
           walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
@@ -140,9 +132,9 @@ export default function Navbar() {
         }
       );
       const cookies = new Cookies();
-      console.log("response1",response1);
-      cookies.set('access_token', response1.data.accessToken, { path: '/' });
-      cookies.set('refresh_token', response1.data.refreshToken, { path: '/' });
+      console.log("response1", response1);
+      cookies.set("access_token", response1.data.accessToken, { path: "/" });
+      cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
       // localStorage.setItem('access_token', response1.data.accessToken);
       // localStorage.setItem('refresh_token', response1.data.refreshToken);
       // localStorage.setItem('login_id', response1.data._id);
@@ -151,25 +143,19 @@ export default function Navbar() {
       console.log(error);
     }
   };
-  const handleApi = async () => {
-    try {
-      const response1 = await axios.get("http://localhost:8000/otc/order/v1", {
-        params: {
-          pageNo: 1,
-          pageSize: 10,
-        },
-      });
-      // setLoginCred(response1);
-      console.log(response1);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [connectText, setConnectText]= useState<string | null>(null);
   useEffect(() => {
-    if (isSuccess) {
+    if (isConnected) {
+      setConnectText(`${address}`)
       handleLogin();
     }
-  }, [isSuccess]);
+    else{
+      setConnectText("Connect Wallet")
+    }
+  }, [isConnected]);
+  useEffect(() => {
+    disconnect();
+  }, [isError]);
   console.log("loginCred", loginCred);
 
   return (
@@ -183,8 +169,8 @@ export default function Navbar() {
           router.push("/home");
         }}
       >
-        <button onClick={() => signMessage()}>Sign</button>
-        <button onClick={() => handleApi()}>Test</button>
+        {/* <button onClick={() => signMessage()}>Sign</button>
+        <button onClick={() => handleApi()}>Test</button> */}
         <Image
           src="/Zetaswaplogo.svg"
           alt="zetaswap!"
@@ -252,9 +238,12 @@ export default function Navbar() {
 
           <button
             className="group w-fit 4xl:h-36 text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            // onClick={() => {
+            //   isConnected ? disconnect() : connect();
+            //   //  isConnected?disconnect(): connect()
+            // }}
             onClick={() => {
               isConnected ? disconnect() : connect();
-              //  isConnected?disconnect(): connect()
             }}
           >
             {isConnected ? (
@@ -352,13 +341,14 @@ export default function Navbar() {
                       className="group mx-auto mt-4 w-[12rem] rounded-lg bg-[#00FFB2] px-4 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
                       onClick={() => open()}
                     >
-                      {isConnected ? (
+                      {/* {isConnected ? (
                         <p className="text-center font-medium text-ellipsis overflow-hidden ...">
                           {address}
                         </p>
                       ) : (
                         <p className="text-center ">Connect Wallet</p>
-                      )}
+                      )} */}
+                      <p className="text-center font-medium text-ellipsis overflow-hidden ...">{connectText}</p>
                     </button>
                   </div>
                 </ul>

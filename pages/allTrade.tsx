@@ -14,8 +14,10 @@ import {
   waitForTransaction,
   writeContract,
 } from "@wagmi/core";
+import { useNetwork } from 'wagmi'
 
-const contractAddress = "0xa7664cAde798Ed669Ca06A2984854f126d1FFB6a";
+const contractAddress = "0xE2CF8D8cC168DC8cD2DB182DcC465d1cfbAAC9a0";
+
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 export default function AllTrade() {
@@ -34,6 +36,9 @@ export default function AllTrade() {
   }
   const [view, setView] = useState(true);
   const add = useAccount();
+  const { chain, chains } = useNetwork()
+  console.log("available chains",chains)
+  console.log("connected chain",chain)
   // console.log("address", add)
 
   const [selectedTrade, setSelectedTrade] = useState<string | null>(
@@ -161,11 +166,15 @@ export default function AllTrade() {
   }, [browseAll]);
   //fullOrderSwapfunction begins
 
-  
   const handleFullOrderSwap = async (config: any): Promise<any> => {
-    console.log("config", config)
+    console.log("config", config);
     const hash = writeContract(config);
-    console.log("hash", hash)
+    console.log("hash", hash);
+  };
+  const handlePrivateOrderSwap = async (config: any): Promise<any> => {
+    console.log("config", config);
+    const hash = writeContract(config);
+    console.log("hash", hash);
   };
 
   const handlePrivateOrderSwap = async (config: any): Promise<any> => {
@@ -205,11 +214,6 @@ export default function AllTrade() {
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
-            <p className="cursor-pointer" onClick={() => write?.()}>
-              Test
-            </p>
-            {isLoading && <div>Check Wallet</div>}
-            {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
             <div className="self-center">
               <div className="relative">
@@ -468,10 +472,7 @@ export default function AllTrade() {
         >
           {tradeData &&
             tradeData.map((trade, index) => (
-              <div
-                className="self-center "
-                key={index}
-              >
+              <div className="self-center " key={index}>
                 <CardContainer2
                   key={trade._id}
                   // give={trade.}
@@ -494,31 +495,51 @@ export default function AllTrade() {
                   sampleData={trade._id}
                 />
                 <div className="flex gap-x-4">
-                <p
+                  <p
+                    className="cursor-pointer"
+                    onClick={() =>
+                      handleFullOrderSwap({
+                        address: contractAddress,
+                        abi: contractABI,
+                        functionName: "swapFullOrder",
+                        args: [
+                          index,
+                          "1",
+                         `${ trade.maker}`,
+                         `${ trade.tokenToSell}`,
+                         `${ trade.sellAmount}`,
+                         `${ trade.tokenToBuy}`,
+                         `${ trade.buyAmount}`,
+                         `${ trade.signature}`,
+                        ],
+                      })
+                    }
+                  >
+                    Click Public {index}
+                  </p>
+                  <p
                   className="cursor-pointer"
-                  onClick={() =>
-                    handleFullOrderSwap({
-                      address: contractAddress,
-                      abi: contractABI,
-                      functionName: "swapFullOrder",
-                      args: [
-                        1,
-                        "1",
-                        "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-                        "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-                        100,
-                        "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-                        1009,
-                        "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
-                      ],
-                    })
-                  }
-                >
-                  Click Public {index}
-                </p>
-                <p>
-                  Click Private {index}
-                </p>
+                    onClick={() =>
+                      handlePrivateOrderSwap({
+                        address: contractAddress,
+                        abi: contractABI,
+                        functionName: "swapPrivateOrder",
+                        args: [
+                          1,
+                          "1",
+                          "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+                          "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+                          100,
+                          "0x9B88c6cc678478cfd70B00F979543c4CF2922043",
+                          "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+                          1009,
+                          "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
+                        ],
+                      })
+                    }
+                  >
+                    Click Private {index}
+                  </p>
                 </div>
               </div>
             ))}

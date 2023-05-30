@@ -1,19 +1,21 @@
-import {WagmiConfig, configureChains, createConfig } from 'wagmi'
-import { mainnet, polygon, optimism } from 'wagmi/chains'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
+import { mainnet, polygon, sepolia, optimism } from 'wagmi/chains'
 import { InjectedConnector } from 'wagmi/connectors/injected'
- 
-const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism],
-  [alchemyProvider({ apiKey: 'yourAlchemyApiKey' }), publicProvider()],
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet,sepolia, polygon, optimism],
+  [alchemyProvider({ apiKey: 'XKPiMtwFq250k3ejZbSwU3N95DkoGVLd' }), publicProvider()],
 )
- 
 const config = createConfig({
   autoConnect: true,
   connectors: [new InjectedConnector({ chains })],
+  webSocketPublicClient,
   publicClient,
 })
+
+
 interface InitProps {
   children: React.ReactNode;
 }
