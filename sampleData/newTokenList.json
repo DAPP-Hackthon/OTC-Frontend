@@ -1,0 +1,18 @@
+[
+   {
+    "id":"ethereum",
+    "name":"Ethereum"
+   },
+   {
+    "id":"tether",
+    "name":"Tether"
+   },
+   {
+    "id":"usd-coin",
+    "name":"USD coin"
+   },
+   {
+    "id":"polygon",
+    "name":"Polygon"
+   }
+]

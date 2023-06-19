@@ -15,10 +15,33 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { useNetwork } from "wagmi";
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
+  Radio,
+} from "@material-tailwind/react";
 
 const contractAddress = "0xE2CF8D8cC168DC8cD2DB182DcC465d1cfbAAC9a0";
 
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
+function Icon({ id, open }: { id: number, open: number }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${
+        id === open ? "rotate-180" : ""
+      } h-5 w-5 transition-transform`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
 
 export default function AllTrade() {
   interface Trade {
@@ -44,6 +67,12 @@ export default function AllTrade() {
   const [selectedTrade, setSelectedTrade] = useState<string | null>(
     "All Trades"
   );
+  const [open, setOpen] = useState(0);
+  const [filterModal, setFilterModal] = useState(false);
+
+  const handleOpen = (value: number) => {
+    setOpen(open === value ? 0 : value);
+  };
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
@@ -134,14 +163,13 @@ export default function AllTrade() {
   //   return count;
   // }
 
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8000/otc/order/v1", {
           params: {
             pageNo: 1,
-            pageSize:40,
+            pageSize: isExpand ? 100000000000 : 4,
           },
         });
 
@@ -157,7 +185,7 @@ export default function AllTrade() {
     const intervalId = setInterval(fetchData, 5000);
 
     return () => clearInterval(intervalId);
-  });
+  }, [isExpand]);
   //fullOrderSwapfunction begins
   console.log("length of array", tradeData?.length);
   const handleFullOrderSwap = async (config: any): Promise<any> => {
@@ -203,12 +231,16 @@ export default function AllTrade() {
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
+
+            {/* </div> */}
+          </div>
+          <div className="flex items-center gap-x-4 self-end">
             <div className="self-center">
               <div className="relative">
                 {/* Trade Dropdown */}
                 <button
                   type="button"
-                  className={`text-sm mt-2 z-30 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none`}
+                  className={` m z-30 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D] px-4 py-2 text-white focus:border-indigo-500 focus:outline-none`}
                   onClick={() => setIsOpen1(!isOpen1)}
                 >
                   {selectedTrade ? (
@@ -225,17 +257,17 @@ export default function AllTrade() {
                     width="0"
                     height="0"
                     sizes="100vw"
-                    className={`w-[1rem] transform transition-transform duration-200 ${
+                    className={`w-[1rem] ml-2 transform transition-transform duration-200 ${
                       isOpen1 ? "rotate-180" : "rotate-0"
                     }`}
                   />
                 </button>
                 {isOpen1 && (
-                  <ul className="absolute z-40 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
-                    {tradeOption.map((option) => (
+                  <ul className="absolute px-4 text-white z-40 mt-1 w-full rounded-md border border-[#c8c8c86a] bg-white/5 backdrop-blur-md shadow-lg">
+                    {tradeOption.map((option,index ) => (
                       <li
                         key={option.value}
-                        className="text-sm cursor-pointer px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${ index !== tradeOption.length-1 ? 'border-b border-white/20':''}`}
                         onClick={() =>
                           handleFilter(`${option.value}`, `${option.label}`)
                         }
@@ -248,6 +280,73 @@ export default function AllTrade() {
               </div>
             </div>
             {/* <div className="bg-[#004A3D] rounded-xl"> */}
+            <div className="relative self-center h-fit">
+              <div className="flex items-center">
+                <button
+                  onClick={() => setFilterModal(!filterModal)}
+                  className="flex items-center h-[3rem] bg-[#004A3D] hover:bg-opacity-50 text-[#00FFB2] font-medium py-2 px-8 rounded-xl justify-self-end"
+                >
+                  <TiFilter className="text-xl text-[#00FFB2]" />
+                  Filter
+                </button>
+              </div>
+              <div className="absolute z-40 right-0 m-2 ">
+                {filterModal && (
+                  <div className="bg-white/5 backdrop-blur-md border border-gray-300 w-[297px] justify-center rounded-lg text-sm p-4">
+                    <p>Assets to Buy</p>
+                    <Accordion
+                      className=" bg-white/5 my-3 px-4 rounded-xl"
+                      open={open === 1}
+                      icon={<Icon id={1} open={open} />}
+                    >
+                      <AccordionHeader
+                        className="text-left h-4 border-none  text-sm text-white hover:text-white font-light"
+                        onClick={() => handleOpen(1)}
+                      >
+                        <div className="flex items-center">
+                        <Image
+                      src="/binancedex.png"
+                      alt="binance"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5 mr-2"
+                    /> <span>BSC</span>
+                    </div>
+                      </AccordionHeader>
+                      <AccordionBody className="text-white">
+                        <p>change</p>
+                      </AccordionBody>
+                    </Accordion>
+                    <p>Assets to Sell</p>
+                    <Accordion
+                      className=" bg-white/5 my-3 px-4 rounded-xl"
+                      open={open === 1}
+                      icon={<Icon id={1} open={open} />}
+                    >
+                      <AccordionHeader
+                        className="text-left h-4 border-none  text-sm text-white hover:text-white font-light"
+                        onClick={() => handleOpen(1)}
+                      >
+                        <div className="flex items-center">
+                        <Image
+                      src="/binancedex.png"
+                      alt="binance"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5 mr-2"
+                    /> <span>BSC</span>
+                    </div>
+                      </AccordionHeader>
+                      <AccordionBody className="text-white">
+                        <p>change</p>
+                      </AccordionBody>
+                    </Accordion>
+                  </div>
+                )}
+              </div>
+            </div>
             <button
               className="col-span-1"
               type="button"
@@ -258,13 +357,6 @@ export default function AllTrade() {
               ) : (
                 <HiViewList className="text-3xl transition-all hover:opacity-1" />
               )}
-            </button>
-            {/* </div> */}
-          </div>
-          <div className="self-end">
-            <button className="flex items-center bg-[#004A3D] hover:bg-opacity-50 text-[#00FFB2] font-medium py-2 px-8 rounded-xl justify-self-end">
-              <TiFilter className="text-xl text-[#00FFB2]" />
-              Filter
             </button>
           </div>
         </div>
@@ -405,8 +497,8 @@ export default function AllTrade() {
         </div>
       )} */}
 
-      <div>
-        <div>
+      <div className="px-4 py-8">
+        <div className="flex items-center justify-between">
           <h1 className="font-medium mb-2 text-xl">Direct Trade</h1>
           <div className="flex bg-[#004A3D] items-center rounded-full py-2 px-4 w-fit">
             <p className="whitespace-nowrap">Time Interval</p>
@@ -436,11 +528,11 @@ export default function AllTrade() {
                 />
               </button>
               {isOpen && (
-                <ul className="absolute w-[5rem] top-0 mt-8 ml-2 z-30  rounded-md border border-gray-300 bg-white shadow-lg">
-                  {dateOption.map((option) => (
+                <ul className="absolute w-[10rem] px-4 top-0 right-0 mt-8 ml-2 z-30  rounded-md border border-[#c8c8c86a] bg-white/5 backdrop-blur-md shadow-lg">
+                  {dateOption.map((option, index) => (
                     <li
                       key={option.value}
-                      className="text-sm rounded-md cursor-pointer px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${ index !== dateOption.length-1 ? 'border-b border-white/20':''}`}
                       onClick={() => handleSelectOption(`${option.label}`)}
                     >
                       {option.label}
@@ -454,13 +546,13 @@ export default function AllTrade() {
 
         <div
           className={`w-full ${
-            view ? "w-full flex flex-wrap gap-x-4 justify-between" : ""
+            view ? "w-full flex flex-wrap gap-x-[5rem]" : ""
           }
     `}
         >
           {tradeData &&
             tradeData.map((trade, index) => (
-              <div className="self-center " key={index}>
+              <div className="self-center cursor-pointer" key={index}>
                 <CardContainer2
                   key={trade._id}
                   // give={trade.}
@@ -482,7 +574,7 @@ export default function AllTrade() {
                   viewStyle={view}
                   sampleData={trade._id}
                 />
-                <div className="flex gap-x-4">
+                {/* <div className="flex gap-x-4">
                   <p
                     className="cursor-pointer"
                     onClick={() =>
@@ -528,12 +620,11 @@ export default function AllTrade() {
                   >
                     Click Private {index}
                   </p>
-                </div>
+                </div> */}
               </div>
             ))}
-          
         </div>
-        <p onClick={() => setIsExpand(!isExpand)}>Read More</p>
+        <p className="text-center text-[#00F5AB] hover:text-[#00F5AB]/80 cursor-pointer" onClick={() => setIsExpand(!isExpand)}>{isExpand?"View Less":"View All"}</p>
       </div>
     </div>
   );

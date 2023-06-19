@@ -22,12 +22,16 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { sign } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import Cookies from "universal-cookie";
+import { getAccount } from '@wagmi/core'
+import {bsc} from "@wagmi/core/chains"
 
 export default function Navbar() {
   const { chain } = useNetwork();
   const [loginCred, setLoginCred] = useState();
   const { chains, error, isLoading, pendingChainId, switchNetwork } =
-    useSwitchNetwork();
+    useSwitchNetwork({
+      chainId:bsc.id
+    });
 
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
   console.log("chains", chains);
@@ -339,7 +343,9 @@ export default function Navbar() {
                     <button
                       disabled
                       className="group mx-auto mt-4 w-[12rem] rounded-lg bg-[#00FFB2] px-4 text-black transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
-                      onClick={() => open()}
+                      onClick={() => {
+                        isConnected ? disconnect() : connect();
+                      }}
                     >
                       {/* {isConnected ? (
                         <p className="text-center font-medium text-ellipsis overflow-hidden ...">

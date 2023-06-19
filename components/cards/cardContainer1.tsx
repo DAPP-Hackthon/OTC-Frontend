@@ -1,7 +1,7 @@
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  balance?: number;
+  balance?: string;
   onClick?: () => void;
 }
 

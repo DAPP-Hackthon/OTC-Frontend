@@ -1,14 +1,14 @@
 import { InputField } from "../forms/inputField";
 import Image from "next/image";
-import {TbSquareRoundedArrowRightFilled } from "react-icons/tb";
+import { TbSquareRoundedArrowRightFilled } from "react-icons/tb";
 
 interface CardProps {
   // children: React.ReactNode;
   className?: string;
   balance?: number;
   sampleData: string;
-  sellAmount:number,
-  buyAmount:number,
+  sellAmount: number;
+  buyAmount: number;
   // index:number;
   viewStyle?: boolean;
   onClick?: () => void;
@@ -30,47 +30,87 @@ const CardContainer2 = ({
       {viewStyle ? (
         <div
           onClick={onClick}
-          className={`rounded-xl border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
+          className={`rounded-xl font-poppins border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
         >
-          {/* header */}
-          <div className="flex w-full border-b border-[#c8c8c86a] bg-[#004A3D] mb-auto items-center px-4 py-2 rounded-t-xl ">
-            <div className="text-md text-gray-500"></div>
-            <p>{sampleData}</p>
-          </div>
           {/* body */}
-          <div className="rounded-b-xl pb-4 backdrop-blur-lg">
-            <div className="px-4 py-2 grid gap-y-2">
-              <div className="flex text-sm flex-wrap justify-between">
+          <div className="rounded-xl pb-4 backdrop-blur-lg">
+            <div className="px-4 py-4 grid gap-y-2">
+              <div className="flex text  justify-between">
                 <div>
-                  <p>Gives: {sellAmount} </p>
-                  <p>(Money value)</p>
+                  <p className="">You Gave</p>
                 </div>
                 <div>
-                  <p>Receives: {buyAmount} </p>
-                  <p>(Money value)</p>
+                  <p className="">You Received</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-[12px] w-[12rem]  mt-2 z-50 flex items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <div className="bg-white/5 p-2 rounded-md">
+                    <Image
+                      src="/binancedex.png"
+                      alt="binance"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <span className="font-bold text-base text-[#E03232]">
+                      - {sellAmount} BNB
+                    </span>
+                    <p className="text-[#828282]">BSC Network</p>
+                  </div>
+                </div>
+                <div>
+                  <Image
+                    src="/rightArrow.png"
+                    alt="rightArrow"
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    className="h-5 w-5"
+                  />
+                </div>
+                <div className="text-[12px] w-[12rem] mt-2 z-50 flex items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <div className="bg-white/5 p-2 rounded-md">
+                    <Image
+                      src="/eth.png"
+                      alt="ethereum"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <span className="font-bold text-base text-[#09CD93]">
+                      + {buyAmount} ETH
+                    </span>
+                    <p className="text-[#828282]">ETH Network</p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap justify-between">
-                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <p>Eth</p>
+                <div className="text-[12px] mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <p className="">
+                    Type :{" "}
+                    <span className="text-[#BFBFBF] font-normal">Direct Normal Swap</span>
+                  </p>
                 </div>
-                <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <p>USDT</p>
+                <div className="text-[12px]  mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <p className="">
+                    Date :{" "}
+                    <span className="text-[#BFBFBF] font-normal">05/01/2023, 10.22.30 AM</span>
+                  </p>
                 </div>
               </div>
-              <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                <p>Direct Trade</p>
-                <p>Date: 12/02/23</p>
-              </div>
-              <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 pl-4 py-2 text-white">
-                <p>24h Volume ~ xxxxxxx</p>
-                <Image
-                  src="/right.png" // change this later on
-                  alt="right-arrow!"
-                  width="30"
-                  height="20"
-                  sizes="100vw"
-                />
+
+              <div className="text-[12px] mt-2 z-50  flex items-center justify-between rounded-2xl  bg-white/5 pl-4 py-2 text-white">
+                <p className="">
+                  Received From:{" "}
+                  <span className="text-[#BFBFBF] font-normal">{sampleData}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -81,75 +121,85 @@ const CardContainer2 = ({
           className={`rounded-xl border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-full xl:w-full justify-center backdrop-blur-lg shadow-md flex flex-col ${className}`}
         >
           {/* header */}
-          <div className="flex justify-between h-fit w-full  mb-auto items-center px-4 py-2 rounded-xl ">
-            <div>
-              <p>Gives: </p>
-              <p>(Money value)</p>
+          <div className="flex justify-between h-fit w-full  mb-auto items-center px-4 py-4 rounded-xl ">
+            <div className="flex flex-wrap w-[45%] items-center justify-between">
+              <div>
+                <p>You gave</p>
+                <div className="text-sm mt-2 z-50 w-[12rem] flex items-center  rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <div className="bg-white/5 p-2 rounded-md">
+                    <Image
+                      src="/binancedex.png"
+                      alt="binance"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="ml-3 text-center">
+                    <span className="font-bold text-base text-[#E03232]">
+                      - {sellAmount} BNB
+                    </span>
+                    <p className="text-[#828282]">BSC Network</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Image
+                  src="/rightArrow.png"
+                  alt="rightArrow"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="h-5 w-5 mx-5 mt-8"
+                />
+              </div>
+              <div>
+                <p>You Received</p>
+                <div className="text-sm mt-2 z-50 w-[12rem] flex items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                  <div className="bg-white/5 p-2 rounded-md">
+                    <Image
+                      src="/eth.png"
+                      alt="ethereum"
+                      width="0"
+                      height="0"
+                      sizes="100vw"
+                      className="h-5 w-5"
+                    />
+                  </div>
+                  <div className="ml-3 text-center">
+                    <span className="font-bold text-base text-[#09CD93]">
+                      + {buyAmount} ETH
+                    </span>
+                    <p className="text-[#828282]">ETH Network</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <p>Gives: </p>
-              <p>(Money value)</p>
-            </div>
-            <div>
-              <p>Receives: </p>
-              <p>(Money value)</p>
-            </div>
-            <div>
-              <p>Date: 12/02/23</p>
-            </div>
-            <div>
-              <p>24h Volume ~ xxxxxxx</p>
-            </div>
-            <div>
-              <Image
-                src="/right.png" // change this later on
-                alt="right-arrow!"
-                width="0"
-                height="0"
-                sizes="100vw"
-                className="h-fit w-auto"
-              />
-              {/* <TbSquareRoundedArrowRightFilled className="text-2xl"/> */}
-            </div>
-          </div>
-          {/* body */}
+            <div className="w-[45%]">
+              <div className="flex flex-wrap justify-between">
+                <div className="text-sm mt-2 z-50 w-[45%] h-[2rem] flex items-center justify-between rounded-xl  bg-white/5 px-4 py-2 text-white">
+                  <p className="font-semibold">
+                    Type :{" "}
+                    <span className="font-normal">Direct Normal Swap</span>
+                  </p>
+                </div>
+                <div className="text-sm mt-2 z-50 w-[45%] h-[2rem] flex items-center justify-between rounded-xl  bg-white/5 px-4 py-2 text-white">
+                  <p className="font-semibold">
+                    Date :{" "}
+                    <span className="font-normal">05/01/2023, 10.22.30 AM</span>
+                  </p>
+                </div>
+              </div>
 
-          {/* <div className="rounded-b-xl pb-4 bg-[#003A30]">
-          <div className="px-4 py-2 grid gap-y-2">
-            <div className="flex text-sm flex-wrap justify-between">
-              <div>
-                <p>Gives: </p>
-                <p>(Money value)</p>
+              <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-xl  bg-white/5 pl-4 py-2 text-white">
+                <p className="font-semibold">
+                  Received From:{" "}
+                  <span className="font-normal">{sampleData}</span>
+                </p>
               </div>
-              <div>
-                <p>Receives: </p>
-                <p>(Money value)</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap justify-between">
-              <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white">
-                <p>Eth</p>
-              </div>
-              <div className="text-sm mt-2 z-50 w-1/3 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/20 px-4 py-2 text-white">
-                <p>USDT</p>
-              </div>
-            </div>
-            <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-              <p>Direct Trade</p>
-              <p>Date: 12/02/23</p>
-            </div>
-            <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-2xl  bg-white/5 pl-4 py-2 text-white">
-              <p>24h Volume ~ xxxxxxx</p>
-              <Image
-                src="/right.png" // change this later on
-                alt="right-arrow!"
-                width="30"
-                height="20"
-                sizes="100vw"
-              />
             </div>
           </div>
-        </div> */}
         </div>
       )}
     </div>

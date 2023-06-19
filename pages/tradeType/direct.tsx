@@ -1,4 +1,10 @@
-import React, { FormEvent, useCallback, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 import { useRouter } from "next/router";
 import CardContainer from "../../components/cards/cardContainer1";
 import { InputField } from "../../components/forms/inputField";
@@ -11,16 +17,22 @@ import { Select } from "@/components/forms/selectField/select";
 import axios from "axios";
 import { signMessage, signTypedData } from "@wagmi/core";
 import Cookies from "universal-cookie";
-import ethers from "ethers"
+import ethers from "ethers";
 import {
   useAccount,
   useConnect,
   useDisconnect,
   useSignMessage,
+  useBalance,
   useNetwork,
   useSwitchNetwork,
 } from "wagmi";
 import { getAddress } from "viem";
+import Moralis from "moralis";
+import { EvmChain } from "@moralisweb3/common-evm-utils";
+import { connected } from "process";
+import { connect, fetchBalance } from "@wagmi/core";
+import newtokenList from "@/sampleData/newTokenList.json";
 
 interface CardProps {
   children: React.ReactNode;
@@ -69,12 +81,32 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       // handleTokens(address);
     },
   });
+  const [availableBal, setAvailablebal] = useState<string | null>(null);
+  const [walletAddress, setWalletAddress] = useState<string>("");
   // const { data, isError, isSuccess, signMessage } = useSignMessage();
   const handleSelectOption = (option: string, value: string) => {
     setSelectedOption(option);
     setIsOpen(false);
     router.push(`/tradeType/${value}`);
   };
+  useEffect(() => {
+    if (isConnected) {
+      setWalletAddress(`0x${address}`);
+    }
+  }, [isConnected]);
+
+  const getBalance = async () => {
+    const wallet = address;
+    console.log("wallet", wallet);
+    if (wallet != null) {
+      const balance = await fetchBalance({
+        address: wallet,
+      });
+      setAvailablebal(balance.formatted + " " + balance.symbol);
+      console.log("balance", availableBal);
+    }
+  };
+  getBalance();
 
   const visibility = [
     { value: 0, label: "Private" },
@@ -98,24 +130,30 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     err[e.target.name] = null;
     setErrors(err);
   };
-  const generateNonce = () => {
-    // Generate a random number or string that is unique for each request
-    // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const nonce = `${timestamp}-${randomString}`;
+  // const generateNonce = () => {
+  //   // Generate a random number or string that is unique for each request
+  //   // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
+  //   const timestamp = Date.now();
+  //   const randomString = Math.random().toString(36).substring(2, 15);
+  //   const nonce = `${timestamp}-${randomString}`;
 
-    return nonce;
+  //   return nonce;
+  // };
+
+  const calculateRatio = async (tokenAddress: string) => {
+    try {
+      const response = await axios.get(
+        `https://api.coincap.io/v2/assets/${tokenAddress}`
+      );
+      console.log("coingeckko", response);
+      const price = response.data[0].current_price;
+      console.log(`Price of token with address: ${price} USD`);
+      return price;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
-
-
-
-
-
-
-
-
-
 
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
@@ -151,52 +189,53 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       // console.log("nonce", message.nonce);
       // const messageString = JSON.stringify(message);
 
- //signTyped Data start
-  // All properties on a domain are optional
-  const domain = {
-    name: "OTCDesk",
-    version: "1",
-    chainId: 11155111,
-    verifyingContract: getAddress("0x5FbDB2315678afecb367f032d93F642f64180aa3"),
-  };
+      //signTyped Data start
+      // All properties on a domain are optional
+      const domain = {
+        name: "OTCDesk",
+        version: "1",
+        chainId: 11155111,
+        verifyingContract: getAddress(
+          "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+        ),
+      };
 
-  // The named list of all type definitions
-  const types = {
-    EIP712Domain: [
-      { name: "name", type: "string" },
-      { name: "version", type: "string" },
-      // { name: "chainId", type: "string" },
-      { name: "verifyingContract", type: "address" },
-    ], // Refer to primaryType
-    Order: [
-      { name: "nonce", type: "uint256" },
-      { name: "maker", type: "address" },
-      { name: "tokenToSell", type: "address" },
-      { name: "sellAmount", type: "uint256" },
-      { name: "tokenToBuy", type: "address" },
-      { name: "buyAmount", type: "uint256" },
-    ],
-  } as const;
+      // The named list of all type definitions
+      const types = {
+        EIP712Domain: [
+          { name: "name", type: "string" },
+          { name: "version", type: "string" },
+          // { name: "chainId", type: "string" },
+          { name: "verifyingContract", type: "address" },
+        ], // Refer to primaryType
+        Order: [
+          { name: "nonce", type: "uint256" },
+          { name: "maker", type: "address" },
+          { name: "tokenToSell", type: "address" },
+          { name: "sellAmount", type: "uint256" },
+          { name: "tokenToBuy", type: "address" },
+          { name: "buyAmount", type: "uint256" },
+        ],
+      } as const;
 
-  const message = {
-    nonce: BigInt(1),
-    maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    sellAmount: BigInt(1000),
-    tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    buyAmount: BigInt(100),
-  } as const;
+      const message = {
+        nonce: BigInt(1),
+        maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        sellAmount: BigInt(1000),
+        tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+        buyAmount: BigInt(100),
+      } as const;
 
-//signTyped Data end
-
+      //signTyped Data end
 
       const signature = await signTypedData({
         // domain,
         domain,
         message,
-        primaryType: 'Order',
+        primaryType: "Order",
         types,
-      })
+      });
       // const signature = await signMessage({ message: `${messageString}` });
       console.log(signature);
 
@@ -226,7 +265,6 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     }
   };
 
- 
   console.log("selectedOption1", selectedOption1);
   return (
     <div className="h-screen">
@@ -323,21 +361,27 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             </div>
           </div>
         </CardContainer>
-        <CardContainer className="mb-4">
-          <InputField
-            label="Your Partner's Address"
-            name="test"
-            placeholder="Enter details..."
-            disabled={isDisable}
-            // error=""
-            // value={formik.values.test}
-            // error={formik.errors.test}
-            // touched={formik.touched.test}
-            // handleChange={formik.handleChange}
-          />
-        </CardContainer>
+        {isDisable == false && (
+          <CardContainer className="mb-4">
+            <InputField
+              label="Your Partner's Address"
+              name="test"
+              placeholder="Enter details..."
+              disabled={isDisable}
+              // error=""
+              // value={formik.values.test}
+              // error={formik.errors.test}
+              // touched={formik.touched.test}
+              // handleChange={formik.handleChange}
+            />
+          </CardContainer>
+        )}
+
         <div className="md:flex">
-          <CardContainer balance={24} className="flex-1">
+          <CardContainer
+            balance={availableBal == null ? "Connect Wallet" : availableBal}
+            className="flex-1"
+          >
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
               <div className="col-span-1 md:col-span-5 rounded-md">
                 <InputField
@@ -367,9 +411,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                         text: "Select an option",
                         value: "",
                       },
-                      ...assetType.map((item) => ({
-                        text: item.label,
-                        value: item.value,
+                      ...newtokenList.map((item) => ({
+                        text: item.name,
+                        value: item.id,
                       })),
                     ]}
                     // error={errors.game ?? null}
@@ -421,9 +465,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                         text: "Select an option",
                         value: "",
                       },
-                      ...assetType.map((item) => ({
-                        text: item.label,
-                        value: item.value,
+                      ...newtokenList.map((item) => ({
+                        text: item.name,
+                        value: item.id,
                       })),
                     ]}
                     // error={errors.game ?? null}
