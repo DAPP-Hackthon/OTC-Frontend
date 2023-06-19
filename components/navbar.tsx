@@ -23,15 +23,12 @@ import { sign } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import Cookies from "universal-cookie";
 import { getAccount } from '@wagmi/core'
-import {bsc} from "@wagmi/core/chains"
 
 export default function Navbar() {
   const { chain } = useNetwork();
   const [loginCred, setLoginCred] = useState();
   const { chains, error, isLoading, pendingChainId, switchNetwork } =
-    useSwitchNetwork({
-      chainId:bsc.id
-    });
+    useSwitchNetwork();
 
   const [isMobileNavOpen, setisMobileNavOpen] = useState(false); // For toggling the mobile nav
   console.log("chains", chains);

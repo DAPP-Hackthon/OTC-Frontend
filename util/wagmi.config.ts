@@ -1,31 +1,49 @@
-
-//   import { configureChains, createClient } from 'wagmi';
-//   import { mainnet, sepolia, polygon, optimism } from 'wagmi/chains';
-//   import { alchemyProvider } from 'wagmi/providers/alchemy'
-//   import { publicProvider } from 'wagmi/providers/public'
-//   import { InjectedConnector } from 'wagmi/connectors/injected'
-//   import { infuraProvider } from 'wagmi/providers/infura'
-//   import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
-
+import {
+    EthereumClient,
+    w3mConnectors,
+    w3mProvider,
+  } from '@web3modal/ethereum';
+  import { configureChains, createClient } from 'wagmi';
+  import { mainnet, sepolia } from 'wagmi/chains';
   
-//   const {chains, provider, webSocketProvider } = configureChains(
-//     [mainnet,sepolia, polygon, optimism],
-//     [
-//         alchemyProvider({ apiKey: '5fe14YXCbViiY2bmvhk6auTsTNEFOX_g' }), 
-//         infuraProvider({ apiKey: 'fcadb7e931ce4d35bb893d71dba6f800' }),
-//         publicProvider(),
-//     ],
-//   )
+  const defaultChains = [mainnet, sepolia];
+  const projectId = '7bc1a1ed96140bdbf1ea6c09b67296be';
   
-//   // Set up client
-//   const wagmiClient = createClient({
-//     autoConnect: true,
-//     connectors: [new InjectedConnector({ chains })],
-//     provider
-//     // webSocketProvider,
-//   });
+  const { provider, webSocketProvider } = configureChains(defaultChains, [
+    // alchemyProvider({ apiKey: `${process.env.ALCHEMY_API_KEY}` }),
+    w3mProvider({ projectId }),
+    // publicProvider(),
+  ]);
   
+  // Set up client
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors: w3mConnectors({
+      version: 1,
+      chains: defaultChains,
+      projectId,
+    }),
+    provider,
+    webSocketProvider,
+  });
   
+  const ethereumClient = new EthereumClient(wagmiClient, defaultChains);
   
-//   export { wagmiClient};
+  export { wagmiClient, ethereumClient, projectId };
+  
+  // new MetaMaskConnector({
+  // 	chains: [mainnet],
+  // }),
+  // new WalletConnectConnector({
+  // 	options: {
+  // 		qrcode: true,
+  // 	},
+  // }),
+  // new CoinbaseWalletConnector({
+  // 	options: {
+  // 		appName: "wagmi.sh",
+  // 		jsonRpcUrl:
+  // 			"https://eth-mainnet.alchemyapi.io/v2/yourAlchemyId",
+  // 	},
+  // }),
   
