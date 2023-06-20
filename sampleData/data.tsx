@@ -1,6 +1,10 @@
 export const TradeType = [
-  { value: "direct", label: "Direct Trade" },
-  { value: "fractional", label: "Fractional Trade" },
+  { value: "direct", label: "Cryptocurrency" },
+  { value: "fractional", label: "NFT" },
+];
+export const SettlementChain = [
+  {value: "zetachain", label: "Zeta Chain"},
+  {value: "0x1", label: "Ethereum"},
 ];
 export const TradeData = [
   { name: "test1", tradeType: "direct" },
