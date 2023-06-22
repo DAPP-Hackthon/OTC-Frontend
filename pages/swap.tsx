@@ -11,7 +11,7 @@ import { Select } from "@/components/forms/selectField/select";
 import axios from "axios";
 import { signMessage, signTypedData } from "@wagmi/core";
 import Cookies from "universal-cookie";
-import ethers from "ethers"
+import { ethers } from "ethers"
 import {
   useAccount,
   useConnect,
@@ -22,6 +22,7 @@ import {
 } from "wagmi";
 import { getAddress } from "viem";
 import { RxContainer } from "react-icons/rx";
+import { TbLetterB } from "react-icons/tb";
 
 
 
@@ -237,18 +238,39 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  let walletBalance: string = "0";
+  const walletAddr = '0xa6f8DF7041640aD737dE9fDEd3b440F4EcbF59c8';
+
+  async function fetchWalletBalance(walletAddress: string): Promise<string> {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider('https://eth.llamarpc.com');
+      const balance = await provider.getBalance(walletAddress);
+      walletBalance = ethers.utils.formatEther(balance);
+      console.log('Wallet Balance:', walletBalance);
+      return walletBalance;
+    } catch (error) {
+      console.error('Error retrieving wallet balance:', error);
+      return '0'; 
+    }
+  }
+  fetchWalletBalance(walletAddr);
  
   console.log("selectedOption1", selectedOption1);
 
   return (
     <div className="h-screen">
       <div className="flex">
-          <div className="w-1/2 flex justify-left pr-3">
+      <div className="w-1/2 flex justify-left pr-3">
             <Button
               onClick={() => setSwapActive("Normal Swap")}
               type="submit"
               className="mt-5 w-full mx-auto"
               text={"Normal Swap"}
+              style={{
+                backgroundColor: swapActive === "Normal Swap" ? "" : "#232425",
+                color: swapActive === "Normal Swap" ? "#132021" : "#A6A6A6",
+              }}
             />
           </div>
           <div className="w-1/2 flex justify-right pl-3 ">
@@ -257,6 +279,10 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               type="submit"
               className="mt-5 w-full mx-auto"
               text={"Cross Chain Swap"}
+              style={{
+                backgroundColor: swapActive === "Cross Chain Swap" ? "" : "#232425",
+                color: swapActive === "Cross Chain Swap" ? "#132021" : "#A6A6A6",
+              }}
             />
           </div>
         </div>
@@ -373,7 +399,6 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 // handleChange={formik.handleChange}
               />
         </CardContainer>
-          
           <CardContainer balance={24} className="tile">
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-10 rounded-md">
@@ -650,7 +675,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                     label="Balance"
                     name="balance"
                     type="number"
-                    placeholder="25 ETH"
+                    placeholder={"0 ETH"}
                     disabled={isDisable}
                     />
               </div>
