@@ -9,7 +9,7 @@ interface InitProps {
 const Init = ({ children }: InitProps) => {
   return (
     <div>
-      <WagmiConfig client={wagmiClient}>{children}</WagmiConfig>
+      <WagmiConfig config={wagmiClient}>{children}</WagmiConfig>
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </div>
   );

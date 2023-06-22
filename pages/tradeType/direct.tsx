@@ -118,6 +118,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   ];
   const assetType = [
     { value: "0x8b9c35c79af5319c70dd9a3e3850f368822ed64e", label: "ETH" },
+    { value: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", label: "MATIC" },
   ];
 
   const handleChange = async (
@@ -154,7 +155,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       throw error;
     }
   };
-
+calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
     const { send, receive } = e.currentTarget.elements;
@@ -411,9 +412,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                         text: "Select an option",
                         value: "",
                       },
-                      ...newtokenList.map((item) => ({
-                        text: item.name,
-                        value: item.id,
+                      ...assetType.map((item) => ({
+                        text: item.label,
+                        value: item.value,
                       })),
                     ]}
                     // error={errors.game ?? null}

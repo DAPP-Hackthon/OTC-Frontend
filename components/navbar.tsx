@@ -173,7 +173,7 @@ export default function Navbar() {
         {/* <button onClick={() => signMessage()}>Sign</button>
         <button onClick={() => handleApi()}>Test</button> */}
         <Image
-          src="/Zetaswaplogo.svg"
+          src="/Zetaswaplogo.png"
           alt="zetaswap!"
           width="0"
           height="0"
@@ -214,7 +214,7 @@ export default function Navbar() {
           <button
             onClick={openModal}
             className={`group min-w-fit 4xl:h-36 text-sm rounded-xl 3xl:rounded-3xl backdrop-blur-2xl  mr-4 px-4 3xl:px-8  lg:py-3 3xl:py-8 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/60 focus:outline-none ${
-              selectedNetwork.src ? "bg-white/10" : "bg-white/10"
+              selectedNetwork.src ? "bg-[#232425]" : "bg-white/10"
             }`}
           >
             <div className="flex">
@@ -231,28 +231,29 @@ export default function Navbar() {
                 </div>
               )}
 
-              <p className="font-medium 2xl:text-[1rem] 3xl:text-3xl  4xl:text-5xl whitespace-nowrap">
+              <p className="text-[0.9rem] 3xl:text-3xl  4xl:text-5xl whitespace-nowrap">
                 {selectedNetwork.label}
               </p>
             </div>
           </button>
 
           <button
-            className="group w-fit 4xl:h-36 text-sm rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
+            className="group text-[0.9rem] w-fit 4xl:h-36 rounded-xl font-medium bg-[#00FFB2]  px-4 3xl:px-8 py-3 3xl:py-8 3xl:rounded-3xl text-[#13231D] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-green-200 focus:outline-none"
             // onClick={() => {
             //   isConnected ? disconnect() : connect();
             //   //  isConnected?disconnect(): connect()
             // }}
-            onClick={() => {
-              isConnected ? disconnect() : connect();
-            }}
+            // onClick={() => {
+            //   isConnected ? disconnect() : connect();
+            // }}
+            onClick={()=>open()}
           >
             {isConnected ? (
-              <p className="text-center  w-[8rem] text-ellipsis overflow-hidden ...">
+              <p className="text-center  text-[0.9rem] w-[8rem] text-ellipsis overflow-hidden ...">
                 {address}
               </p>
             ) : (
-              <p className="text-center  whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl ">
+              <p className="text-center  whitespace-nowrap 3xl:text-3xl 4xl:text-5xl ">
                 Connect Wallet
               </p>
             )}

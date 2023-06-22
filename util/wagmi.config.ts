@@ -3,28 +3,29 @@ import {
     w3mConnectors,
     w3mProvider,
   } from '@web3modal/ethereum';
-  import { configureChains, createClient } from 'wagmi';
-  import { mainnet, sepolia } from 'wagmi/chains';
+  import { configureChains, createConfig } from 'wagmi';
+  import { mainnet, sepolia, bsc, optimism, arbitrum } from 'wagmi/chains';
   
-  const defaultChains = [mainnet, sepolia];
+  const defaultChains = [mainnet, sepolia, bsc,optimism, arbitrum];
   const projectId = '7bc1a1ed96140bdbf1ea6c09b67296be';
   
-  const { provider, webSocketProvider } = configureChains(defaultChains, [
+  const { publicClient, webSocketPublicClient } = configureChains(defaultChains, [
     // alchemyProvider({ apiKey: `${process.env.ALCHEMY_API_KEY}` }),
     w3mProvider({ projectId }),
     // publicProvider(),
   ]);
   
   // Set up client
-  const wagmiClient = createClient({
+  const wagmiClient = createConfig({
     autoConnect: true,
     connectors: w3mConnectors({
       version: 1,
       chains: defaultChains,
       projectId,
     }),
-    provider,
-    webSocketProvider,
+    publicClient,
+    
+    webSocketPublicClient,
   });
   
   const ethereumClient = new EthereumClient(wagmiClient, defaultChains);
