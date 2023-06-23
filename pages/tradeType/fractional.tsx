@@ -38,7 +38,7 @@ const FractionalTrade = ({ children, className = "", onClick }: CardProps) => {
   ];
   return (
     <div className="h-screen">
-      <div className="flex justify-center w-full text-center gap-6 mb-6">
+      {/* <div className="flex justify-center w-full text-center gap-6 mb-6">
         <h1 className="mt-4">Trade / Swap</h1>
         <div className="relative">
           <button
@@ -136,7 +136,7 @@ const FractionalTrade = ({ children, className = "", onClick }: CardProps) => {
       </div>
       <div className="w-full flex justify-center">
         <Button className="mt-5 max-w-[25rem] mx-auto" text={"Create Trade"} />
-      </div>
+      </div> */}
     </div>
   );
 };

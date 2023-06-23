@@ -160,7 +160,7 @@ export default function Navbar() {
   console.log("loginCred", loginCred);
 
   return (
-    <nav className="z-50  space-x-[5%] pt-4 lg:pt-[2rem] xl:pt-[2rem] 3xl:pt-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] 3xl:px-[12rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full pb-2 backdrop-blur-2xl lg:w-full lg:py-2  ">
+    <nav className="z-50  space-x-[5%] pt-4 lg:py-[2rem] xl:py-[2rem] 3xl:py-[3rem]   font-poppins items-center min-h-[8vh] lg:h-[10vh] xl:h-[12vh] 3xl:h-[14vh] 3xl:px-[12rem] md:px-[6rem] sm:px-[6rem] px-[2rem] sticky left-0 top-0 flex w-full backdrop-blur-2xl lg:w-full  ">
       {/* <div className=""> */}
 
       <div

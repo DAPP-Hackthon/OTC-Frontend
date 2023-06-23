@@ -28,7 +28,7 @@ export default function MyTrade() {
     setSelectedRoute(value);
     setIsOpen(false);
   };
-
+console.log("selectedSwapOption",selectedSwapOption)
   return (
     <div className="flex flex-col items-center">
       <div className="w-[70%]">
@@ -80,8 +80,22 @@ export default function MyTrade() {
                 </ul>
               )}
             </div>
-            {selectedSwapOption === "Cross Chain Swap" ? (
-              ""
+            {selectedSwapOption === "Normal Swap"? (
+              <div className="relative w-[12rem] 3xl:w-fit">
+              <button
+                type="button"
+                className="text-sm mt-2 z-50 w-full h-[3rem] 3xl:h-[6rem] 4xl:h-[9rem] flex items-center justify-between rounded-2xl 3xl:rounded-[1.5rem] 4xl:rounded-[2rem]  bg-[#00FFB2]/30 px-4 py-2  3xl:px-10 3xl:py-10 4xl:px-16 4xl:py-16 text-white focus:border-indigo-500 focus:outline-none"
+              >
+               
+                  <span className="block truncate whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl">
+                    Direct Trade
+                  </span>
+               
+
+                
+              </button>
+             
+            </div>
             ) : (
               // <div className="relative w-[12rem] 3xl:w-fit">
               //   <button
@@ -126,21 +140,7 @@ export default function MyTrade() {
               //     </ul>
               //   )}
               // </div>
-              <div className="relative w-[12rem] 3xl:w-fit">
-                <button
-                  type="button"
-                  className="text-sm mt-2 z-50 w-full h-[3rem] 3xl:h-[6rem] 4xl:h-[9rem] flex items-center justify-between rounded-2xl 3xl:rounded-[1.5rem] 4xl:rounded-[2rem]  bg-[#00FFB2]/30 px-4 py-2  3xl:px-10 3xl:py-10 4xl:px-16 4xl:py-16 text-white focus:border-indigo-500 focus:outline-none"
-                >
-                 
-                    <span className="block truncate whitespace-nowrap 2xl:text-[1rem] 3xl:text-3xl 4xl:text-5xl">
-                      Direct Trade
-                    </span>
-                 
-
-                  
-                </button>
-               
-              </div>
+              ""
             )}
           </div>
         </div>
