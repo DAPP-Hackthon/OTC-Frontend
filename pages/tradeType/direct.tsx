@@ -120,42 +120,40 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { value: "0x8b9c35c79af5319c70dd9a3e3850f368822ed64e", label: "ETH" },
     { value: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", label: "MATIC" },
   ];
-
-  const handleChange = async (
-    e: React.ChangeEvent<HTMLElement & { name: string }>
-  ) => {
-    const elements = formRef.current?.elements as CustomElements;
-    console.log(elements.visibility.value);
-    setIsDisable(elements.visibility.value === "1" ? true : false);
-    const err = { ...errors };
-    err[e.target.name] = null;
-    setErrors(err);
-  };
-  // const generateNonce = () => {
-  //   // Generate a random number or string that is unique for each request
-  //   // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
-  //   const timestamp = Date.now();
-  //   const randomString = Math.random().toString(36).substring(2, 15);
-  //   const nonce = `${timestamp}-${randomString}`;
-
-  //   return nonce;
-  // };
-
-  const calculateRatio = async (tokenAddress: string) => {
+  const assetType1 = [
+    { value: "ETH", label: "ETH" },
+    { value: "MATIC", label: "MATIC" },
+    { value: "BTC", label: "BTC" },
+  ];
+  const[convertedRate, setConvertRate] = useState(0)
+  const convert = async (amount:string ,asset1:string ,asset2:string) => {
     try {
       const response = await axios.get(
-        `https://api.coincap.io/v2/assets/${tokenAddress}`
+        `https://min-api.cryptocompare.com/data/price?fsym=${asset1}&tsyms=${asset2}`
       );
-      console.log("coingeckko", response);
-      const price = response.data[0].current_price;
-      console.log(`Price of token with address: ${price} USD`);
-      return price;
+      const result = response.data[asset2] * Number(amount)
+      console.log("convert", result);
+      setConvertRate(result)
+      return result
+      
     } catch (error) {
       console.error(error);
       throw error;
     }
   };
-calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
+
+  const handleChange = async (
+    e: React.ChangeEvent<HTMLElement & { name: string }>
+  ) => {
+    const elements = formRef.current?.elements as CustomElements;
+    await convert(elements.send.value ,elements.yourAsset.value, elements.partnerAsset.value)
+
+    setIsDisable(elements.visibility.value === "1" ? true : false);
+    const err = { ...errors };
+    err[e.target.name] = null;
+    setErrors(err);
+  };
+ 
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
     const { send, receive } = e.currentTarget.elements;
@@ -265,6 +263,7 @@ calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
       console.log(error);
     }
   };
+  
 
   console.log("selectedOption1", selectedOption1);
   return (
@@ -403,7 +402,7 @@ calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
                   label="Your Assets"
                   options={option2}
                 /> */}
-                {assetType && (
+                {assetType1 && (
                   <Select
                     name="yourAsset"
                     label="Your Asset"
@@ -412,7 +411,7 @@ calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
                         text: "Select an option",
                         value: "",
                       },
-                      ...assetType.map((item) => ({
+                      ...assetType1.map((item) => ({
                         text: item.label,
                         value: item.value,
                       })),
@@ -449,15 +448,16 @@ calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
                   label="You Receive"
                   name="receive"
                   type="number"
+                  disabled={true}
                   placeholder="Amount you will receive"
-                  // value={formik.values.receive}
+                  value={convertedRate}
                   // error={formik.errors.receive}
                   // touched={formik.touched.receive}
-                  handleChange={handleChange}
+                  // handleChange={handleChange}
                 />
               </div>
               <div className="col-span-1 md:col-span-5 rounded-md">
-                {assetType && (
+                {assetType1 && (
                   <Select
                     name="partnerAsset"
                     label="Your partner Asset"
@@ -466,9 +466,9 @@ calculateRatio("0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0")
                         text: "Select an option",
                         value: "",
                       },
-                      ...newtokenList.map((item) => ({
-                        text: item.name,
-                        value: item.id,
+                      ...assetType1.map((item) => ({
+                        text: item.label,
+                        value: item.value,
                       })),
                     ]}
                     // error={errors.game ?? null}
