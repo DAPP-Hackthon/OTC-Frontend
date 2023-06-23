@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^1.4.2",
-    "@moralisweb3/next": "^2.22.2",
+    "@moralisweb3/common-evm-utils": "^2.22.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@svgr/webpack": "^7.0.0",
     "@tanstack/query-sync-storage-persister": "^4.29.14",

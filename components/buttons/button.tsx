@@ -8,13 +8,17 @@ export interface ButtonProps {
   name?: string;
   className?: string;
   onClick?: (_event: React.MouseEvent<HTMLButtonElement>) => void;
+  style?: React.CSSProperties;
 }
 
 export const Button = ({
   text,
   className = "",
+  style,
   ...buttonProps
 }: ButtonProps) => {
+	// const buttonClasses = `primary-button group w-[70%] font-bold rounded-lg px-4 py-2 text-[#132021] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#8cffddfe] focus:outline-none ${className}`;
+  	// const inactiveButtonClasses = `inactive-button ${buttonClasses}`;
 	// function addOverLay(e) {
 	// 	let item = document.querySelector(".primary-button .round");
 	// 	e.target.addEventListener("mouseenter", function (event) {
@@ -52,8 +56,9 @@ export const Button = ({
     <button
       type="button"
 	//   onMouseOver={addOverLay}
-      className={`primary-button group w-[70%] font-bold rounded-lg  bg-[#00FFB2] px-4 py-2 text-[#132021] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#8cffddfe] focus:outline-none  ${className}`}
-      {...buttonProps}
+	className={`primary-button group w-[70%] font-bold rounded-lg  bg-[#00FFB2] px-4 py-2 text-[#132021] transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#8cffddfe] focus:outline-none  ${className}`}
+	style={style}
+	{...buttonProps}
     >
       {text}
     </button>
