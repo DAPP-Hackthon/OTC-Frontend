@@ -173,7 +173,7 @@ export default function Navbar() {
         {/* <button onClick={() => signMessage()}>Sign</button>
         <button onClick={() => handleApi()}>Test</button> */}
         <Image
-          src="/Zetaswaplogo.png"
+          src="/zetaswaplogo3.png"
           alt="zetaswap!"
           width="0"
           height="0"

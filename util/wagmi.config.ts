@@ -19,7 +19,6 @@ import {
   const wagmiClient = createConfig({
     autoConnect: true,
     connectors: w3mConnectors({
-      version: 1,
       chains: defaultChains,
       projectId,
     }),
