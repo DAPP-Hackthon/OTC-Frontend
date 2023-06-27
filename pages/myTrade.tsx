@@ -31,7 +31,7 @@ export default function MyTrade() {
 console.log("selectedSwapOption",selectedSwapOption)
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[70%]">
+      <div className="w-full">
         <div className="flex mb-8">
           <h2 className="my-auto font-medium font-poppins text-sm xs:text-base sm:text-xl  2xl:text-[1.5rem] 3xl:text-4xlxl 4xl:text-6xl leading-4 sm:leading-6 lg-leading-tight 3xl:leading-normal 4xl:leading-normal ">
             My Trades

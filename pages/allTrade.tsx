@@ -226,7 +226,7 @@ export default function AllTrade() {
   // };
 
   return (
-    <div className="flex flex-col xl:px-[8rem] lg:px-[8rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
+    <div className="flex flex-col lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
