@@ -24,8 +24,6 @@ import { getAddress } from "viem";
 import { RxContainer } from "react-icons/rx";
 import { TbLetterB } from "react-icons/tb";
 
-
-
 interface CardProps {
   children: React.ReactNode;
   className?: string;
@@ -239,6 +237,14 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     setModalOpen(false);
   };
 
+  const [modalFundsOpen, setModalFundsOpen] = useState(false);
+  const openFundsModal = () => {
+    setModalFundsOpen(true);
+  };
+  const closeFundsModal = () => {
+    setModalFundsOpen(false);
+  };
+
   let walletBalance: string = "0";
   const walletAddr = '0xa6f8DF7041640aD737dE9fDEd3b440F4EcbF59c8';
 
@@ -292,14 +298,12 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         onSubmit={(e: React.FormEvent<NewCourseFormElements>) =>
           handleSubmit(e)
         }
-      >
-        
-        
+      >     
         <br />
-        <div className="flex justify-left w-full text-center gap-6 mb-6">
-          <h1 className="mt-4 mr-80"><b>Trade / Swap</b></h1>
-
-          <div className="relative ">
+        <div className=" m-auto grid grid-cols-2 flex-wrap w-full mx-auto">
+        <div className="flex justify-between items-center">
+        <h1 className="mt-4 mr-80"><b>Trade / Swap</b></h1>
+        <div className="relative ">
             <button
               type="button"
               className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-10 py-2 text-white focus:border-indigo-500 focus:outline-none"
@@ -343,8 +347,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             )}
           </div>
         </div>
-        <div className="container m-auto grid grid-cols-2 flex-wrap w-full mx-auto">
-        <CardContainer className="tile ">
+        <CardContainer className="tile mt-6 row-start-2">
           <div className="grid grid-cols-2 md:grid-cols-10 gap-4 justify-start">
             <div className="col-span-1t md:col-span-5 rounded-md">
               {tradeType && (
@@ -399,7 +402,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                 // handleChange={formik.handleChange}
               />
         </CardContainer>
-          <CardContainer balance={"24"} className="tile">
+          <CardContainer balance={"24"} className="tile row-start-2">
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-10 rounded-md">
                 {/* <DropdownInput
@@ -444,7 +447,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           </CardContainer>
           <button
             type="button"
-            className="m-3 tile col-start-2 mx-auto md:items-center"
+            className="m-3 tile row-start-3 col-start-2 mx-auto md:items-center"
           >
             <svg
               width="0"
@@ -460,7 +463,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               />
             </svg>
           </button>
-          <CardContainer className="tile col-start-2">
+          <CardContainer className="tile row-start-4 col-start-2">
             <div className="grid grid-cols-2 md:grid-cols-10 gap-4">
               <div className="col-span-1 md:col-span-10 rounded-md">
                 <InputField
@@ -497,7 +500,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             </div>
           </CardContainer>
         
-        <div className="grid w-screen grid-cols-6">
+        <div className="grid w-screen row-start-5 grid-cols-6">
           <Button
             type="submit"
             className="mt-5 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 ml-[-1rem]"
@@ -523,10 +526,10 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         
         
         <br />
-        <div className="flex justify-left w-full text-center gap-6 mb-6">
-          <h1 className="mt-4 mr-72"><b>Cross Chain Swap</b></h1>
-
-          <div className="relative ">
+        <div className="m-auto grid grid-cols-2 flex-wrap w-full mx-auto">
+        <div className="flex justify-between">
+        <h1 className="mt-4 mr-72"><b>Cross Chain Swap</b></h1>
+        <div className="relative ">
             <button
               type="button"
               className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-10 py-2 text-white focus:border-indigo-500 focus:outline-none"
@@ -566,9 +569,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             )}
           </div>
         </div>
-        <div className="container m-auto grid grid-cols-2 flex-wrap w-full mx-auto">
-          
-        <CardContainer className="tile h-64">
+        <CardContainer className="tile row-start-2 h-64">
           <div className="grid grid-cols-2 md:grid-cols-10 gap-4 justify-start">
             
             <div className="col-span-2 md:col-span-10 rounded-md">
@@ -605,7 +606,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               />
         </CardContainer>
         
-          <CardContainer balance={"24"} className="tile">
+          <CardContainer balance={"24"} className="row-start-2 tile">
             <div className="grid grid-cols-1 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
                 {/* <DropdownInput
@@ -693,7 +694,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           </CardContainer>
           <button
             type="button"
-            className="m-3 tile col-start-2 mx-auto md:items-center"
+            className="m-3 row-start-3 tile col-start-2 mx-auto md:items-center"
           >
             <svg
               width="0"
@@ -709,7 +710,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
               />
             </svg>
           </button>
-          <CardContainer className="tile col-start-2">
+          <CardContainer className="tile row-start-4 col-start-2">
             <div className="grid grid-cols-2 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-5 rounded-md">
                 {/* <DropdownInput
@@ -776,7 +777,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             </div>
           </CardContainer>
         
-          <CardContainer className="tile mt-4 col-start-2">
+          <CardContainer className="tile row-start-5 mt-4 col-start-2">
             <div className="grid grid-cols-4 md:grid-cols-10 gap-4">
             <div className="col-span-1 md:col-span-8 rounded-md">
               {settlementChain && (
@@ -806,10 +807,27 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                   onClick={openModal}
                 />
 
+              <div className="tile w-100% col-span-2 my-8 md:col-span-2 rounded-md">
+                <Button 
+                  type="submit"
+                  text={"?"}
+                  onClick={openFundsModal}
+                />
+
+              </div>
+
               </div>
             </div>
             
           </CardContainer>
+
+          <div className="grid row-start-6 w-screen grid-cols-6">
+          <Button
+            type="submit"
+            className="mt-5 row-start-6 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 ml-[-1rem]"
+            text={"Create Trade"}
+          />
+        </div>
              
           {modalOpen && (
                   <div className="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50">
@@ -1182,13 +1200,82 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                   </div>
                 </div>
       )}
-          <div className="grid w-screen grid-cols-6">
-          <Button
-            type="submit"
-            className="mt-5 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 ml-[-1rem]"
-            text={"Create Trade"}
-          />
-        </div></div>
+
+            {modalFundsOpen && (
+                  <div className="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50">
+                  <div className="bg-black bg-opacity-20 absolute inset-0"></div>
+                  <div className="p-4 rounded-lg shadow-lg border border-gray-300 text-white bg-opacity-80 max-w-[500px]">
+                  <div className="grid mt-6 grid-cols-2 items-center justify-content">
+                  <span className="absolute top-4 right-4 cursor-pointer" onClick={closeFundsModal}>&times;</span>
+                  <div className="tile col-start-1 col-span-2">
+                  <h1 className="text-2xl text-red-500 font-bold ml-4">Insufficient Funds</h1><br />
+                  <div className="w-15/16 ml-2 mx-auto">
+                        <div className="bg-gray-200 dark:bg-gray-700 h-1 w-full flex items-center justify-between">
+                            <div className="w-1/3 bg-[#00FFB2] h-1 flex items-center">
+                                <div className="bg-[#00FFB2] h-6 w-6 rounded-full shadow flex items-center justify-center">
+                                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>
+                                </div>
+                            </div>
+                            <div className="w-1/3 flex justify-between bg-[#00FFB2] h-1 items-center relative">
+                                <div className="absolute right-0 -mr-2">
+                                    {/* <div className="relative bg-white dark:bg-gray-800 shadow-lg px-2 py-1 rounded mt-16 -mr-12">
+                                        <svg className="absolute top-0 -mt-1 w-full right-0 left-0 text-white dark:text-gray-800" width="16px" height="8px" viewBox="0 0 16 8" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <g id="Progress-Bars" transform="translate(-322.000000, -198.000000)" fill="currentColor">
+                                                    <g id="Group-4" transform="translate(310.000000, 198.000000)">
+                                                        <polygon id="Triangle" points="20 0 28 8 12 8"></polygon>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <p tabindex="0" class="focus:outline-none text-indigo-700 dark:text-indigo-400 text-xs font-bold">Step 3: Analyzing</p>
+                                    </div> */}
+                                </div>
+                                <div className="bg-[#00FFB2] h-6 w-6 rounded-full shadow flex items-center justify-center -ml-2">
+                                    <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/thin_with_steps-svg1.svg" alt="check"/>
+                                </div>
+                                <div className="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow flex items-center justify-center -mr-3 relative">
+                                    <div className="h-3 w-3 bg-[#00FFB2] rounded-full"></div>
+                                </div>
+                            </div>
+                            <div className="w-1/3 flex justify-end">
+                                <div className="bg-white dark:bg-gray-700 h-6 w-6 rounded-full shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                <h1 className="text-lg text-white-500 font-bold ml-4">Switch Network to BSC Chain</h1>
+                <div className="ml-2 mr-2 flex justify-between col-span-2">
+                <div className="w-1/3  col-span-1 md:col-span-5 rounded-md"> 
+                <InputField
+                    name="balance"
+                    type="number"
+                    className="text-white text-lg"
+                    placeholder={"Zeta Chain"}
+                    disabled={isDisable}
+                    />
+              </div>
+              {/* <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 6"><path fill="#1E1E1E" d="M0 0H147V142H0z"/><g filter="url(#a)"><rect x="1" y="1" width="6" height="6" rx="24" fill="#fff" fill-opacity=".1"/><path d="m61 70.2.1-.3c.2-.4.6-.7 1-.8h16.3l-.2-.2-4.8-4.8c-.5-.5-.7-1.1-.3-1.6.4-.5.8-1 1.3-1.3.4-.3 1-.2 1.5.1l.2.2 8.4 8.5c.6.5.7 1.1.3 1.7l-.3.3-8.4 8.5c-.7.7-1.4.7-2 0l-.7-.6c-.6-.6-.6-1.4 0-2l4.8-4.8.2-.2H62.7c-1 0-1.3-.2-1.7-1.1v-1.6Z" fill="#00F5AB"/><rect x=".5" y=".5" width="6" height="6" rx="24.5" stroke="url(#b)"/></g><defs><linearGradient id="b" x1="73" y1="1" x2="73" y2="141" gradientUnits="userSpaceOnUse"><stop stop-color="#A4A4A4"/><stop offset="1" stop-color="#959595" stop-opacity=".2"/></linearGradient><filter id="a" x="-16" y="-16" width="6" height="6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feGaussianBlur in="BackgroundImageFix" stdDeviation="8"/><feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_0_1"/><feBlend in="SourceGraphic" in2="effect1_backgroundBlur_0_1" result="shape"/></filter></defs></svg> */}
+              <div className="w-1/3 col-start-2 col-span-1 md:col-span-5 rounded-md"> 
+                <InputField
+                    name="required"
+                    type="number"
+                    placeholder="BSC Chain"
+                    disabled={isDisable}
+                    />
+              </div></div>
+                <div className="flex ml-4 text-xs content-center text-center">
+                  <Button
+                    type="submit"
+                    className="mt-5 z-50 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 ml-[-1rem]"
+                    text={"Switch Network"}
+                  /></div>
+                  </div>
+                  </div>
+                  </div>
+                </div>
+      )}
+          </div>
       </form>
       }
     </div>
