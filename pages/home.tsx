@@ -11,7 +11,7 @@ export default function Home() {
     <div className="flex flex-col items-center text-white dark:text-white ">
       {/* Part1 */}
 
-      <h1 className="mt-[3%] text-xl xs:text-2xl font-gilroyB sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-7xl 3xl:text-8xl 4xl:text-9xl leading-tight  font-bold ">
+      <h1 className="text-xl xs:text-2xl font-gilroyB sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-7xl 3xl:text-8xl 4xl:text-9xl leading-tight  font-bold ">
         Seamless and Secure Cross Chain & Peer to Peer{" "}
         <span className="text-[#01F5AB]">OTC Swaps</span>
       </h1>

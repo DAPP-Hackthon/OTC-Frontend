@@ -68,6 +68,9 @@ export const directSchema = Yup.object().shape({
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const cookies = new Cookies();
   const router = useRouter();
+  const { chain, chains } = useNetwork()
+  const chainId= chain?.id
+  console.log("chain",chain, "chains",chains)
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedOption1, setSelectedOption1] = useState<Option>();
   const [errors, setErrors] = useState<{ [k: string]: string | null }>({});
@@ -121,9 +124,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { value: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", label: "MATIC" },
   ];
   const assetType1 = [
-    { value: "ETH", label: "ETH" },
-    { value: "MATIC", label: "MATIC" },
-    { value: "BTC", label: "BTC" },
+    { value: "ETH", label: "ETH",address:"" },
+    { value: "MATIC", label: "MATIC",address:"" },
+    { value: "BTC", label: "BTC",address:"" },
   ];
   const[convertedRate, setConvertRate] = useState(0)
   const convert = async (amount:string ,asset1:string ,asset2:string) => {
@@ -141,6 +144,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       throw error;
     }
   };
+
+
+  
 
   const handleChange = async (
     e: React.ChangeEvent<HTMLElement & { name: string }>
@@ -193,7 +199,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       const domain = {
         name: "OTCDesk",
         version: "1",
-        chainId: 11155111,
+        chainId: chainId,
         verifyingContract: getAddress(
           "0x5FbDB2315678afecb367f032d93F642f64180aa3"
         ),
@@ -221,9 +227,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         nonce: BigInt(1),
         maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
         tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        sellAmount: BigInt(1000),
+        sellAmount: BigInt(send.value),
         tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-        buyAmount: BigInt(100),
+        buyAmount: BigInt(receive.value),
       } as const;
 
       //signTyped Data end

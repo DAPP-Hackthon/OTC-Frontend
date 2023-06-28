@@ -77,23 +77,32 @@ export default function Navbar() {
         label: "Select a Network",
         src: "",
       });
-    } else {
+    } else{
       const selectedNetwork = network.find((item) => item.id === chain?.id);
       // const { label, src } = selectedNetwork;
-      console.log("selectedNetwork:", selectedNetwork?.label);
+      // console.log("selectedNetwork:", selectedNetwork?.label);
       // console.log("Src:", src);
-      setSelectedNetwork({
-        label: selectedNetwork?.label || "",
-        src: selectedNetwork?.src || "",
-      });
+      if(selectedNetwork!=null){
+        setSelectedNetwork({
+          label: selectedNetwork?.label ,
+          src: selectedNetwork?.src,
+        });
+      }else{
+        setSelectedNetwork({
+          label:"Unsupported Network",
+          src:"",
+        });
+      }
+     
     }
     if (!isLoading) {
       handleNetwork();
     }
   }, [isLoading, isConnected]);
 
-  console.log(chains, isLoading);
+  // console.log(chains, isLoading);
   const items = [
+    { label: "Test", href: "/test" },
     { label: "Swap", href: "/swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
@@ -102,15 +111,12 @@ export default function Navbar() {
     { label: "Swap", href: "/Swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
-    { label: "Profile", href: "/profile" },
   ];
   const network = [
-    { label: "Zetachain", src: "/zetalogonew.png", id: 0 },
-    { label: "Sepolia", src: "/eth.png", id: 11155111 },
-    { label: "Ethereum", src: "/eth.png", id: 1 },
+    { label: "Zetachain Athens", src: "/zetalogonew.png", id: 7001 },
+    { label: "Goerli Test", src: "/eth.png", id: 5 },
+    { label: "Polygon", src: "/polygon.png", id: 80001 },
     { label: "BSC", src: "/binancedex.png", id: 56 },
-    { label: "Arbitrum", src: "/arbitrum.png", id: 42161 },
-    { label: "Optimism", src: "/optimism.png", id: 10 },
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -133,7 +139,7 @@ export default function Navbar() {
         }
       );
       const cookies = new Cookies();
-      console.log("response1", response1);
+      // console.log("response1", response1);
       cookies.set("access_token", response1.data.accessToken, { path: "/" });
       cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
       // localStorage.setItem('access_token', response1.data.accessToken);
@@ -141,7 +147,7 @@ export default function Navbar() {
       // localStorage.setItem('login_id', response1.data._id);
       setLoginCred(response1.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const [connectText, setConnectText]= useState<string | null>(null);
