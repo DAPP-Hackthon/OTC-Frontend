@@ -303,7 +303,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <div className=" m-auto grid grid-cols-2 flex-wrap w-full mx-auto">
         <div className="flex justify-between items-center">
         <h1 className="mt-4 mr-80"><b>Trade / Swap</b></h1>
-        <div className="relative ">
+        <div className="relative">
             <button
               type="button"
               className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-10 py-2 text-white focus:border-indigo-500 focus:outline-none"
@@ -503,7 +503,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         <div className="grid w-screen row-start-5 grid-cols-6">
           <Button
             type="submit"
-            className="mt-5 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 ml-[-1rem]"
+            className="mt-5 mb-8 md:grid-cols-50 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center col-start-4 "
             text={"Create Trade"}
           />
         </div></div>
@@ -569,7 +569,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             )}
           </div>
         </div>
-        <CardContainer className="tile row-start-2 h-64">
+        <CardContainer className="tile mt-4 row-start-2 h-64">
           <div className="grid grid-cols-2 md:grid-cols-10 gap-4 justify-start">
             
             <div className="col-span-2 md:col-span-10 rounded-md">
@@ -832,7 +832,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
           {modalOpen && (
                   <div className="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50">
                   <div className="bg-black bg-opacity-20 absolute inset-0"></div>
-                  <div className="p-4 rounded-lg shadow-lg border border-gray-300 text-white bg-opacity-80 max-w-[1000px]">
+                  <div className="p-4 rounded-lg shadow-lg border border-gray-300 text-white bg-opacity-80 max-w-[1000px] backdrop-filter backdrop-blur-sm">
                   <div className="grid mt-6 grid-cols-2 items-center justify-content">
                     <svg width="338" height="225" viewBox="0 0 338 225" className="mx-auto col-start-1" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M311.567 136.449L305.663 136.575L302.666 136.624C301.662 136.647 300.654 136.624 299.651 136.651H299.453V136.449L299.426 131.4V131.175H299.651L305.609 131.202C307.598 131.202 309.582 131.251 311.567 131.274H311.693V131.4C311.693 132.255 311.657 133.105 311.634 133.947L311.567 136.449ZM311.567 136.449L311.504 133.906C311.481 133.069 311.454 132.241 311.445 131.413L311.567 131.539C309.582 131.562 307.598 131.611 305.609 131.611L299.651 131.638L299.876 131.413V136.449L299.673 136.251C300.654 136.251 301.635 136.251 302.621 136.273L305.55 136.35L311.567 136.449Z" fill="#EBEBEB"/>
@@ -1204,7 +1204,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             {modalFundsOpen && (
                   <div className="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50">
                   <div className="bg-black bg-opacity-20 absolute inset-0"></div>
-                  <div className="p-4 rounded-lg shadow-lg border border-gray-300 text-white bg-opacity-80 max-w-[500px]">
+                  <div className="p-4 rounded-lg shadow-lg border border-gray-300 text-white bg-opacity-80 max-w-[500px] backdrop-filter backdrop-blur-sm">
                   <div className="grid mt-6 grid-cols-2 items-center justify-content">
                   <span className="absolute top-4 right-4 cursor-pointer" onClick={closeFundsModal}>&times;</span>
                   <div className="tile col-start-1 col-span-2">
