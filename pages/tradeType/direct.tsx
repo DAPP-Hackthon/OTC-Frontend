@@ -70,10 +70,10 @@ export const directSchema = Yup.object().shape({
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   const sdk = ThirdwebSDK.fromPrivateKey(
     "797c3991836a0f9086bc9e1e5be0198f358c668303e6080feba254f4a1022723", // Your wallet's private key (only required for write operations)
-    "ethereum",
+    "ethereum"
   );
   const addressss = sdk.wallet.getAddress();
-  console.log("hadajhjskdkha", addressss)
+  console.log("hadajhjskdkha", addressss);
   const cookies = new Cookies();
   const router = useRouter();
   const { chain, chains } = useNetwork();
@@ -170,30 +170,41 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   };
 
   const generateSignature = async () => {
+    const providers = new ethers.providers.Web3Provider(window.ethereum);
+    const signers = providers.getSigner();
+
+    // You can now use the signer to interact with the blockchain
+    // For example, you can get the signer's address
+    console.log("signers", signers);
+    const signerAddress = await signers.getAddress();
+
+    console.log("Signer Address:", signerAddress);
 
     // Define the provider URL based on the network ID
-    // const providerUrl = chain?.rpcUrls.infura.http;
-    // console.log("providerUrl", `${providerUrl[0]}`)
-    
+    const provider = new ethers.providers.JsonRpcProvider(
+      `${chain?.rpcUrls.public.http}`
+    );
+    console.log("providerUrl", provider);
+
     // const providerUrl = "https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78";
-    const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78");
+    // const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78");
 
     // const privateKey = process.env.PRIVATE_KEY1;
-    const signer = new ethers.Wallet(
-      "797c3991836a0f9086bc9e1e5be0198f358c668303e6080feba254f4a1022723",
-      provider
-    );
+    // const signer = new ethers.Wallet(
+    //   "797c3991836a0f9086bc9e1e5be0198f358c668303e6080feba254f4a1022723",
+    //   provider
+    // );
 
-    const tokenAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    const tokenAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
     const tokenContract = new ethers.Contract(
       tokenAddress,
       [
         "function approve(address spender, uint256 amount) public returns (bool)",
       ],
-      signer
+      signers
     );
     console.log("tokenContract", tokenContract);
-    const spenderAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+    const spenderAddress = signerAddress;
     const amount = ethers.utils.parseEther("0.2");
     const tx = await tokenContract.approve(spenderAddress, amount);
     console.log("tx", tx);
@@ -204,7 +215,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     const domain = {
       name: "OTCDesk",
       version: "1",
-      chainId:chainId,
+      chainId:chain?.id as any,
       verifyingContract: getAddress(
         "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB"
       )

@@ -355,7 +355,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             <CardContainer className="tile mt-6 row-start-2">
               <div className="grid grid-cols-2 md:grid-cols-10 gap-4 justify-start">
                 <div className="col-span-1t md:col-span-5 rounded-md">
-                  {tradeType && (
+                  {/* {tradeType && (
                     <Select
                       name="tradeType"
                       label="Type of Trade"
@@ -372,7 +372,14 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                       // error={errors.game ?? null}
                       onChange={handleChange}
                     />
-                  )}
+                  )} */}
+                   <label className="text-md mb-3">Type of Trade</label>
+                  <div className="text-sm mt-2 z-50 w-full h-[3rem] flex items-center justify-between rounded-2xl  bg-[#004A3D]/50 px-4 py-2 text-white focus:border-indigo-500 focus:outline-none">
+                    Direct Trade
+                  </div>
+                  <div>
+
+                  </div>
                 </div>
                 <div className="col-span-1 md:col-span-5 rounded-md">
                   {visibility && (

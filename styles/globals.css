@@ -8,21 +8,21 @@
   @font-face {
     font-family: "Gilroy-Bold";
     font-weight: 400;
-    src: url("../public/Gilroy-Bold.ttf");
+    src: url("../public/Gilroy-Bold.ttf") format("opentype");
   }
 }
 @layer base {
   @font-face {
     font-family: "Gilroy-Bold";
     font-weight: 400;
-    src: url("../public/Gilroy-Bold.ttf");
+    src: url("../public/Gilroy-Medium.ttf") format("truetype");
   }
 }
 @layer base {
   @font-face {
     font-family: "Gilroy-Regular";
     font-weight: 400;
-    src: url("../public/Gilroy-Regular.ttf");
+    src: url("../public/Gilroy-Regular.ttf") format("truetype");
   }
 }
 @layer base {

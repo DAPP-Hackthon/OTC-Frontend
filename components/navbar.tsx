@@ -112,7 +112,7 @@ export default function Navbar() {
     { label: "All Trade", href: "/allTrade" },
   ];
   const network = [
-    { label: "Zetachain Athens", src: "/zetalogonew.png", id: 7001 },
+    { label: "Zetachain Athens 2", src: "/zetalogonew.png", id: 7001 },
     { label: "Goerli Test", src: "/eth.png", id: 5 },
     { label: "Polygon", src: "/polygon.png", id: 80001 },
     { label: "BSC", src: "/binancedex.png", id: 56 },
