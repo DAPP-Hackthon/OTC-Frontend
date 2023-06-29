@@ -102,7 +102,6 @@ export default function Navbar() {
 
   // console.log(chains, isLoading);
   const items = [
-    { label: "Test", href: "/test" },
     { label: "Swap", href: "/swap" },
     { label: "My Trade", href: "/myTrade" },
     { label: "All Trade", href: "/allTrade" },
@@ -129,26 +128,26 @@ export default function Navbar() {
   
   
   const handleLogin = async () => {
-    signMessage();
-    try {
-      const response1 = await axios.post(
-        "http://localhost:8000/auth/v1/login",
-        {
-          walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
-          signature: `0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`,
-        }
-      );
-      const cookies = new Cookies();
-      // console.log("response1", response1);
-      cookies.set("access_token", response1.data.accessToken, { path: "/" });
-      cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
-      // localStorage.setItem('access_token', response1.data.accessToken);
-      // localStorage.setItem('refresh_token', response1.data.refreshToken);
-      // localStorage.setItem('login_id', response1.data._id);
-      setLoginCred(response1.data);
-    } catch (error) {
-      // console.log(error);
-    }
+    // signMessage();
+    // try {
+    //   const response1 = await axios.post(
+    //     "http://localhost:8000/auth/v1/login",
+    //     {
+    //       walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
+    //       signature: `0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`,
+    //     }
+    //   );
+    //   const cookies = new Cookies();
+    //   // console.log("response1", response1);
+    //   cookies.set("access_token", response1.data.accessToken, { path: "/" });
+    //   cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
+    //   // localStorage.setItem('access_token', response1.data.accessToken);
+    //   // localStorage.setItem('refresh_token', response1.data.refreshToken);
+    //   // localStorage.setItem('login_id', response1.data._id);
+    //   setLoginCred(response1.data);
+    // } catch (error) {
+    //   // console.log(error);
+    // }
   };
   const [connectText, setConnectText]= useState<string | null>(null);
   useEffect(() => {

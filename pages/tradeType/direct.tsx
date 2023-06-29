@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, {
   FormEvent,
   useCallback,
@@ -17,7 +18,7 @@ import { Select } from "@/components/forms/selectField/select";
 import axios from "axios";
 import { signMessage, signTypedData } from "@wagmi/core";
 import Cookies from "universal-cookie";
-import ethers from "ethers";
+import { ethers } from "ethers";
 import {
   useAccount,
   useConnect,
@@ -33,6 +34,7 @@ import { EvmChain } from "@moralisweb3/common-evm-utils";
 import { connected } from "process";
 import { connect, fetchBalance } from "@wagmi/core";
 import newtokenList from "@/sampleData/newTokenList.json";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 interface CardProps {
   children: React.ReactNode;
@@ -66,11 +68,18 @@ export const directSchema = Yup.object().shape({
 });
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
+  const sdk = ThirdwebSDK.fromPrivateKey(
+    "797c3991836a0f9086bc9e1e5be0198f358c668303e6080feba254f4a1022723", // Your wallet's private key (only required for write operations)
+    "ethereum",
+  );
+  const addressss = sdk.wallet.getAddress();
+  console.log("hadajhjskdkha", addressss)
   const cookies = new Cookies();
   const router = useRouter();
-  const { chain, chains } = useNetwork()
-  const chainId= chain?.id
-  console.log("chain",chain, "chains",chains)
+  const { chain, chains } = useNetwork();
+  const chainId = BigInt(`${chain?.id ?? 0}`);
+  console.log("chain", chain, "chains", chains);
+  console.log("chainId", chainId);
   const formRef = useRef<HTMLFormElement>(null);
   const [selectedOption1, setSelectedOption1] = useState<Option>();
   const [errors, setErrors] = useState<{ [k: string]: string | null }>({});
@@ -124,42 +133,122 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     { value: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", label: "MATIC" },
   ];
   const assetType1 = [
-    { value: "ETH", label: "ETH",address:"" },
-    { value: "MATIC", label: "MATIC",address:"" },
-    { value: "BTC", label: "BTC",address:"" },
+    { value: "ETH", label: "ETH", address: "" },
+    { value: "MATIC", label: "MATIC", address: "" },
+    { value: "BTC", label: "BTC", address: "" },
   ];
-  const[convertedRate, setConvertRate] = useState(0)
-  const convert = async (amount:string ,asset1:string ,asset2:string) => {
+  const [convertedRate, setConvertRate] = useState(0);
+  const convert = async (amount: string, asset1: string, asset2: string) => {
     try {
       const response = await axios.get(
         `https://min-api.cryptocompare.com/data/price?fsym=${asset1}&tsyms=${asset2}`
       );
-      const result = response.data[asset2] * Number(amount)
+      const result = response.data[asset2] * Number(amount);
       console.log("convert", result);
-      setConvertRate(result)
-      return result
-      
+      setConvertRate(result);
+      return result;
     } catch (error) {
       console.error(error);
       throw error;
     }
   };
 
-
-  
-
   const handleChange = async (
     e: React.ChangeEvent<HTMLElement & { name: string }>
   ) => {
     const elements = formRef.current?.elements as CustomElements;
-    await convert(elements.send.value ,elements.yourAsset.value, elements.partnerAsset.value)
+    await convert(
+      elements.send.value,
+      elements.yourAsset.value,
+      elements.partnerAsset.value
+    );
 
     setIsDisable(elements.visibility.value === "1" ? true : false);
     const err = { ...errors };
     err[e.target.name] = null;
     setErrors(err);
   };
- 
+
+  const generateSignature = async () => {
+
+    // Define the provider URL based on the network ID
+    // const providerUrl = chain?.rpcUrls.infura.http;
+    // console.log("providerUrl", `${providerUrl[0]}`)
+    
+    // const providerUrl = "https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78";
+    const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78");
+
+    // const privateKey = process.env.PRIVATE_KEY1;
+    const signer = new ethers.Wallet(
+      "797c3991836a0f9086bc9e1e5be0198f358c668303e6080feba254f4a1022723",
+      provider
+    );
+
+    const tokenAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    const tokenContract = new ethers.Contract(
+      tokenAddress,
+      [
+        "function approve(address spender, uint256 amount) public returns (bool)",
+      ],
+      signer
+    );
+    console.log("tokenContract", tokenContract);
+    const spenderAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+    const amount = ethers.utils.parseEther("0.2");
+    const tx = await tokenContract.approve(spenderAddress, amount);
+    console.log("tx", tx);
+    console.log(`Transaction hash: ${tx.hash}`);
+    await tx.wait();
+    console.log(`Transaction confirmed`);
+
+    const domain = {
+      name: "OTCDesk",
+      version: "1",
+      chainId:chainId,
+      verifyingContract: getAddress(
+        "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB"
+      )
+    };
+
+    // The named list of all type definitions
+    const types = {
+      EIP712Domain: [
+        { name: "name", type: "string" },
+        { name: "version", type: "string" },
+        { name: "chainId", type: "uint256" },
+        { name: "verifyingContract", type: "address" },
+      ], // Refer to primaryType
+      Order: [
+        { name: "nonce", type: "uint256" },
+        { name: "maker", type: "address" },
+        { name: "tokenToSell", type: "address" },
+        { name: "sellAmount", type: "uint256" },
+        { name: "tokenToBuy", type: "address" },
+        { name: "buyAmount", type: "uint256" },
+      ],
+    } as const;
+
+    const message = {
+      nonce: BigInt(1),
+      maker: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      tokenToSell: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      sellAmount: BigInt(3),
+      tokenToBuy: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      buyAmount: BigInt(3),
+    } as const;
+
+    //signTyped Data end
+
+    const signature = await signTypedData({
+      // domain,
+      domain,
+      message,
+      primaryType: "Order",
+      types,
+    });
+    // const signature = await signMessage({ message: `${messageString}` });
+    console.log("signature", signature);
+  };
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
     const { send, receive } = e.currentTarget.elements;
@@ -242,7 +331,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         types,
       });
       // const signature = await signMessage({ message: `${messageString}` });
-      console.log(signature);
+      console.log("signature", signature);
 
       const data = {
         tokenToSell: elements.yourAsset.value,
@@ -269,7 +358,6 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
       console.log(error);
     }
   };
-  
 
   console.log("selectedOption1", selectedOption1);
   return (
@@ -454,9 +542,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                   label="You Receive"
                   name="receive"
                   type="number"
-                  disabled={true}
+                  // disabled={true}
                   placeholder="Amount you will receive"
-                  value={convertedRate}
+                  // value={convertedRate}
                   // error={formik.errors.receive}
                   // touched={formik.touched.receive}
                   // handleChange={handleChange}
@@ -485,7 +573,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
             </div>
           </CardContainer>
         </div>
+
         <div className="w-full flex justify-center">
+          <button onClick={() => generateSignature()}>test</button>
           <Button
             type="submit"
             className="mt-5 max-w-[25rem] mx-auto"

@@ -23,7 +23,7 @@
     "@svgr/webpack": "^7.0.0",
     "@tanstack/query-sync-storage-persister": "^4.29.14",
     "@thirdweb-dev/react": "^3.14.3",
-    "@thirdweb-dev/sdk": "^3.10.25",
+    "@thirdweb-dev/sdk": "^3.10.26",
     "@types/node": "18.15.11",
     "@types/react-dom": "18.0.11",
     "@types/web3": "^1.2.2",

@@ -4,8 +4,7 @@ import {
     w3mProvider,
   } from '@web3modal/ethereum';
   import { configureChains, createConfig } from 'wagmi';
-  import { ZetachainAthensTestnet } from "@thirdweb-dev/chains";
-  import { mainnet, polygonMumbai,goerli, sepolia, bsc, optimism, arbitrum } from 'wagmi/chains';
+  import { polygonMumbai,goerli, bsc} from 'wagmi/chains';
   import { zetachain } from './zetachain';
   const defaultChains = [zetachain, bsc, polygonMumbai,goerli];
   const projectId = '7bc1a1ed96140bdbf1ea6c09b67296be';
