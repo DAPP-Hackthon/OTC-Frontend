@@ -5,8 +5,8 @@ import {
   } from '@web3modal/ethereum';
   import { configureChains, createConfig } from 'wagmi';
   import { polygonMumbai,goerli, bsc} from 'wagmi/chains';
-  import { zetachain } from './zetachain';
-  const defaultChains = [zetachain, bsc, polygonMumbai,goerli];
+  import { zetachainAthens2,   } from './customChains';
+  const defaultChains = [zetachainAthens2, bsc, polygonMumbai,goerli];
   const projectId = '7bc1a1ed96140bdbf1ea6c09b67296be';
   
   const { publicClient, webSocketPublicClient } = configureChains(defaultChains, [
