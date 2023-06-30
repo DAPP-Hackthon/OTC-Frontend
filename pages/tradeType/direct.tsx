@@ -593,7 +593,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         </div>
 
         <div className="w-full flex justify-center">
-          <button onClick={() => generateSignature()}>test</button>
+          {/* <button onClick={() => generateSignature()}>test</button> */}
           <Button
             type="submit"
             className="mt-5 max-w-[25rem] mx-auto"
