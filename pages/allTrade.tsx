@@ -6,7 +6,7 @@ import Image from "next/image";
 import { TiFilter } from "react-icons/ti";
 import { HiViewGrid, HiViewList } from "react-icons/hi";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import contractABI from "@/sampleData/abi.json";
+import contractABI from "@/sampleData/ERC20SwapABI.json";
 import axios from "axios";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
 import {
@@ -22,7 +22,7 @@ import {
   Radio,
 } from "@material-tailwind/react";
 
-const contractAddress = "0xE2CF8D8cC168DC8cD2DB182DcC465d1cfbAAC9a0";
+const contractAddress = "0xFDD2583611CC648Dd2a0589A78eb00Ec75b4b615";
 
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
 function Icon({ id, open }: { id: number, open: number }) {
@@ -228,6 +228,7 @@ export default function AllTrade() {
   return (
     <div className="flex flex-col lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
       <header className="">
+      
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
@@ -574,7 +575,7 @@ export default function AllTrade() {
                   viewStyle={view}
                   sampleData={trade._id}
                 />
-                {/* <div className="flex gap-x-4">
+                <div className="flex gap-x-4">
                   <p
                     className="cursor-pointer"
                     onClick={() =>
@@ -620,7 +621,7 @@ export default function AllTrade() {
                   >
                     Click Private {index}
                   </p>
-                </div> */}
+                </div>
               </div>
             ))}
         </div>

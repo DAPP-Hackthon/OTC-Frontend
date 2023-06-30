@@ -22,7 +22,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { sign } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import Cookies from "universal-cookie";
-import { getAccount } from '@wagmi/core'
+import { getAccount } from "@wagmi/core";
 
 export default function Navbar() {
   const { chain } = useNetwork();
@@ -77,23 +77,22 @@ export default function Navbar() {
         label: "Select a Network",
         src: "",
       });
-    } else{
+    } else {
       const selectedNetwork = network.find((item) => item.id === chain?.id);
       // const { label, src } = selectedNetwork;
       // console.log("selectedNetwork:", selectedNetwork?.label);
       // console.log("Src:", src);
-      if(selectedNetwork!=null){
+      if (selectedNetwork != null) {
         setSelectedNetwork({
-          label: selectedNetwork?.label ,
+          label: selectedNetwork?.label,
           src: selectedNetwork?.src,
         });
-      }else{
+      } else {
         setSelectedNetwork({
-          label:"Unsupported Network",
-          src:"",
+          label: "Unsupported Network",
+          src: "",
         });
       }
-     
     }
     if (!isLoading) {
       handleNetwork();
@@ -113,9 +112,9 @@ export default function Navbar() {
   ];
   const network = [
     { label: "Zetachain Athens 2", src: "/zetalogonew.png", id: 7001 },
-    { label: "Goerli Test", src: "/eth.png", id: 5 },
-    { label: "Polygon", src: "/polygon.png", id: 80001 },
-    { label: "BSC", src: "/binancedex.png", id: 56 },
+    { label: "ETH Goerli", src: "/eth.png", id: 5 },
+    { label: "Polygon Mumbai", src: "/polygon.png", id: 80001 },
+    { label: "BSC Testnet", src: "/binancedex.png", id: 97 },
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,8 +124,7 @@ export default function Navbar() {
   const { data, isError, isSuccess, signMessage } = useSignMessage({
     message: `Signing with acc: ${address}`,
   });
-  
-  
+
   const handleLogin = async () => {
     // signMessage();
     // try {
@@ -149,14 +147,13 @@ export default function Navbar() {
     //   // console.log(error);
     // }
   };
-  const [connectText, setConnectText]= useState<string | null>(null);
+  const [connectText, setConnectText] = useState<string | null>(null);
   useEffect(() => {
     if (isConnected) {
-      setConnectText(`${address}`)
+      setConnectText(`${address}`);
       handleLogin();
-    }
-    else{
-      setConnectText("Connect Wallet")
+    } else {
+      setConnectText("Connect Wallet");
     }
   }, [isConnected]);
   useEffect(() => {
@@ -251,7 +248,7 @@ export default function Navbar() {
             // onClick={() => {
             //   isConnected ? disconnect() : connect();
             // }}
-            onClick={()=>open()}
+            onClick={() => open()}
           >
             {isConnected ? (
               <p className="text-center  text-[0.9rem] w-[8rem] text-ellipsis overflow-hidden ...">
@@ -357,7 +354,9 @@ export default function Navbar() {
                       ) : (
                         <p className="text-center ">Connect Wallet</p>
                       )} */}
-                      <p className="text-center font-medium text-ellipsis overflow-hidden ...">{connectText}</p>
+                      <p className="text-center font-medium text-ellipsis overflow-hidden ...">
+                        {connectText}
+                      </p>
                     </button>
                   </div>
                 </ul>

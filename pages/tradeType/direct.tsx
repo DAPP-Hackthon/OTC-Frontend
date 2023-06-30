@@ -1,4 +1,5 @@
 // @ts-ignore
+
 import React, {
   FormEvent,
   useCallback,
@@ -54,6 +55,11 @@ interface CustomElements extends HTMLFormControlsCollection {
   visibility: HTMLSelectElement;
   tradeType: HTMLSelectElement;
   // myCustomDropdownButton: HTMLButtonElement;
+}
+declare global {
+  interface Window {
+    ethereum: any
+  }
 }
 
 interface NewCourseFormElements extends HTMLFormElement {
@@ -169,7 +175,8 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     setErrors(err);
   };
 
-  const generateSignature = async () => {
+  const generateSignature = async (token1:string, token2:string, sellAmount:number, buyAmount:number ) => {
+   
     const providers = new ethers.providers.Web3Provider(window.ethereum);
     const signers = providers.getSigner();
 
@@ -195,9 +202,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     //   provider
     // );
 
-    const tokenAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
+    // const tokenAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
     const tokenContract = new ethers.Contract(
-      tokenAddress,
+      token1,
       [
         "function approve(address spender, uint256 amount) public returns (bool)",
       ],
