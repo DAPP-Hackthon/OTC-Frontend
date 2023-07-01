@@ -22,7 +22,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { sign } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import Cookies from "universal-cookie";
-import { getAccount } from "@wagmi/core";
+import { getAccount,signMessage } from "@wagmi/core";
 
 export default function Navbar() {
   const { chain } = useNetwork();
@@ -46,6 +46,7 @@ export default function Navbar() {
       // handleTokens(address);
     },
   });
+
   const [nextNetwork, setNextNetwork] = useState({
     label: "Select a Network",
     src: "",
@@ -121,31 +122,40 @@ export default function Navbar() {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const { data, isError, isSuccess, signMessage } = useSignMessage({
-    message: `Signing with acc: ${address}`,
-  });
-
+  // const { data, isError, isSuccess, signMessage } = useSignMessage({
+  //   message: `Signing with acc: ${address}`, 
+  // });
+  const signAccount = async () =>{
+    const signature = signMessage(
+      {
+          message: `Signing with acc: ${address}`, 
+        }
+    )
+    return signature
+  }
   const handleLogin = async () => {
-    // signMessage();
-    // try {
-    //   const response1 = await axios.post(
-    //     "http://localhost:8000/auth/v1/login",
-    //     {
-    //       walletAddress: `0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4`,
-    //       signature: `0xff32a05b471f575b0b3176104677f6e8edc7623af763dabbcfbe7e752712c78c485a9ea673792277dbb9a99906758fe71d357896e82c67291c2146636524f2fa1c`,
-    //     }
-    //   );
-    //   const cookies = new Cookies();
-    //   // console.log("response1", response1);
-    //   cookies.set("access_token", response1.data.accessToken, { path: "/" });
-    //   cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
-    //   // localStorage.setItem('access_token', response1.data.accessToken);
-    //   // localStorage.setItem('refresh_token', response1.data.refreshToken);
-    //   // localStorage.setItem('login_id', response1.data._id);
-    //   setLoginCred(response1.data);
-    // } catch (error) {
-    //   // console.log(error);
-    // }
+    const signature = await signAccount()
+    console.log("data",signature)
+    try {
+      
+      const response1 = await axios.post(
+        "http://localhost:8000/auth/login",
+        {
+          walletAddress: address,
+          signature: signature,
+        }
+      );
+      const cookies = new Cookies();
+      // console.log("response1", response1);
+      cookies.set("access_token", response1.data.accessToken, { path: "/" });
+      cookies.set("refresh_token", response1.data.refreshToken, { path: "/" });
+      // localStorage.setItem('access_token', response1.data.accessToken);
+      // localStorage.setItem('refresh_token', response1.data.refreshToken);
+      // localStorage.setItem('login_id', response1.data._id);
+      setLoginCred(response1.data);
+    } catch (error) {
+      // console.log(error);
+    }
   };
   const [connectText, setConnectText] = useState<string | null>(null);
   useEffect(() => {
@@ -156,9 +166,9 @@ export default function Navbar() {
       setConnectText("Connect Wallet");
     }
   }, [isConnected]);
-  useEffect(() => {
-    disconnect();
-  }, [isError]);
+  // useEffect(() => {
+  //   disconnect();
+  // }, [isError]);
   console.log("loginCred", loginCred);
 
   return (
@@ -169,7 +179,7 @@ export default function Navbar() {
         className="flex items-center cursor-pointer"
         onClick={() => {
           setActiveLink(null);
-          router.push("/home");
+          router.push("/");
         }}
       >
         {/* <button onClick={() => signMessage()}>Sign</button>

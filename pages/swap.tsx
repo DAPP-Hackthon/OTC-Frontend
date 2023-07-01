@@ -9,20 +9,20 @@ import { Field, useFormik } from "formik";
 import * as Yup from "yup";
 import { Select } from "@/components/forms/selectField/select";
 import axios from "axios";
-import { signMessage, signTypedData, fetchBalance } from "@wagmi/core";
+import {
+  signMessage,
+  signTypedData,
+  fetchBalance,
+  readContract,
+} from "@wagmi/core";
 import Cookies from "universal-cookie";
 import { ethers } from "ethers";
 import {
   useAccount,
-  useConnect,
-  useDisconnect,
-  useSignMessage,
   useNetwork,
-  useSwitchNetwork,
+  useContractRead,
 } from "wagmi";
 import { getAddress } from "viem";
-import { RxContainer } from "react-icons/rx";
-import { TbLetterB } from "react-icons/tb";
 
 interface CardProps {
   children: React.ReactNode;
@@ -35,15 +35,15 @@ type Option = {
 };
 declare global {
   interface Window {
-    ethereum: any
+    ethereum: any;
   }
 }
 interface CustomElements extends HTMLFormControlsCollection {
-  token1:HTMLTextAreaElement;
-  token2:HTMLTextAreaElement;
+  token1: HTMLTextAreaElement;
+  token2: HTMLTextAreaElement;
   send: HTMLTextAreaElement;
   // yourAsset: HTMLSelectElement;
-  // partnerAsset: HTMLSelectElement;
+  partnerAsset: HTMLSelectElement;
   receive: HTMLSelectElement;
   visibility: HTMLSelectElement;
   // tradeType: HTMLSelectElement;
@@ -55,14 +55,20 @@ interface NewCourseFormElements extends HTMLFormElement {
   readonly elements: CustomElements;
 }
 export const directSchema = Yup.object().shape({
-  token1:Yup.string().required("Field is required!"),
-  token2:Yup.string().required("Field is required!"),
+  token1: Yup.string().required("Field is required!"),
+  token2: Yup.string().required("Field is required!"),
   send: Yup.number().min(0).required().typeError("price must be a number"),
   receive: Yup.number().min(0).required().typeError("price must be a number"),
-  // yourAsset: Yup.string().required("Field is required!"),
   visibility: Yup.string().required("Field is required!"),
-  // tradeType: Yup.string().required("Field is required!"),
-  // settlementChain: Yup.string().required("Field is required!"),
+});
+
+export const directPrivateSchema = Yup.object().shape({
+  token1: Yup.string().required("Field is required!"),
+  token2: Yup.string().required("Field is required!"),
+  send: Yup.number().min(0).required().typeError("price must be a number"),
+  receive: Yup.number().min(0).required().typeError("price must be a number"),
+  visibility: Yup.string().required("Field is required!"),
+  partnerAsset: Yup.string().required("Field is required!"),
 });
 
 const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
@@ -102,8 +108,8 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
   };
   getBalance();
   const visibility = [
-    { value: 0, label: "Private", ref: "0" },
-    { value: 1, label: "Public", ref: "1" },
+    { value: 0, label: "Public", ref: "0" },
+    { value: 1, label: "Private", ref: "1" },
   ];
   const tradeType = [
     { value: "direct", label: "Direct" },
@@ -129,17 +135,29 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     err[e.target.name] = null;
     setErrors(err);
   };
-  const generateNonce = () => {
-    // Generate a random number or string that is unique for each request
-    // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const nonce = `${timestamp}-${randomString}`;
+  // const generateNonce = () => {
+  //   // Generate a random number or string that is unique for each request
+  //   // You can use various methods to generate a nonce, such as a timestamp, UUID, or a combination of random characters
+  //   const timestamp = Date.now();
+  //   const randomString = Math.random().toString(36).substring(2, 15);
+  //   const nonce = `${timestamp}-${randomString}`;
 
-    return nonce;
+  //   return nonce;
+  // };
+  const generateNonce = async () => {
+    const nonce = await axios.get(
+      "http://localhost:8000/otc/order/single-chain/nonce"
+    );
+    console.log("Nonce Response:", nonce);
+
+    return nonce.data;
   };
-  const generateSignature = async (token1:string, token2:string, sellAmount:number, buyAmount:number ) => {
-   
+  const generateSignature = async (
+    token1: string,
+    token2: string,
+    sellAmount: number,
+    buyAmount: number
+  ) => {
     const providers = new ethers.providers.Web3Provider(window.ethereum);
     const signers = providers.getSigner();
 
@@ -176,10 +194,10 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     const domain = {
       name: "OTCDesk",
       version: "1",
-      chainId:chain?.id as any,
+      chainId: chain?.id as any,
       verifyingContract: getAddress(
         "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB"
-      )
+      ),
     };
 
     // The named list of all type definitions
@@ -199,9 +217,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         { name: "buyAmount", type: "uint256" },
       ],
     } as const;
-
+    const nonce = await generateNonce();
     const message = {
-      nonce: BigInt(1),
+      nonce: BigInt(nonce),
       maker: getAddress(signerAddress),
       tokenToSell: getAddress(token1),
       sellAmount: BigInt(sellAmount),
@@ -220,17 +238,54 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
     });
     // const signature = await signMessage({ message: `${messageString}` });
     console.log("signature", signature);
+    return signature;
   };
+  // const { data, isError, isLoading } = useContractRead({
+  //   address: "0xFDD2583611CC648Dd2a0589A78eb00Ec75b4b615",
+  //   abi: [
+  //     "function allowance(address owner, address spender) external view returns (uint256)",
+  //   ],
+  //   functionName: "allowance",
+  // })
+
+  const testApi = async () => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      `${chain?.rpcUrls.public.http}`
+    );
+
+    const contractAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
+    const contractAbi = [
+      "function allowance(address owner, address spender) external view returns (uint256)",
+    ]; // ABI of the contract
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractAbi,
+      provider
+    );
+
+    const ownerAddress = "0xF02cf7E5795fe50d0b918fd6829a59E3b01d5DA4";
+    const spenderAddress = "0x95d441e6d3b95f78d8ecda10c45ae1d8b6aa9cb2";
+
+    try {
+      const allowance = await contract.allowance(ownerAddress, spenderAddress);
+      console.log("Allowance:", allowance.toString());
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<NewCourseFormElements>) => {
     e.preventDefault();
     const { send, receive } = e.currentTarget.elements;
 
     try {
       const elements = formRef.current?.elements as CustomElements;
+      const visibility = elements.visibility.value
+     
       const result = await directSchema.validate(
         {
-          token1:elements.token1.value,
-          token2:elements.token2.value,
+          token1: elements.token1.value,
+          token2: elements.token2.value,
           send: send.value,
           receive: receive.value,
           // yourAsset: elements.yourAsset.value,
@@ -240,46 +295,48 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
         },
         { abortEarly: false }
       );
+      // const result = {Number(visibility)=== ?"":""};
+
       const headers = {
         accept: "*/*",
         Authorization: `Bearer ${accessToken}`,
         // 'Content-Type': 'application/json',
       };
       console.log(result);
-      await generateSignature(result.token1,result.token2, result.send, result.receive);
-      // const message = {
-      //   nonce: generateNonce(),
-      //   maker: address,
-      //   nftToSell: elements.yourAsset.value,
-      //   sellAmount: Number(send.value),
-      //   nftToBuyOrTokenAddress: elements.partnerAsset.value,
-      //   buyAmount: Number(receive.value),
-      // } as const;
-      // console.log("nonce", message.nonce);
-      // const messageString = JSON.stringify(message);
-      
+      const signature = await generateSignature(
+        result.token1,
+        result.token2,
+        result.send,
+        result.receive
+      );
+      const nonce = await generateNonce();
 
-      // const data = {
-      //   tokenToSell: elements.yourAsset.value,
-      //   sellAmount: Number(send.value),
-      //   tokenToBuy: elements.partnerAsset.value,
-      //   buyAmount: Number(receive.value),
-      //   signature: signature,
-      //   orderType: Number(elements.visibility.value),
-      // };
-      // const apiResponse = await axios.post(
-      //   "http://localhost:8000/otc/order/v1/create",
-      //   data,
-      //   { headers }
-      // );
-      // console.log("Response:", apiResponse.data);
-      // setErrors({});
-      // const resultObj = { ...result };
-      // console.log(resultObj);
-      // window.alert("Successfully Created Your Order");
-      // setTimeout(() => {
-      //   router.push("/allTrade");
-      // }, 2000); // 2000 milliseconds = 2 seconds
+      const data = {
+        nonce: nonce,
+        maker: address,
+        tokenToSell: elements.token1.value,
+        sellAmount: Number(send.value),
+        sourceChainId: chain?.id,
+        tokenToBuy: elements.token2.value,
+        buyAmount: Number(receive.value),
+        destinationChainId: chain?.id,
+        signature: signature,
+        orderType: Number(elements.visibility.value),
+      };
+      const apiResponse = await axios.post(
+        "http://localhost:8000/otc/order/single-chain/create",
+
+        data,
+        { headers }
+      );
+      console.log("Response:", apiResponse.data);
+      setErrors({});
+      const resultObj = { ...result };
+      console.log(resultObj);
+      window.alert("Successfully Created Your Order");
+      setTimeout(() => {
+        router.push("/allTrade");
+      }, 2000); // 2000 milliseconds = 2 seconds
     } catch (error) {
       console.log(error);
     }
@@ -325,6 +382,9 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
 
   return (
     <div className="h-screen">
+      <p className="cursor-pointer" onClick={() => testApi()}>
+        Test Api
+      </p>
       <div className="flex">
         <div className="w-1/2 flex justify-left pr-3">
           <Button
@@ -441,7 +501,7 @@ const DirectTrade = ({ children, className = "", onClick }: CardProps) => {
                   </div>
                 </div>
                 <br />
-                {isDisable ? (
+                {!isDisable ? (
                   ""
                 ) : (
                   <InputField

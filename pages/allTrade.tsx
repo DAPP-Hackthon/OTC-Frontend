@@ -25,7 +25,7 @@ import {
 const contractAddress = "0xFDD2583611CC648Dd2a0589A78eb00Ec75b4b615";
 
 // const contract = new web3.eth.Contract(contractABI, contractAddress);
-function Icon({ id, open }: { id: number, open: number }) {
+function Icon({ id, open }: { id: number; open: number }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -42,11 +42,12 @@ function Icon({ id, open }: { id: number, open: number }) {
   );
 }
 
-
 export default function AllTrade() {
   interface Trade {
     _id: string;
+    nonce:number;
     name: string;
+    sourceChainId:number;
     tradeType: string;
     sellAmount: number;
     buyAmount: number;
@@ -55,6 +56,7 @@ export default function AllTrade() {
     tokenToBuy: string;
     signature: string;
     ordertype: string;
+    orderType:number;
     status: string;
   }
   const [view, setView] = useState(true);
@@ -166,13 +168,16 @@ export default function AllTrade() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/otc/order/v1", {
-          params: {
-            pageNo: 1,
-            pageSize: isExpand ? 100000000000 : 4,
-          },
-        });
-
+        const response = await axios.get(
+          "http://localhost:8000/otc/order/single-chain",
+          {
+            params: {
+              pageNo: 1,
+              pageSize:1000000000000000000,
+            },
+          }
+        );
+    
         setTradeData(response.data);
         // console.log(response.data)
         console.log("tradeData", tradeData);
@@ -228,7 +233,6 @@ export default function AllTrade() {
   return (
     <div className="flex flex-col lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
       <header className="">
-      
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
             <h1 className="text-3xl w-fit self-center font-semibold">Trades</h1>
@@ -265,10 +269,14 @@ export default function AllTrade() {
                 </button>
                 {isOpen1 && (
                   <ul className="absolute px-4 text-white z-40 mt-1 w-full rounded-md border border-[#c8c8c86a] bg-white/5 backdrop-blur-md shadow-lg">
-                    {tradeOption.map((option,index ) => (
+                    {tradeOption.map((option, index) => (
                       <li
                         key={option.value}
-                        className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${ index !== tradeOption.length-1 ? 'border-b border-white/20':''}`}
+                        className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${
+                          index !== tradeOption.length - 1
+                            ? "border-b border-white/20"
+                            : ""
+                        }`}
                         onClick={() =>
                           handleFilter(`${option.value}`, `${option.label}`)
                         }
@@ -305,15 +313,16 @@ export default function AllTrade() {
                         onClick={() => handleOpen(1)}
                       >
                         <div className="flex items-center">
-                        <Image
-                      src="/binancedex.png"
-                      alt="binance"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      className="h-5 w-5 mr-2"
-                    /> <span>BSC</span>
-                    </div>
+                          <Image
+                            src="/binancedex.png"
+                            alt="binance"
+                            width="0"
+                            height="0"
+                            sizes="100vw"
+                            className="h-5 w-5 mr-2"
+                          />{" "}
+                          <span>BSC</span>
+                        </div>
                       </AccordionHeader>
                       <AccordionBody className="text-white">
                         <p>change</p>
@@ -330,15 +339,16 @@ export default function AllTrade() {
                         onClick={() => handleOpen(1)}
                       >
                         <div className="flex items-center">
-                        <Image
-                      src="/binancedex.png"
-                      alt="binance"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      className="h-5 w-5 mr-2"
-                    /> <span>BSC</span>
-                    </div>
+                          <Image
+                            src="/binancedex.png"
+                            alt="binance"
+                            width="0"
+                            height="0"
+                            sizes="100vw"
+                            className="h-5 w-5 mr-2"
+                          />{" "}
+                          <span>BSC</span>
+                        </div>
                       </AccordionHeader>
                       <AccordionBody className="text-white">
                         <p>change</p>
@@ -533,7 +543,11 @@ export default function AllTrade() {
                   {dateOption.map((option, index) => (
                     <li
                       key={option.value}
-                      className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${ index !== dateOption.length-1 ? 'border-b border-white/20':''}`}
+                      className={`text-sm hover:text-white/80 cursor-pointer  py-2 ${
+                        index !== dateOption.length - 1
+                          ? "border-b border-white/20"
+                          : ""
+                      }`}
                       onClick={() => handleSelectOption(`${option.label}`)}
                     >
                       {option.label}
@@ -546,51 +560,37 @@ export default function AllTrade() {
         </div>
 
         <div
-          className={`w-full ${
-            view ? "w-full flex flex-wrap gap-x-[5rem]" : ""
-          }
+          className={`w-full ${view ? "w-full flex flex-wrap gap-x-[5rem]" : ""}
     `}
         >
+          {/* {TradeData.filter((index) => index.tradeType === trade.value).map( */}
           {tradeData &&
-            tradeData.map((trade, index) => (
+            tradeData.filter((index)=> index?.orderType === 0).map((trade, index) => (
               <div className="self-center cursor-pointer" key={index}>
                 <CardContainer2
                   key={trade._id}
-                  // give={trade.}
-                  // onClick={() =>
-                  //   handleswapPrivateOrderSwap(
-                  //     trade._id,
-                  //     trade.maker,
-                  //     trade.tokenToSell,
-                  //     trade.sellAmount,
-                  //     trade.tokenToBuy,
-                  //     trade.buyAmount,
-                  //     trade.signature,
-                  //     trade.ordertype,
-                  //     trade.status
-                  //   )
-                  // }
+                  chainId={trade.sourceChainId}
                   sellAmount={trade.sellAmount}
                   buyAmount={trade.buyAmount}
                   viewStyle={view}
-                  sampleData={trade._id}
+                  receivedFrom={trade.maker}
                 />
                 <div className="flex gap-x-4">
                   <p
                     className="cursor-pointer"
                     onClick={() =>
                       handleFullOrderSwap({
-                        address: contractAddress,
+                        address: "'0xFDD2583611CC648Dd2a0589A78eb00Ec75b4b615'",
                         abi: contractABI,
                         functionName: "swapFullOrder",
                         args: [
-                          index,
-                          "1",
+                          trade.nonce,
+                          1,
                           `${trade.maker}`,
                           `${trade.tokenToSell}`,
-                          `${trade.sellAmount}`,
+                          trade.sellAmount,
                           `${trade.tokenToBuy}`,
-                          `${trade.buyAmount}`,
+                          trade.buyAmount,
                           `${trade.signature}`,
                         ],
                       })
@@ -625,7 +625,12 @@ export default function AllTrade() {
               </div>
             ))}
         </div>
-        <p className="text-center text-[#00F5AB] hover:text-[#00F5AB]/80 cursor-pointer" onClick={() => setIsExpand(!isExpand)}>{isExpand?"View Less":"View All"}</p>
+        {/* <p
+          className="text-center text-[#00F5AB] hover:text-[#00F5AB]/80 cursor-pointer"
+          onClick={() => setIsExpand(!isExpand)}
+        >
+          {isExpand ? "View Less" : "View All"}
+        </p> */}
       </div>
     </div>
   );

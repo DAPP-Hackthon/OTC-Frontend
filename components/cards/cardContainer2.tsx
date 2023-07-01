@@ -6,9 +6,10 @@ interface CardProps {
   // children: React.ReactNode;
   className?: string;
   balance?: number;
-  sampleData: string;
+  receivedFrom: string;
   sellAmount: number;
   buyAmount: number;
+  chainId: number;
   // index:number;
   viewStyle?: boolean;
   onClick?: () => void;
@@ -17,9 +18,10 @@ interface CardProps {
 const CardContainer2 = ({
   // children,
   // index,
-  sampleData,
+  receivedFrom,
   sellAmount,
   buyAmount,
+  chainId,
   viewStyle,
   className = "",
   balance,
@@ -59,7 +61,18 @@ const CardContainer2 = ({
                     <span className="font-bold text-base text-[#E03232]">
                       - {sellAmount} BNB
                     </span>
-                    <p className="text-[#828282]">BSC Network</p>
+
+                    <p className="text-[#828282]">
+                      {chainId == 80001
+                        ? "Polygon Mumbai"
+                        : chainId === 7001
+                        ? "Zetachain Athens 2"
+                        : chainId == 97
+                        ? "Binance Testnet"
+                        : chainId === 5
+                        ? "Goerli Testnet"
+                        : "Unsupported Chain"}
+                    </p>
                   </div>
                 </div>
                 <div>
@@ -87,7 +100,18 @@ const CardContainer2 = ({
                     <span className="font-bold text-base text-[#09CD93]">
                       + {buyAmount} ETH
                     </span>
-                    <p className="text-[#828282]">ETH Network</p>
+                    <p className="text-[#828282]">
+                      {" "}
+                      {chainId == 80001
+                        ? "Polygon Mumbai"
+                        : chainId === 7001
+                        ? "Zetachain Athens 2"
+                        : chainId == 97
+                        ? "Binance Testnet"
+                        : chainId === 5
+                        ? "Goerli Testnet"
+                        : "Unsupported Chain"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -95,13 +119,17 @@ const CardContainer2 = ({
                 <div className="text-[12px] mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
                   <p className="">
                     Type :{" "}
-                    <span className="text-[#BFBFBF] font-normal">Direct Normal Swap</span>
+                    <span className="text-[#BFBFBF] font-normal">
+                      Direct Normal Swap
+                    </span>
                   </p>
                 </div>
                 <div className="text-[12px]  mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
                   <p className="">
                     Date :{" "}
-                    <span className="text-[#BFBFBF] font-normal">05/01/2023, 10.22.30 AM</span>
+                    <span className="text-[#BFBFBF] font-normal">
+                      05/01/2023, 10.22.30 AM
+                    </span>
                   </p>
                 </div>
               </div>
@@ -109,7 +137,9 @@ const CardContainer2 = ({
               <div className="text-[12px] mt-2 z-50  flex items-center justify-between rounded-2xl  bg-white/5 pl-4 py-2 text-white">
                 <p className="">
                   Received From:{" "}
-                  <span className="text-[#BFBFBF] font-normal">{sampleData}</span>
+                  <span className="text-[#BFBFBF] font-normal">
+                    {receivedFrom}
+                  </span>
                 </p>
               </div>
             </div>
@@ -140,7 +170,18 @@ const CardContainer2 = ({
                     <span className="font-bold text-base text-[#E03232]">
                       - {sellAmount} BNB
                     </span>
-                    <p className="text-[#828282]">BSC Network</p>
+                    <p className="text-[#828282]">
+                      {" "}
+                      {chainId == 80001
+                        ? "Polygon Mumbai"
+                        : chainId === 7001
+                        ? "Zetachain Athens 2"
+                        : chainId == 97
+                        ? "Binance Testnet"
+                        : chainId === 5
+                        ? "Goerli Testnet"
+                        : "Unsupported Chain"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -171,7 +212,18 @@ const CardContainer2 = ({
                     <span className="font-bold text-base text-[#09CD93]">
                       + {buyAmount} ETH
                     </span>
-                    <p className="text-[#828282]">ETH Network</p>
+                    <p className="text-[#828282]">
+                      {" "}
+                      {chainId == 80001
+                        ? "Polygon Mumbai"
+                        : chainId === 7001
+                        ? "Zetachain Athens 2"
+                        : chainId == 97
+                        ? "Binance Testnet"
+                        : chainId === 5
+                        ? "Goerli Testnet"
+                        : "Unsupported Chain"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -195,7 +247,7 @@ const CardContainer2 = ({
               <div className="text-sm mt-2 z-50 h-[2rem] flex items-center justify-between rounded-xl  bg-white/5 pl-4 py-2 text-white">
                 <p className="font-semibold">
                   Received From:{" "}
-                  <span className="font-normal">{sampleData}</span>
+                  <span className="font-normal">{receivedFrom}</span>
                 </p>
               </div>
             </div>
