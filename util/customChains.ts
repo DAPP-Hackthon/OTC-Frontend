@@ -25,8 +25,8 @@ export const polygonMumbai = {
     symbol: "MATIC",
   },
   rpcUrls: {
-    public: { http: ["https://rpc.ankr.com/polygon_mumbai"] },
-    default: { http: ["https://rpc.ankr.com/polygon_mumbai"] },
+    public: { http: ["https://polygon-mumbai.gateway.tenderly.co"] },
+    default: { http: ["https://polygon-mumbai.gateway.tenderly.co"] },
   },
 } as const satisfies Chain;
 

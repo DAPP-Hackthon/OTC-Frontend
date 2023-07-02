@@ -32,50 +32,47 @@ const CardContainer2 = ({
       {viewStyle ? (
         <div
           onClick={onClick}
-          className={`rounded-xl font-poppins border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-[30rem] xl:w-[30rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
+          className={`rounded-xl font-poppins border border-[#c8c8c86a] my-4 sm:w-full md:w-full lg:w-[21rem] xl:w-[21rem] justify-center bg-[#003A30]/30 shadow-md flex flex-col ${className}`}
         >
           {/* body */}
           <div className="rounded-xl pb-4 backdrop-blur-lg">
-            <div className="px-4 py-4 grid gap-y-2">
-              <div className="flex text  justify-between">
+            <div className="px-4 py-4  grid gap-x-[1rem] gap-y-2">
+              <div className="relative flex items-center gap-x-[2rem] justify-between">
                 <div>
-                  <p className="">You Gave</p>
-                </div>
-                <div>
-                  <p className="">You Received</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-[12px] w-[12rem]  mt-2 z-50 flex items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <div className="bg-white/5 p-2 rounded-md">
-                    <Image
-                      src="/binancedex.png"
-                      alt="binance"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      className="h-5 w-5"
-                    />
+                  <div>
+                    <p className="">You Gave</p>
                   </div>
-                  <div className="ml-3">
-                    <span className="font-bold text-base text-[#E03232]">
-                      - {sellAmount} BNB
-                    </span>
+                  <div className="text-[12px] w-fit  mt-2 z-50 items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                    <div className="bg-white/5 w-fit p-2 rounded-md">
+                      <Image
+                        src="/binancedex.png"
+                        alt="binance"
+                        width="0"
+                        height="0"
+                        sizes="100vw"
+                        className="h-5 w-5"
+                      />
+                    </div>
+                    <div>
+                      <span className="font-bold text-base text-[#E03232]">
+                        - {sellAmount} BNB
+                      </span>
 
-                    <p className="text-[#828282]">
-                      {chainId == 80001
-                        ? "Polygon Mumbai"
-                        : chainId === 7001
-                        ? "Zetachain Athens 2"
-                        : chainId == 97
-                        ? "Binance Testnet"
-                        : chainId === 5
-                        ? "Goerli Testnet"
-                        : "Unsupported Chain"}
-                    </p>
+                      <p className="text-[#828282]">
+                        {chainId == 80001
+                          ? "Polygon Mumbai"
+                          : chainId === 7001
+                          ? "Zetachain Athens 2"
+                          : chainId == 97
+                          ? "Binance Testnet"
+                          : chainId === 5
+                          ? "Goerli Testnet"
+                          : "Unsupported Chain"}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div>
+                <div className="absolute top-[60%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
                   <Image
                     src="/rightArrow.png"
                     alt="rightArrow"
@@ -85,63 +82,52 @@ const CardContainer2 = ({
                     className="h-5 w-5"
                   />
                 </div>
-                <div className="text-[12px] w-[12rem] mt-2 z-50 flex items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <div className="bg-white/5 p-2 rounded-md">
-                    <Image
-                      src="/eth.png"
-                      alt="ethereum"
-                      width="0"
-                      height="0"
-                      sizes="100vw"
-                      className="h-5 w-5"
-                    />
+                <div>
+                  <div>
+                    <p className="">You Received</p>
                   </div>
-                  <div className="ml-3">
-                    <span className="font-bold text-base text-[#09CD93]">
-                      + {buyAmount} ETH
-                    </span>
-                    <p className="text-[#828282]">
-                      {" "}
-                      {chainId == 80001
-                        ? "Polygon Mumbai"
-                        : chainId === 7001
-                        ? "Zetachain Athens 2"
-                        : chainId == 97
-                        ? "Binance Testnet"
-                        : chainId === 5
-                        ? "Goerli Testnet"
-                        : "Unsupported Chain"}
-                    </p>
+                  <div className="text-[12px] w-fit mt-2 z-50 items-center rounded-2xl  bg-white/5 px-4 py-2 text-white">
+                    
+                    <div className="bg-white/5 w-fit p-2 rounded-md">
+                      <Image
+                        src="/eth.png"
+                        alt="ethereum"
+                        width="0"
+                        height="0"
+                        sizes="100vw"
+                        className="h-5 w-5"
+                      />
+                    </div>
+                    <div>
+                      <span className="font-bold text-base text-[#09CD93]">
+                        + {buyAmount} ETH
+                      </span>
+                      <p className="text-[#828282]">
+                        {" "}
+                        {chainId == 80001
+                          ? "Polygon Mumbai"
+                          : chainId === 7001
+                          ? "Zetachain Athens 2"
+                          : chainId == 97
+                          ? "Binance Testnet"
+                          : chainId === 5
+                          ? "Goerli Testnet"
+                          : "Unsupported Chain"}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="flex flex-wrap justify-between">
-                <div className="text-[12px] mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <p className="">
-                    Type :{" "}
-                    <span className="text-[#BFBFBF] font-normal">
-                      Direct Normal Swap
-                    </span>
-                  </p>
-                </div>
-                <div className="text-[12px]  mt-2 z-50 w-[47%]  flex items-center justify-between rounded-2xl  bg-white/5 px-4 py-2 text-white">
-                  <p className="">
-                    Date :{" "}
-                    <span className="text-[#BFBFBF] font-normal">
-                      05/01/2023, 10.22.30 AM
-                    </span>
-                  </p>
-                </div>
+              <button className="text-center flex justify-center text-[12px] font-semibold text-white  mt-2 z-50 w-[45%]  items-center  rounded-lg  bg-[#00F5AB]/10 hover:bg-[#00F5AB]/20 px-4 py-2 ">
+                 View Details
+                </button>
+                <button className="text-center flex justify-center text-[12px] font-semibold text-[#132021]  mt-2 z-50 w-[45%]  items-center  rounded-lg  bg-[#00F5AB] hover:bg-[#3ffec5] px-4 py-2 ">
+                 Fulfill Request
+                </button>
               </div>
 
-              <div className="text-[12px] mt-2 z-50  flex items-center justify-between rounded-2xl  bg-white/5 pl-4 py-2 text-white">
-                <p className="">
-                  Received From:{" "}
-                  <span className="text-[#BFBFBF] font-normal">
-                    {receivedFrom}
-                  </span>
-                </p>
-              </div>
+              
             </div>
           </div>
         </div>

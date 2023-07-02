@@ -12,6 +12,7 @@ import { usePrepareContractWrite, useContractWrite } from "wagmi";
 import {
   prepareWriteContract,
   waitForTransaction,
+  signTypedData,
   writeContract,
 } from "@wagmi/core";
 import { useNetwork } from "wagmi";
@@ -21,6 +22,8 @@ import {
   AccordionBody,
   Radio,
 } from "@material-tailwind/react";
+import { ethers } from "ethers";
+import { getAddress } from "viem";
 
 const contractAddress = "0xFDD2583611CC648Dd2a0589A78eb00Ec75b4b615";
 
@@ -65,6 +68,12 @@ export default function AllTrade() {
   console.log("available chains", chains);
   console.log("connected chain", chain);
   // console.log("address", add)
+  const { isConnected, address } = useAccount({
+    onConnect({ address }) {
+      if (!address) return;
+      // handleTokens(address);
+    },
+  });
 
   const [selectedTrade, setSelectedTrade] = useState<string | null>(
     "All Trades"
@@ -164,6 +173,14 @@ export default function AllTrade() {
   //   }
   //   return count;
   // }
+  const generateNonce = async () => {
+    const nonce = await axios.get(
+      "http://localhost:8000/otc/order/single-chain/nonce"
+    );
+    console.log("Nonce Response:", nonce);
+
+    return nonce.data;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,7 +190,7 @@ export default function AllTrade() {
           {
             params: {
               pageNo: 1,
-              pageSize:1000000000000000000,
+              pageSize:9999999999999,
             },
           }
         );
@@ -193,10 +210,123 @@ export default function AllTrade() {
   }, [isExpand]);
   //fullOrderSwapfunction begins
   console.log("length of array", tradeData?.length);
-  const handleFullOrderSwap = async (config: any): Promise<any> => {
+  const generateAllowance = async (token1: string) => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      `https://polygon-mumbai.gateway.tenderly.co`
+    );
+
+    // const tokenAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
+    const contractAbi = [
+      "function allowance(address owner, address spender) external view returns (uint256)",
+    ]; // ABI of the contract
+    const contract = new ethers.Contract(token1, contractAbi, provider);
+
+    const ownerAddress = address;
+    const spenderAddress = "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB";
+
+    const allowance = await contract.allowance(ownerAddress, spenderAddress);
+    console.log("Allowance:", allowance.toString());
+
+    return allowance;
+  };
+    
+
+  const generateSignature = async (
+    token1: string,
+    token2: string,
+    sellAmount: number,
+    buyAmount: number
+  ) => {
+    const OTCContract = "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB";
+    const providers = new ethers.providers.Web3Provider(window.ethereum);
+    const signers = providers.getSigner();
+
+    // // You can now use the signer to interact with the blockchain
+    // // For example, you can get the signer's address
+    console.log("signers", signers);
+    const signerAddress = await signers.getAddress();
+
+    console.log("Signer Address:", signerAddress);
+
+    // Define the provider URL based on the network ID
+    const provider = new ethers.providers.JsonRpcProvider(
+      `${chain?.rpcUrls.public.http}`
+    );
+    console.log("providerUrl", provider);
+
+    // const tokenAddress = "0xFCe7187B24FCDc9feFfE428Ec9977240C6F7006D";
+    const tokenContract = new ethers.Contract(
+      token1,
+      [
+        "function approve(address spender, uint256 amount) public returns (bool)",
+      ],
+      signers
+    );
+    console.log("tokenContract", tokenContract);
+    // const spenderAddress = OTCContract;
+    const amount = ethers.utils.parseEther(`${sellAmount}`);
+    const tx = await tokenContract.approve(OTCContract, amount);
+    console.log("tx", tx);
+    console.log(`Transaction hash: ${tx.hash}`);
+    await tx.wait();
+    console.log(`Transaction confirmed`);
+    const approvalValue = await generateAllowance(token1);
+    const domain = {
+      name: "OTCDesk",
+      version: "1",
+      chainId: chain?.id as any,
+      verifyingContract: getAddress(
+        "0xDE626c86508A669Fb3EFB741EE7F94E3ACC534eB"
+      ),
+    };
+
+    // The named list of all type definitions
+    const types = {
+      EIP712Domain: [
+        { name: "name", type: "string" },
+        { name: "version", type: "string" },
+        { name: "chainId", type: "uint256" },
+        { name: "verifyingContract", type: "address" },
+      ], // Refer to primaryType
+      Order: [
+        { name: "nonce", type: "uint256" },
+        { name: "maker", type: "address" },
+        { name: "tokenToSell", type: "address" },
+        { name: "sellAmount", type: "uint256" },
+        { name: "tokenToBuy", type: "address" },
+        { name: "buyAmount", type: "uint256" },
+      ],
+    } as const;
+    const nonce = await generateNonce();
+    const message = {
+      nonce: BigInt(nonce),
+      maker: getAddress(signerAddress),
+      tokenToSell: getAddress(token1),
+      sellAmount: BigInt(sellAmount),
+      tokenToBuy: getAddress(token2),
+      buyAmount: BigInt(buyAmount),
+    } as const;
+
+    //signTyped Data end
+    if(approvalValue>=sellAmount){
+      const signature = await signTypedData({
+        // domain,
+        domain,
+        message,
+        primaryType: "Order",
+        types,
+      });
+      // const signature = await signMessage({ message: `${messageString}` });
+      console.log("signature", signature);
+      return signature;
+    }
+    
+  };
+  const handleFullOrderSwap = async (config: any, signatureConfig:any): Promise<any> => {
     console.log("config", config);
-    const hash = writeContract(config);
-    console.log("hash", hash);
+    await generateSignature(signatureConfig.token1, signatureConfig.token2, signatureConfig.sellAmount, signatureConfig.buyAmount)
+    // const hash = await writeContract(config);
+    // console.log("hash", hash);
   };
   const handlePrivateOrderSwap = async (config: any): Promise<any> => {
     console.log("config", config);
@@ -231,7 +361,7 @@ export default function AllTrade() {
   // };
 
   return (
-    <div className="flex flex-col lg:px-[6rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
+    <div className="flex flex-col lg:px-[4rem] md:px-[6rem] sm:px-[6rem] px-[2rem] ">
       <header className="">
         <div className="flex justify-between">
           <div className="flex gap-x-8 ">
@@ -560,7 +690,7 @@ export default function AllTrade() {
         </div>
 
         <div
-          className={`w-full ${view ? "w-full flex flex-wrap gap-x-[5rem]" : ""}
+          className={`w-full ${view ? "w-full flex flex-wrap gap-x-[2rem]" : ""}
     `}
         >
           {/* {TradeData.filter((index) => index.tradeType === trade.value).map( */}
@@ -593,33 +723,17 @@ export default function AllTrade() {
                           trade.buyAmount,
                           `${trade.signature}`,
                         ],
-                      })
+                      },
+                      {
+                        token1:`${trade.tokenToBuy}`,
+                        token2:`${trade.tokenToSell}`,
+                        sellAmount:trade.buyAmount,
+                        buyAmount: trade.sellAmount,
+                      },
+                      )
                     }
                   >
                     Click Public {index}
-                  </p>
-                  <p
-                    className="cursor-pointer"
-                    onClick={() =>
-                      handlePrivateOrderSwap({
-                        address: contractAddress,
-                        abi: contractABI,
-                        functionName: "swapPrivateOrder",
-                        args: [
-                          1,
-                          "1",
-                          "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-                          "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-                          100,
-                          "0x9B88c6cc678478cfd70B00F979543c4CF2922043",
-                          "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-                          1009,
-                          "0x5d2bdcd95c1eaafd14cbf3d200f345122be27035136fcdd675a7415a7ea41b6b32cd015ea4b2a72d04e84d35f96bfd367188dca6e330212c2deeb61112e4df4e1b",
-                        ],
-                      })
-                    }
-                  >
-                    Click Private {index}
                   </p>
                 </div>
               </div>
